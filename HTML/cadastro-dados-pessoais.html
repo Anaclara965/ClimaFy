@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Cadastro</title>
+    <link rel="stylesheet" href="../CSS/cadastro-dados-pessoais.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Cabeçalho Principal -->
+    <header class="main-header">
+        <a href="home-interativo.html" class="brand-logo">
+            <i class="ph-fill ph-plant"></i>
+            <span>ClimaFy</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+        <section class="auth-actions">
+            <a href="login.html" class="login-link">Entrar</a>
+            <button class="btn-primary"><i class="ph ph-plus"></i> Relatar</button>
+        </section>
+    </header>
+
+    <main class="page-wrapper">
+        <!-- Indicador de Progresso (Stepper) -->
+        <nav class="stepper-nav" aria-label="Progresso do cadastro">
+            <ol class="stepper-list">
+                <li class="step active">
+                    <span class="step-circle">1</span>
+                    <span class="step-label">Dados Pessoais</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">2</span>
+                    <span class="step-label">Verificação</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">3</span>
+                    <span class="step-label">Preferências</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">4</span>
+                    <span class="step-label">Concluído</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Cartão de Cadastro -->
+        <section class="registration-card">
+            <header class="card-header">
+                <h1>Crie sua conta gratuita</h1>
+                <p>Preencha os dados abaixo para começar a contribuir<br>com o monitoramento climático da sua cidade.</p>
+            </header>
+
+            <button class="btn-google">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" width="20">
+                Cadastrar com Google
+            </button>
+
+            <section class="separator">
+                <span class="line"></span>
+                <span class="text">ou</span>
+                <span class="line"></span>
+            </section>
+
+            <!-- Formulário com validação HTML5 -->
+            <form id="registration-form" action="#" method="POST">
+                <fieldset class="form-grid">
+                    <section class="input-group">
+                        <label for="nome">Nome <abbr title="Obrigatório">*</abbr></label>
+                        <input type="text" id="nome" name="nome" placeholder="João" required pattern="[a-zA-ZÀ-ÿ\s]+" title="Apenas letras são permitidas">
+                    </section>
+                    
+                    <section class="input-group">
+                        <label for="sobrenome">Sobrenome <abbr title="Obrigatório">*</abbr></label>
+                        <input type="text" id="sobrenome" name="sobrenome" placeholder="Silva" required pattern="[a-zA-ZÀ-ÿ\s]+" title="Apenas letras são permitidas">
+                    </section>
+
+                    <section class="input-group full-width">
+                        <label for="email">E-mail <abbr title="Obrigatório">*</abbr></label>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    </section>
+
+                    <section class="input-group">
+                        <label for="senha">Senha <abbr title="Obrigatório">*</abbr></label>
+                        <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+                        <article class="password-strength">
+                            <small>Força da senha:</small>
+                            <span class="strength-bars">
+                                <span class="bar red"></span>
+                                <span class="bar gray"></span>
+                                <span class="bar gray"></span>
+                            </span>
+                            <small class="strength-text red-text">Fraca</small>
+                        </article>
+                    </section>
+
+                    <section class="input-group">
+                        <label for="confirma-senha">Confirmar Senha <abbr title="Obrigatório">*</abbr></label>
+                        <input type="password" id="confirma-senha" name="confirma-senha" placeholder="Repita a senha" required minlength="8">
+                    </section>
+
+                    <section class="input-group">
+                        <label for="cidade">Cidade <abbr title="Obrigatório">*</abbr></label>
+                        <input type="text" id="cidade" name="cidade" placeholder="São Paulo" required>
+                    </section>
+
+                    <section class="input-group">
+                        <label for="bairro">Bairro <abbr title="Obrigatório">*</abbr></label>
+                        <input type="text" id="bairro" name="bairro" placeholder="Ex: Pinheiros" required>
+                    </section>
+                </fieldset>
+
+                <fieldset class="terms-group full-width">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required checked>
+                        <span>Li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de Privacidade</a></span>
+                    </label>
+                </fieldset>
+
+                <section class="security-badge full-width">
+                    <i class="ph-fill ph-lock-key"></i>
+                    <span>Seus dados são criptografados e nunca compartilhados com terceiros.</span>
+                </section>
+
+                <button type="submit" class="btn-submit full-width">Criar minha conta &rarr;</button>
+
+                <footer class="form-footer full-width">
+                    Já tem uma conta? <a href="login.html">Entrar &rarr;</a>
+                </footer>
+            </form>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="main-footer">
+        <section class="footer-brand">
+            <strong class="footer-logo">ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
+        </section>
+        <nav class="footer-nav" aria-label="Navegação de rodapé">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+        <section class="footer-copy">
+            &copy; ClimaFy 2026
+        </section>
+    </footer>
+    <script src="../JS/cadastro-dados-pessoais.js"></script>
+</body>
+</html>
