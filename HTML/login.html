@@ -12,18 +12,19 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-    <!-- Cabeçalho Principal -->
-    <header class="main-header">
-        <a href="#" class="brand-logo">
-            <i class="ph-fill ph-plant"></i>
-            <span>ClimaFy</span>
-        </a>
-        <nav class="main-nav">
-            <a href="#">Início</a>
-            <a href="#">Ranking</a>
-            <a href="#">Relatos</a>
-            <a href="#">Sobre</a>
-        </nav>
+        <header class="main-header">
+    <!-- Logotipo conectando ao início -->
+    <a href="home-interativo.html" class="brand-logo">
+        <i class="ph-fill ph-plant"></i>
+        <span>ClimaFy</span>
+    </a>
+    <nav class="main-nav">
+        <!-- Botão Início conectando ao home-interativo.html -->
+        <a href="home-interativo.html">Início</a>
+        <a href="#">Ranking</a>
+        <a href="#">Relatos</a>
+        <a href="#">Sobre</a>
+    </nav>
         <section class="auth-actions">
             <a href="#" class="login-link">Entrar</a>
             <button class="btn-primary"><i class="ph ph-plus"></i> Relatar</button>
@@ -77,16 +78,15 @@
             <article class="login-container">
                 <header class="tabs-header">
                     <button class="tab-btn active" id="tab-login">Entrar</button>
-                    <button class="tab-btn" id="tab-register">Criar conta</button>
+                    <a href="cadastro-dados-pessoais.html" class="tab-btn" id="tab-register" style="display: flex; align-items:center; justify-content: center; text-decoration: none; color: var(--text-gray);">Criar conta</a>
                 </header>
-                
                 <section class="form-header">
                     <h2>Bem-vindo de volta</h2>
                     <p>Entre para registrar relatos e acompanhar<br>os eventos climáticos da sua região.</p>
                 </section>
 
                 <button class="btn-google">
-                    <img src="../Images/google-color.svg" alt="Google" width="20">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20">
                     Continuar com Google
                 </button>
 
@@ -118,7 +118,7 @@
                 </section>
 
                 <footer class="login-footer">
-                    Não tem uma conta? <a href="#">Cadastre-se grátis &rarr;</a>
+                    Não tem uma conta? <a href="cadastro-dados-pessoais.html">Cadastre-se grátis &rarr;</a>
                 </footer>
             </article>
         </section>
@@ -131,6 +131,7 @@
             <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
         </section>
         <nav class="footer-nav">
+            <a href="home-interativo.html">Início</a>
             <a href="#">Início</a>
             <a href="#">Ranking</a>
             <a href="#">Relatos</a>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Verificação de E-mail</title>
+    <link rel="stylesheet" href="../CSS/cadastro-verificacao.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header class="main-header">
+        <a href="home-interativo.html" class="brand-logo" aria-label="Ir para a página inicial do ClimaFy">
+            <i class="ph-fill ph-plant" aria-hidden="true"></i>
+            <span>ClimaFy</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <div class="auth-actions" aria-label="Ações da conta">
+            <a href="login.html" class="login-link">Entrar</a>
+            <a href="#" class="btn-primary">
+                <i class="ph ph-plus" aria-hidden="true"></i>
+                Relatar
+            </a>
+        </div>
+    </header>
+
+    <main class="verify-page">
+        <nav class="stepper-card" aria-label="Progresso do cadastro">
+            <ol class="stepper-list">
+                <li class="step is-complete">
+                    <span class="step-circle">1</span>
+                    <span class="step-label">Dados Pessoais</span>
+                </li>
+                <li class="step is-active" aria-current="step">
+                    <span class="step-circle">2</span>
+                    <span class="step-label">Verificação</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">3</span>
+                    <span class="step-label">Preferências</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">4</span>
+                    <span class="step-label">Bem-vindo!</span>
+                </li>
+            </ol>
+        </nav>
+
+        <section class="verify-card" aria-labelledby="verify-title">
+            <header class="verify-header">
+                <span class="mail-icon" aria-hidden="true">
+                    <i class="ph ph-envelope-simple"></i>
+                </span>
+                <h1 id="verify-title">Verifique seu e-mail</h1>
+                <p>
+                    Enviamos um código de 6 dígitos para
+                    <strong>se***@gmail.com</strong>.
+                    Digite o código abaixo para continuar seu cadastro.
+                </p>
+            </header>
+
+            <form class="otp-form" id="otp-form" action="#" method="POST" novalidate>
+                <fieldset class="otp-fieldset">
+                    <legend class="otp-legend">Código de verificação</legend>
+
+                    <div class="otp-inputs" aria-label="Código OTP">
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" placeholder="0" aria-label="Dígito 1" required>
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 2" required>
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 3" required>
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 4" required>
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 5" required>
+                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 6" required>
+                    </div>
+                </fieldset>
+
+                <p class="otp-feedback" id="otp-feedback" aria-live="polite"></p>
+
+                <aside class="timer-badge" aria-live="polite">
+                    <i class="ph ph-clock" aria-hidden="true"></i>
+                    <span id="countdown">Código expira em 1:00</span>
+                </aside>
+
+                <button class="btn-confirm" id="confirm-code" type="submit" disabled>
+                    Confirmar
+                </button>
+
+                <a class="back-email-link" href="cadastro-dados-pessoais.html">
+                    Voltar e corrigir e-mail
+                </a>
+            </form>
+
+            <footer class="verify-links">
+                <a href="#nao-recebi">Não recebi o código</a>
+                <span aria-hidden="true">|</span>
+                <a href="#reenviar" id="resend-code">Reenviar</a>
+            </footer>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-brand">
+            <strong class="footer-logo">ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
+        </div>
+
+        <nav class="footer-nav" aria-label="Navegação de rodapé">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <div class="footer-copy">
+            &copy; ClimaFy 2026
+        </div>
+    </footer>
+
+    <script src="../JS/cadastro-verificacao.js"></script>
+</body>
+</html>

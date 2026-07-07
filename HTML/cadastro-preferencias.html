@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Preferências</title>
+    <link rel="stylesheet" href="../CSS/cadastro-preferencias.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header class="main-header">
+        <a href="home-interativo.html" class="brand-logo" aria-label="Ir para a página inicial do ClimaFy">
+            <i class="ph-fill ph-plant" aria-hidden="true"></i>
+            <span>ClimaFy</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <nav class="auth-actions" aria-label="Ações da conta">
+            <a href="login.html" class="login-link">Entrar</a>
+            <a href="#" class="btn-primary">
+                <i class="ph ph-plus" aria-hidden="true"></i>
+                Relatar
+            </a>
+        </nav>
+    </header>
+
+    <main class="preferences-page">
+        <nav class="stepper-card" aria-label="Progresso do cadastro">
+            <ol class="stepper-list">
+                <li class="step is-complete">
+                    <span class="step-circle">1</span>
+                    <span class="step-label">Dados Pessoais</span>
+                </li>
+                <li class="step is-complete">
+                    <span class="step-circle">2</span>
+                    <span class="step-label">Verificação</span>
+                </li>
+                <li class="step is-active" aria-current="step">
+                    <span class="step-circle">3</span>
+                    <span class="step-label">Preferências</span>
+                </li>
+                <li class="step">
+                    <span class="step-circle">4</span>
+                    <span class="step-label">Bem-vindo!</span>
+                </li>
+            </ol>
+        </nav>
+
+        <section class="preferences-card" aria-labelledby="preferences-title">
+            <header class="preferences-header">
+                <span class="preferences-icon" aria-hidden="true">
+                    <i class="ph ph-bell-ringing"></i>
+                </span>
+                <h1 id="preferences-title">Personalize seus alertas</h1>
+                <p>Escolha os temas e bairros que você quer acompanhar para receber avisos mais úteis no ClimaFy.</p>
+            </header>
+
+            <form class="preferences-form" id="preferences-form" action="#" method="POST">
+                <fieldset class="form-section">
+                    <legend>Categorias de interesse</legend>
+                    <p class="section-helper">Selecione os tipos de ocorrência que fazem sentido para sua região.</p>
+
+                    <ul class="categories-grid">
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="alagamentos" checked><span>Alagamentos</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="deslizamentos" checked><span>Deslizamentos</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="chuvas-fortes" checked><span>Chuvas fortes</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="ondas-de-calor"><span>Ondas de calor</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="queda-de-arvores"><span>Queda de árvores</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="falta-de-energia"><span>Falta de energia</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="qualidade-do-ar"><span>Qualidade do ar</span></label></li>
+                        <li><label class="category-option"><input type="checkbox" name="categorias" value="defesa-civil"><span>Defesa civil</span></label></li>
+                    </ul>
+                </fieldset>
+
+                <fieldset class="form-section">
+                    <legend>Bairros monitorados</legend>
+                    <p class="section-helper">Busque e adicione bairros para receber alertas direcionados.</p>
+
+                    <search class="neighborhood-search">
+                        <label class="sr-only" for="neighborhood-input">Buscar bairro</label>
+                        <input id="neighborhood-input" type="search" placeholder="Digite o nome do bairro" autocomplete="off" aria-controls="neighborhood-results" aria-expanded="false">
+                        <ul class="dropdown-results" id="neighborhood-results" role="listbox" hidden></ul>
+                    </search>
+
+                    <ul class="selected-neighborhoods" id="selected-neighborhoods" aria-label="Bairros selecionados"></ul>
+                </fieldset>
+
+                <fieldset class="form-section">
+                    <legend>Frequência de notificações</legend>
+                    <p class="section-helper">Defina como você prefere receber os avisos do ClimaFy.</p>
+
+                    <ul class="frequency-grid">
+                        <li><label class="frequency-option"><input type="radio" name="frequencia" value="imediato"><span>Imediato</span></label></li>
+                        <li><label class="frequency-option is-selected"><input type="radio" name="frequencia" value="diario" checked><span>Diário</span></label></li>
+                        <li><label class="frequency-option"><input type="radio" name="frequencia" value="semanal"><span>Semanal</span></label></li>
+                    </ul>
+                </fieldset>
+
+                <p class="form-feedback" id="preferences-feedback" aria-live="polite"></p>
+
+                <footer class="form-actions">
+                    <button class="btn-save" type="submit">Salvar preferências</button>
+                    <a class="btn-skip" href="home-interativo.html">Pular por agora</a>
+                </footer>
+            </form>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <section class="footer-brand">
+            <strong class="footer-logo">ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
+        </section>
+
+        <nav class="footer-nav" aria-label="Navegação de rodapé">
+            <a href="home-interativo.html">Início</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <p class="footer-copy">
+            &copy; ClimaFy 2026
+        </p>
+    </footer>
+
+    <script src="../JS/cadastro-preferencias.js"></script>
+</body>
+</html>

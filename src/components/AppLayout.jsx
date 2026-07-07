@@ -28,9 +28,9 @@ export default function AppLayout({ children }) {
           </nav>
 
           <div className="absolute right-[72px] top-[16px] flex items-center gap-[33px] max-sm:right-5">
-            <a className="hidden text-[14px] font-medium leading-[17px] text-[#48525f] hover:text-[#1a9651] sm:inline-flex" href="#entrar">
+            <Link className="hidden text-[14px] font-medium leading-[17px] text-[#48525f] hover:text-[#1a9651] sm:inline-flex" to="/login">
               Entrar
-            </a>
+            </Link>
             <a className="grid h-9 w-[98px] place-items-center rounded-lg bg-[#1a9651] text-[13px] font-semibold text-white hover:bg-[#116b38]" href="#relatar">
               + Relatar
             </a>

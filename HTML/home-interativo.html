@@ -1,44 +1,405 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ClimaFy - plataforma de relatos climaticos e ambientais" />
-    <link rel="stylesheet" href="../CSS/home.css" />
-    <title>ClimaFy</title>
-  </head>
-  <body>
-    <header class="site-header">
-      <nav class="header-nav" aria-label="Navegacao principal">
-        <a class="brand" href="#inicio" aria-label="ClimaFy inicio"><strong aria-hidden="true">🌿</strong><strong>ClimaFy</strong></a>
-        <menu class="nav-links"><li><a class="active" href="#inicio">Inicio</a></li><li><a href="#ranking">Ranking</a></li><li><a href="#relatos">Relatos</a></li><li><a href="#sobre">Sobre</a></li></menu>
-        <menu class="nav-actions"><li><a href="#entrar">Entrar</a></li><li><a class="primary-small" href="#relatar">+ Relatar</a></li></menu>
-      </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Início</title>
+    <link rel="stylesheet" href="../CSS/home-interativo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Cabeçalho Principal -->
+    <header class="main-header">
+        <a href="home.html" class="brand-logo">
+            <i class="ph-fill ph-plant"></i>
+            <span>ClimaFy</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegação principal">
+            <a href="home.html" class="active">Início</a>
+            <a href="#ranking">Ranking</a>
+            <a href="#relatos">Relatos</a>
+            <a href="#sobre">Sobre</a>
+        </nav>
+        <menu class="auth-actions">
+            <li><a href="login.html" class="login-link">Entrar</a></li>
+            <li><a href="cadastro-dados-pessoais.html" class="btn-primary"><i class="ph ph-plus"></i> Relatar</a></li>
+        </menu>
     </header>
-    <main id="inicio">
-      <section class="hero" aria-labelledby="hero-title">
-        <article class="hero-copy">
-          <p class="eyebrow"><mark></mark>Monitoramento climatico comunitario</p>
-          <h1 id="hero-title">O seu bairro nao pode <em>esperar</em> mais.</h1>
-          <p>Enquanto os dados oficiais olham so para a cidade como um todo, o alagamento e na sua rua. O ClimaFy transforma cada relato de morador em pressao real por investimento - rua por rua, bairro por bairro.</p>
-          <menu class="hero-actions"><li><a class="primary-large" href="#relatar">Relatar um problema agora</a></li><li><a class="secondary-large" href="#ranking">Ver bairros esquecidos</a></li></menu>
-        </article>
-        <figure id="mapa" class="map-panel" aria-labelledby="map-title">
-          <figcaption id="map-title">Mapa interativo de vulnerabilidade</figcaption>
-          <article class="district vila">Vila Madalena</article><article class="district pinheiros">Pinheiros</article><article class="district consolacao">Consolacao</article><article class="district butanta">Butanta</article><article class="district perdizes">Perdizes</article><article class="district bras">Bras</article><article class="district lapa">Lapa</article><article class="district mooca">Mooca</article><article class="river">Rio Tiete</article><article class="park">Parque Central</article>
-          <button class="pin blue p1" aria-label="Alagamento em Butanta"></button><button class="pin red p2" aria-label="Queimada em Vila Madalena"></button><button class="pin orange p3" aria-label="Calor extremo em Pinheiros"></button><button class="pin blue p4" aria-label="Alagamento em Perdizes"></button><button class="pin red p5" aria-label="Queimada no Bras"></button><button class="pin green p6" aria-label="Arvore caida na Lapa"></button><button class="pin brown p7" aria-label="Lixo irregular proximo ao parque"></button>
-          <aside class="map-legend" aria-label="Legenda do mapa"><h2>Legenda do Mapa</h2><h3>Vulnerabilidade</h3><ul><li><mark class="critical"></mark>Critica</li><li><mark class="high"></mark>Alta</li><li><mark class="medium"></mark>Media</li><li><mark class="low"></mark>Baixa</li></ul><h3>Categoria</h3><ul><li><mark class="blue-dot"></mark>Alagamento</li><li><mark class="red-dot"></mark>Queimada</li><li><mark class="orange-dot"></mark>Calor Extremo</li><li><mark class="green-dot"></mark>Arvore Caida</li><li><mark class="brown-dot"></mark>Lixo Irregular</li></ul></aside>
-        </figure>
-      </section>
-      <section class="stats-strip" aria-label="Indicadores do ClimaFy"><article><strong>1.247</strong><p>Relatos registrados</p><small>em tempo real</small></article><article><strong>48</strong><p>Bairros monitorados</p><small>em Sao Paulo</small></article><article><strong>12</strong><p>Cidades cobertas</p><small>em operacao inicial</small></article><article><strong>312</strong><p>Problemas resolvidos</p><small>via comunidade</small></article><article><strong>R$ 2,4M</strong><p>Investimento mapeado</p><small>em areas criticas</small></article></section>
-      <section class="workflow" aria-labelledby="workflow-title"><p class="pill">Como funciona</p><h2 id="workflow-title">Simples, rapido e com impacto real</h2><p>Qualquer cidadao pode contribuir. Sem burocracia, sem conhecimento tecnico.</p><ol class="step-list"><li><article><strong>01</strong><h3>Registre o Evento</h3><p>Clique no mapa, marque o local exato e preencha um formulario rapido com foto.</p></article></li><li><article><strong>02</strong><h3>Moderacao em 24h</h3><p>Nossa equipe analisa a publicacao e valida as informacoes antes do mapa.</p></article></li><li><article><strong>03</strong><h3>Pressao Publica</h3><p>Bairros com mais relatos ganham destaque e viram pauta publica.</p></article></li><li><article><strong>04</strong><h3>Resolucao Rastreada</h3><p>Acompanhe o status de cada evento.</p></article></li></ol></section>
-      <section id="ranking" class="ranking" aria-labelledby="ranking-title"><header><p class="pill">Ranking de vulnerabilidade</p><h2 id="ranking-title">Os bairros que mais precisam de atencao</h2><p>Relatos da comunidade cruzados com dados publicos de investimento geram um score de risco.</p><a class="primary-medium" href="#ranking">Ver ranking completo +</a></header><ol class="ranking-list"><li><article><header><strong>#1</strong><small>Critica</small></header><h3>Bras</h3><p>Sao Paulo, SP</p><meter min="0" max="150" value="147">147</meter><footer><strong>147</strong><strong>R$ 124K</strong></footer><a href="#mapa">Ver detalhes do bairro +</a></article></li><li><article><header><strong>#2</strong><small>Critica</small></header><h3>Vila Madalena</h3><p>Sao Paulo, SP</p><meter min="0" max="150" value="118">118</meter><footer><strong>118</strong><strong>R$ 210K</strong></footer><a href="#mapa">Ver detalhes do bairro +</a></article></li><li><article><header><strong>#3</strong><small>Alta</small></header><h3>Pinheiros</h3><p>Sao Paulo, SP</p><meter min="0" max="150" value="94">94</meter><footer><strong>94</strong><strong>R$ 380K</strong></footer><a href="#mapa">Ver detalhes do bairro +</a></article></li></ol></section>
-      <section id="relatos" class="reports" aria-labelledby="reports-title"><header><p class="pill">Ultimos relatos</p><h2 id="reports-title">Registrados agora pela comunidade</h2><a href="#relatos">Ver todos os relatos +</a></header><ol class="report-list"><li><article class="report-card blue-card"><header><strong>Alagamento</strong><small>Vila Madalena</small></header><h3>Rua das Flores completamente alagada apos chuva</h3><p>Nivel d'agua subiu 40cm em 30 min. Drenos obstruidos ha semanas sem manutencao.</p><footer><small>Aberto</small><small>Ha 2 horas</small><small>^ 34</small></footer></article></li><li><article class="report-card red-card"><header><strong>Queimada</strong><small>Bras</small></header><h3>Foco de queimada proximo a linha ferrea central</h3><p>Fumaca densa visivel a 2km. Bombeiros acionados, mas sem resposta ate o momento.</p><footer><small>Em andamento</small><small>Ha 4 horas</small><small>^ 67</small></footer></article></li><li><article class="report-card orange-card"><header><strong>Calor Extremo</strong><small>Consolacao</small></header><h3>Ponto de hidratacao desativado na praca central</h3><p>Com 38 graus registrados, o ponto de apoio foi retirado sem aviso previo.</p><footer><small>Aberto</small><small>Ha 6 horas</small><small>^ 29</small></footer></article></li><li><article class="report-card green-card"><header><strong>Arvore Caida</strong><small>Pinheiros</small></header><h3>Arvore de grande porte caida na Rua Oscar Freire</h3><p>Bloqueia 70% da via e oferece risco ao poste de energia.</p><footer><small>Resolvido</small><small>Ha 1 dia</small><small>^ 12</small></footer></article></li></ol></section>
-      <section class="activity" aria-labelledby="activity-title"><header><p class="pill">Atividade recente</p><h2 id="activity-title">Relatos registrados nos ultimos 7 dias</h2><p>Acompanhe o volume diario de relatos e a taxa de resolucao.</p></header><figure class="bar-chart" aria-label="Grafico semanal de relatos"><figcaption>Relatos registrados e resolvidos</figcaption><ol><li style="--total:42; --solved:18"><strong>42</strong><small>Seg</small></li><li style="--total:67; --solved:31"><strong>67</strong><small>Ter</small></li><li style="--total:55; --solved:24"><strong>55</strong><small>Qua</small></li><li style="--total:89; --solved:44"><strong>89</strong><small>Qui</small></li><li style="--total:103; --solved:67"><strong>103</strong><small>Sex</small></li><li style="--total:78; --solved:52"><strong>78</strong><small>Sab</small></li><li style="--total:61; --solved:38"><strong>61</strong><small>Dom</small></li></ol></figure></section>
-      <section id="sobre" class="purpose" aria-labelledby="purpose-title"><p class="pill">Missao, objetivos e valores</p><h2 id="purpose-title">Proposito e compromisso</h2><ol><li><article><strong>01</strong><h3>Monitoramento hiperlocal</h3><p>Registrar e visualizar eventos climaticos no nivel do bairro e da rua.</p></article></li><li><article><strong>02</strong><h3>Comunidade ativa</h3><p>Transformar moradores em agentes ativos de mudanca.</p></article></li><li><article><strong>03</strong><h3>Investimento publico</h3><p>Cruzar relatos da populacao com portais de transparencia.</p></article></li><li><article><strong>04</strong><h3>Justica climatica</h3><p>Direcionar atencao para comunidades onde o risco e mais critico.</p></article></li></ol></section>
-      <section id="relatar" class="final-cta" aria-labelledby="cta-title"><h2 id="cta-title">Viu algo errado na sua cidade?</h2><p>Seu relato pode mudar a realidade do seu bairro. Registre agora - e gratuito e leva 2 minutos.</p><menu><li><a href="#relatar">+ Registrar um Evento</a></li><li><a href="#mapa">Ver o Mapa Interativo +</a></li></menu></section>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" aria-labelledby="hero-title">
+            <article class="hero-content">
+                <header>
+                    <p class="hero-eyebrow">
+                        <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+                        Monitoramento climático colaborativo
+                    </p>
+                    <h1 class="hero-title" id="hero-title">
+                        <span class="hero-title-line title-dark">Seu bairro</span>
+                        <span class="hero-title-line title-green">no mapa</span>
+                        <span class="hero-title-line title-blue">da mudança.</span>
+                    </h1>
+                </header>
+                <p class="hero-description">
+                    Registre eventos climáticos, acompanhe áreas vulneráveis e transforme relatos da comunidade em dados para cobrar investimento público.
+                </p>
+                <menu class="hero-buttons">
+                    <li><a href="cadastro-dados-pessoais.html" class="btn-primary large">+ Registrar um Evento</a></li>
+                    <li><a href="#mapa" class="btn-outline large">Ver o Mapa →</a></li>
+                </menu>
+            </article>
+
+            <!-- Representação do Mapa -->
+            <figure class="hero-map" id="mapa">
+                <section class="map-shell" id="interactive-map" aria-label="Mapa interativo de relatos climáticos">
+                    <header class="map-toolbar">
+                        <strong>São Paulo, SP</strong>
+                        <span>48 bairros monitorados</span>
+                    </header>
+
+                    <menu class="map-controls" aria-label="Controles do mapa">
+                        <li><button type="button" aria-label="Aproximar mapa">+</button></li>
+                        <li><button type="button" aria-label="Afastar mapa">-</button></li>
+                    </menu>
+
+                    <svg class="prototype-map" viewBox="0 0 698 500" role="img" aria-labelledby="map-title map-desc" preserveAspectRatio="xMidYMid slice">
+                        <title id="map-title">Mapa de vulnerabilidade climática</title>
+                        <desc id="map-desc">Mapa estilizado com bairros destacados por nível de vulnerabilidade e ocorrências recentes.</desc>
+                        <rect width="698" height="500" fill="#d8e3d8"></rect>
+                        <path d="M-40 118 C88 88 166 138 270 110 C360 86 448 52 548 92 C632 124 678 110 738 86" class="map-road map-road-main"></path>
+                        <path d="M-30 340 C100 280 214 330 332 300 C470 264 536 320 728 264" class="map-road map-road-main"></path>
+                        <path d="M86 -20 C138 88 118 190 168 294 C204 372 286 412 320 540" class="map-road"></path>
+                        <path d="M408 -28 C370 92 390 184 430 268 C476 366 558 396 570 536" class="map-road"></path>
+                        <path d="M610 -20 C560 106 586 206 626 310 C654 384 668 428 654 536" class="map-road"></path>
+                        <path d="M44 44 L204 28 L244 136 L150 196 L34 152 Z" class="map-zone zone-high"></path>
+                        <path d="M248 42 L410 30 L430 168 L300 196 L232 122 Z" class="map-zone zone-medium"></path>
+                        <path d="M450 62 L638 44 L670 164 L556 230 L430 164 Z" class="map-zone zone-critical"></path>
+                        <path d="M74 224 L226 184 L292 284 L198 382 L54 340 Z" class="map-zone zone-low"></path>
+                        <path d="M314 218 L478 182 L536 302 L456 414 L302 356 Z" class="map-zone zone-high"></path>
+                        <path d="M528 260 L670 218 L710 344 L616 442 L500 378 Z" class="map-zone zone-medium"></path>
+                        <path d="M160 112 L540 108" class="map-street"></path>
+                        <path d="M130 268 L594 248" class="map-street"></path>
+                        <path d="M236 58 L218 392" class="map-street"></path>
+                        <path d="M502 84 L484 430" class="map-street"></path>
+                        <text x="82" y="122" class="map-label">Vila Madalena</text>
+                        <text x="336" y="116" class="map-label">Consolação</text>
+                        <text x="540" y="136" class="map-label">Brás</text>
+                        <text x="118" y="314" class="map-label">Perdizes</text>
+                        <text x="384" y="312" class="map-label">Pinheiros</text>
+                        <text x="574" y="346" class="map-label">Mooca</text>
+                    </svg>
+
+                    <button class="map-marker marker-blue is-active" type="button" style="--x: 23%; --y: 34%;" aria-label="Alagamento em Vila Madalena" data-title="Alagamento" data-place="Vila Madalena" data-status="Aberto">
+                        <span></span>
+                    </button>
+                    <button class="map-marker marker-red" type="button" style="--x: 77%; --y: 31%;" aria-label="Queimada no Brás" data-title="Queimada" data-place="Brás" data-status="Crítico">
+                        <span></span>
+                    </button>
+                    <button class="map-marker marker-orange" type="button" style="--x: 57%; --y: 57%;" aria-label="Calor extremo em Pinheiros" data-title="Calor Extremo" data-place="Pinheiros" data-status="Alerta">
+                        <span></span>
+                    </button>
+                    <button class="map-marker marker-green" type="button" style="--x: 36%; --y: 72%;" aria-label="Árvore caída em Perdizes" data-title="Árvore Caída" data-place="Perdizes" data-status="Resolvido">
+                        <span></span>
+                    </button>
+
+                    <aside class="map-card" aria-live="polite">
+                        <span class="map-card-tag">Ocorrência selecionada</span>
+                        <strong>Alagamento</strong>
+                        <p>Vila Madalena</p>
+                        <small>Status: Aberto</small>
+                    </aside>
+                </section>
+                <figcaption class="map-legend">
+                    <strong>Legenda do Mapa</strong>
+                    <dl>
+                        <dt>Vulnerabilidade</dt>
+                        <dd><span class="dot red"></span> Crítica</dd>
+                        <dd><span class="dot orange"></span> Alta</dd>
+                        <dd><span class="dot yellow"></span> Média</dd>
+                        <dd><span class="dot green"></span> Baixa</dd>
+                    </dl>
+                    <dl>
+                        <dt>Ocorrências</dt>
+                        <dd><span class="dot blue"></span> Alagamento</dd>
+                        <dd><span class="dot dark-red"></span> Queimada</dd>
+                        <dd><span class="dot orange"></span> Calor Extremo</dd>
+                        <dd><span class="dot brown"></span> Árvore Caída</dd>
+                    </dl>
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- Faixa de Estatísticas -->
+        <section class="stats-banner" aria-label="Estatísticas da Plataforma">
+            <dl class="stats-grid">
+                <article class="stat-item">
+                    <dt>1.247</dt>
+                    <dd><strong>Relatos Registrados</strong><br>em tempo real</dd>
+                </article>
+                <article class="stat-item">
+                    <dt>48</dt>
+                    <dd><strong>Bairros Monitorados</strong><br>em tempo real</dd>
+                </article>
+                <article class="stat-item">
+                    <dt>12</dt>
+                    <dd><strong>Cidades Cobertas</strong><br>em tempo real</dd>
+                </article>
+                <article class="stat-item">
+                    <dt class="text-green-light">312</dt>
+                    <dd><strong>Problemas Resolvidos</strong><br>em tempo real</dd>
+                </article>
+                <article class="stat-item">
+                    <dt class="text-yellow">R$ 2,4M</dt>
+                    <dd><strong>Investimento Mapeado</strong><br>estimativa base</dd>
+                </article>
+            </dl>
+        </section>
+
+        <!-- Como Funciona -->
+        <section class="how-it-works">
+            <header class="section-header">
+                <span class="category-badge">COMO FUNCIONA</span>
+                <h2>Simples, rápido e com impacto real</h2>
+                <p>Qualquer cidadão pode contribuir. Sem burocracia, sem conhecimento técnico.</p>
+            </header>
+            <ol class="steps-grid">
+                <li class="step-card">
+                    <span class="step-icon"><i class="ph ph-map-pin"></i> 01</span>
+                    <h3>Registre o Evento</h3>
+                    <p>Clique no mapa, marque o local exato e preencha um formulário rápido com foto. Menos de 2 minutos.</p>
+                </li>
+                <li class="step-card">
+                    <span class="step-icon blue"><i class="ph ph-magnifying-glass"></i> 02</span>
+                    <h3>Moderação em 24h</h3>
+                    <p>Nossa equipe analisa e codifica o relato. Cada aprovação alimenta o ranking de vulnerabilidade do bairro.</p>
+                </li>
+                <li class="step-card">
+                    <span class="step-icon red"><i class="ph ph-trend-up"></i> 03</span>
+                    <h3>Pressão Pública</h3>
+                    <p>Bairros com mais relatos e menos investimento sobem no ranking, criando pressão real sobre gestores.</p>
+                </li>
+                <li class="step-card">
+                    <span class="step-icon green"><i class="ph ph-check-circle"></i> 04</span>
+                    <h3>Resolução Rastreada</h3>
+                    <p>Acompanhe o status de cada evento: aberto, em andamento ou resolvido, com data de resolução registrada.</p>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Ranking de Vulnerabilidade -->
+        <section class="ranking-section" id="ranking">
+            <article class="ranking-intro">
+                <span class="category-badge">RANKING DE VULNERABILIDADE</span>
+                <h2>Os bairros que mais precisam de atenção</h2>
+                <p>Relatos da comunidade cruzados com dados públicos de investimento geram um score de risco por bairro.</p>
+                <button class="btn-primary">Ver ranking completo &rarr;</button>
+            </article>
+            
+            <section class="ranking-cards">
+                <article class="bairro-card border-red">
+                    <header class="card-top">
+                        <span class="rank-pos">#1</span>
+                        <span class="status-tag tag-red">CRÍTICA</span>
+                    </header>
+                    <h3>Brás</h3>
+                    <p class="city-name">São Paulo, SP</p>
+                    <section class="score-section">
+                        <small>Score de vulnerabilidade</small>
+                        <meter value="98" min="0" max="100" optimum="20" high="70" low="40" class="meter-red"></meter>
+                        <strong>98/100</strong>
+                    </section>
+                    <dl class="card-stats">
+                        <article>
+                            <dt>147</dt>
+                            <dd>Relatos ativos</dd>
+                        </article>
+                        <article>
+                            <dt>R$ 124K</dt>
+                            <dd>Investimento (2025)</dd>
+                        </article>
+                    </dl>
+                    <button class="btn-outline-small">Ver detalhes do bairro &rarr;</button>
+                </article>
+
+                <article class="bairro-card border-red">
+                    <header class="card-top">
+                        <span class="rank-pos">#2</span>
+                        <span class="status-tag tag-red">CRÍTICA</span>
+                    </header>
+                    <h3>Vila Madalena</h3>
+                    <p class="city-name">São Paulo, SP</p>
+                    <section class="score-section">
+                        <small>Score de vulnerabilidade</small>
+                        <meter value="86" min="0" max="100" class="meter-red"></meter>
+                        <strong>86/100</strong>
+                    </section>
+                    <dl class="card-stats">
+                        <article>
+                            <dt>118</dt>
+                            <dd>Relatos ativos</dd>
+                        </article>
+                        <article>
+                            <dt>R$ 210K</dt>
+                            <dd>Investimento (2025)</dd>
+                        </article>
+                    </dl>
+                    <button class="btn-outline-small">Ver detalhes do bairro &rarr;</button>
+                </article>
+
+                <article class="bairro-card border-orange">
+                    <header class="card-top">
+                        <span class="rank-pos">#3</span>
+                        <span class="status-tag tag-orange">ALTA</span>
+                    </header>
+                    <h3>Pinheiros</h3>
+                    <p class="city-name">São Paulo, SP</p>
+                    <section class="score-section">
+                        <small>Score de vulnerabilidade</small>
+                        <meter value="71" min="0" max="100" class="meter-orange"></meter>
+                        <strong>71/100</strong>
+                    </section>
+                    <dl class="card-stats">
+                        <article>
+                            <dt>94</dt>
+                            <dd>Relatos ativos</dd>
+                        </article>
+                        <article>
+                            <dt>R$ 380K</dt>
+                            <dd>Investimento (2025)</dd>
+                        </article>
+                    </dl>
+                    <button class="btn-outline-small">Ver detalhes do bairro &rarr;</button>
+                </article>
+            </section>
+        </section>
+
+        <!-- Últimos Relatos -->
+        <section class="reports-section" id="relatos">
+            <header class="reports-header">
+                <article>
+                    <span class="category-badge">ÚLTIMOS RELATOS</span>
+                    <h2>Registrados agora pela comunidade</h2>
+                </article>
+                <button class="btn-outline">Ver todos os relatos &rarr;</button>
+            </header>
+
+            <section class="reports-grid">
+                <article class="report-card blue-top">
+                    <header>
+                        <span class="event-tag blue-tag">Alagamento</span>
+                        <span class="location">Vila Madalena</span>
+                    </header>
+                    <h4>Rua das Flores completamente alagada após chuva</h4>
+                    <p>Nível d'água subiu 40cm em 30 min. Bueiros obstruídos há semanas sem manutenção.</p>
+                    <footer>
+                        <span class="status-indicator blue-text">ABERTO</span>
+                        <time>Há 2 horas</time>
+                        <span class="upvotes"><i class="ph-fill ph-caret-up"></i> 24</span>
+                    </footer>
+                </article>
+
+                <article class="report-card red-top">
+                    <header>
+                        <span class="event-tag red-tag">Queimada</span>
+                        <span class="location">Brás</span>
+                    </header>
+                    <h4>Foco de queimada próximo à linha férrea central</h4>
+                    <p>Fumaça densa invadiu a rua. Bombeiros acionados, mas sem resposta até o momento.</p>
+                    <footer>
+                        <span class="status-indicator orange-text">EM ANDAMENTO</span>
+                        <time>Há 4 horas</time>
+                        <span class="upvotes"><i class="ph-fill ph-caret-up"></i> 57</span>
+                    </footer>
+                </article>
+
+                <article class="report-card orange-top">
+                    <header>
+                        <span class="event-tag orange-tag">Calor Extremo</span>
+                        <span class="location">Consolação</span>
+                    </header>
+                    <h4>Ponto de hidratação desativado na praça central</h4>
+                    <p>Com 35°C de previsão, o ponto de apoio da prefeitura foi retirado sem aviso prévio.</p>
+                    <footer>
+                        <span class="status-indicator blue-text">ABERTO</span>
+                        <time>Há 6 horas</time>
+                        <span class="upvotes"><i class="ph-fill ph-caret-up"></i> 112</span>
+                    </footer>
+                </article>
+
+                <article class="report-card green-top">
+                    <header>
+                        <span class="event-tag green-tag">Árvore Caída</span>
+                        <span class="location">Pinheiros</span>
+                    </header>
+                    <h4>Árvore de grande porte caída na Rua Oscar Freire</h4>
+                    <p>Bloqueia 100% da via e rebentou fios da rede de energia. Situação controlada.</p>
+                    <footer>
+                        <span class="status-indicator green-text">RESOLVIDO</span>
+                        <time>Há 1 dia</time>
+                        <span class="upvotes"><i class="ph-fill ph-caret-up"></i> 89</span>
+                    </footer>
+                </article>
+            </section>
+        </section>
+
+        <!-- Atividade Recente (Gráfico) -->
+        <section class="activity-section">
+            <article class="activity-intro">
+                <span class="category-badge">ATIVIDADE RECENTE</span>
+                <h2>Relatos registrados nos últimos 7 dias</h2>
+                <p>Acompanhe o volume diário de relatos e a taxa de resolução.</p>
+            </article>
+
+            <figure class="chart-container">
+                <figcaption class="chart-legend">
+                    <span><span class="legend-color gray"></span> Relatos registrados</span>
+                    <span><span class="legend-color green"></span> Resolvidos</span>
+                </figcaption>
+                <ul class="bar-chart">
+                    <li><span class="value">42</span><span class="bar"><span class="fill" style="height: 30%"></span></span><span class="day">Seg</span></li>
+                    <li><span class="value">87</span><span class="bar"><span class="fill" style="height: 45%"></span></span><span class="day">Ter</span></li>
+                    <li><span class="value">55</span><span class="bar"><span class="fill" style="height: 35%"></span></span><span class="day">Qua</span></li>
+                    <li><span class="value">142</span><span class="bar"><span class="fill" style="height: 40%"></span></span><span class="day">Qui</span></li>
+                    <li><span class="value">182</span><span class="bar tall"><span class="fill" style="height: 60%"></span></span><span class="day">Sex</span></li>
+                    <li><span class="value">78</span><span class="bar"><span class="fill" style="height: 50%"></span></span><span class="day">Sáb</span></li>
+                    <li><span class="value">61</span><span class="bar"><span class="fill" style="height: 40%"></span></span><span class="day">Dom</span></li>
+                </ul>
+            </figure>
+        </section>
     </main>
-    <footer class="site-footer"><section><strong>ClimaFy</strong><p>Plataforma de Monitoramento Climatico Comunitario</p></section><nav aria-label="Navegacao do rodape"><a href="#inicio">Inicio</a><a href="#ranking">Ranking</a><a href="#relatos">Relatos</a><a href="#sobre">Sobre</a></nav><small>(c) ClimaFy 2026</small></footer>
-    <script src="../JS/script.js"></script>
-  </body>
+
+    <!-- Banner CTA -->
+    <aside class="cta-banner">
+        <header>
+            <h2>Viu algo errado na sua cidade?</h2>
+            <p>Seu relato pode mudar a realidade do seu bairro. Registre agora — é gratuito e leva 2 minutos.</p>
+        </header>
+        <menu class="cta-actions">
+            <li><button class="btn-outline-white"><i class="ph ph-plus"></i> Registrar um Evento</button></li>
+            <li><button class="btn-white">Ver o Mapa Interativo &rarr;</button></li>
+        </menu>
+    </aside>
+
+    <!-- Rodapé -->
+    <footer class="main-footer">
+        <section class="footer-brand">
+            <strong class="footer-logo"><i class="ph-fill ph-plant"></i> ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
+        </section>
+        <nav class="footer-nav" aria-label="Navegação de rodapé">
+            <a href="#Início">Início</a>
+            <a href="#ranking">Ranking</a>
+            <a href="#relatos">Relatos</a>
+            <a href="#sobre">Sobre</a>
+        </nav>
+        <section class="footer-copy">
+            &copy; ClimaFy 2026
+        </section>
+    </footer>
+    <script src="../JS/home-interativo.js"></script>
+</body>
 </html>
