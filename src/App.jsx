@@ -2,6 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import AppLayout from './components/AppLayout.jsx';
 import Home from './pages/HomeFigma.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import NewReportPage from './pages/NewReportPage.jsx';
+import WelcomePage from './pages/WelcomePage.jsx';
 
 export default function App() {
   return (
@@ -15,6 +17,9 @@ export default function App() {
         }
       />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/novo-relato" element={<NewReportPage />} />
+      <Route path="/cadastro/sucesso" element={<WelcomePage />} />
+      <Route path="/welcome" element={<WelcomePage />} />
     </Routes>
   );
 }

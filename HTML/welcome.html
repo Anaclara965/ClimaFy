@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Bem-vindo</title>
+    <link rel="stylesheet" href="../CSS/welcome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <a href="home-interativo.html" class="brand-logo" aria-label="Ir para a pagina inicial do ClimaFy">
+            <span class="brand-icon" aria-hidden="true">+</span>
+            <span>ClimaFy</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegacao principal">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <nav class="auth-actions" aria-label="Acoes da conta">
+            <a href="login.html" class="login-link">Entrar</a>
+            <a href="#" class="btn-primary">+ Relatar</a>
+        </nav>
+    </header>
+
+    <main class="welcome-page">
+        <nav class="stepper-card" aria-label="Progresso do cadastro">
+            <ol class="stepper-list">
+                <li class="step is-complete">
+                    <span class="step-circle">1</span>
+                    <span class="step-label">Dados Pessoais</span>
+                </li>
+                <li class="step is-complete">
+                    <span class="step-circle">2</span>
+                    <span class="step-label">Verificacao</span>
+                </li>
+                <li class="step is-complete">
+                    <span class="step-circle">3</span>
+                    <span class="step-label">Preferencias</span>
+                </li>
+                <li class="step is-complete" aria-current="step">
+                    <span class="step-circle">4</span>
+                    <span class="step-label">Bem-vindo!</span>
+                </li>
+            </ol>
+        </nav>
+
+        <section class="welcome-card" aria-labelledby="welcome-title">
+            <div class="confetti" aria-hidden="true">
+                <span class="piece piece-1"></span>
+                <span class="piece piece-2"></span>
+                <span class="piece piece-3"></span>
+                <span class="piece piece-4"></span>
+                <span class="piece piece-5"></span>
+                <span class="piece piece-6"></span>
+                <span class="piece piece-7"></span>
+                <span class="piece piece-8"></span>
+            </div>
+
+            <header class="welcome-header">
+                <span class="success-circle" aria-hidden="true">
+                    <span class="success-check">✓</span>
+                </span>
+                <h1 id="welcome-title">Bem-vindo ao ClimaFy!</h1>
+                <p>Sua conta foi criada com sucesso. Agora voce ja pode acompanhar sua regiao, registrar eventos climaticos e ajudar sua comunidade a transformar relatos em acao.</p>
+            </header>
+
+            <section class="summary-card" aria-labelledby="summary-title">
+                <h2 id="summary-title">Resumo do cadastro</h2>
+                <dl class="summary-list">
+                    <div>
+                        <dt>Nome</dt>
+                        <dd>Sergio Silva</dd>
+                    </div>
+                    <div>
+                        <dt>E-mail</dt>
+                        <dd>sergio.silva@gmail.com</dd>
+                    </div>
+                    <div>
+                        <dt>Bairro</dt>
+                        <dd>Jardim Helena</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="next-steps" aria-labelledby="next-title">
+                <h2 id="next-title">Proximos passos</h2>
+                <ol>
+                    <li><span aria-hidden="true">1</span><p>Explore o mapa e veja relatos climaticos perto de voce.</p></li>
+                    <li><span aria-hidden="true">2</span><p>Vote em relatos importantes para aumentar a prioridade do bairro.</p></li>
+                    <li><span aria-hidden="true">3</span><p>Registre um novo evento sempre que perceber risco na sua regiao.</p></li>
+                </ol>
+            </section>
+
+            <nav class="quick-actions" aria-label="Atalhos rapidos">
+                <a href="#">Ver Ranking</a>
+                <a href="#">Ver Relatos</a>
+                <a href="#">Novo Relato</a>
+            </nav>
+
+            <a class="map-cta" href="home-interativo.html#mapa">Explorar o Mapa</a>
+
+            <aside class="share-card" aria-labelledby="share-title">
+                <div>
+                    <h2 id="share-title">Compartilhe o ClimaFy</h2>
+                    <p>Convide vizinhos para fortalecer o monitoramento climatico colaborativo.</p>
+                </div>
+                <button type="button" id="share-button">Copiar convite</button>
+            </aside>
+
+            <p class="form-feedback" id="welcome-feedback" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <section class="footer-brand">
+            <strong class="footer-logo">ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climatico Comunitario</span>
+        </section>
+
+        <nav class="footer-nav" aria-label="Navegacao de rodape">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <p class="footer-copy">&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="../JS/welcome.js"></script>
+</body>
+</html>

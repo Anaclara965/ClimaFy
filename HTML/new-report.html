@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Novo Relato</title>
+    <link rel="stylesheet" href="../CSS/new-report.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <a href="home-interativo.html" class="brand-logo" aria-label="Ir para a pagina inicial do ClimaFy">
+            <span class="brand-icon" aria-hidden="true">+</span>
+            <span>ClimaFy</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegacao principal">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <nav class="auth-actions" aria-label="Acoes da conta">
+            <a href="login.html" class="login-link">Entrar</a>
+            <a href="new-report.html" class="btn-primary">+ Relatar</a>
+        </nav>
+    </header>
+
+    <main class="report-page">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="home-interativo.html">Inicio</a></li>
+                <li><span aria-hidden="true">/</span></li>
+                <li><a href="#">Relatos</a></li>
+                <li><span aria-hidden="true">/</span></li>
+                <li aria-current="page">Novo relato</li>
+            </ol>
+        </nav>
+
+        <header class="page-heading">
+            <p class="eyebrow">Relato colaborativo</p>
+            <h1>Registrar novo evento</h1>
+            <p>Compartilhe o que está acontecendo na sua região para ajudar a comunidade a mapear riscos climáticos.</p>
+        </header>
+
+        <nav class="report-stepper" aria-label="Etapas do relato">
+            <ol>
+                <li class="is-active"><span>1</span><strong>Categoria</strong></li>
+                <li><span>2</span><strong>Detalhes</strong></li>
+                <li><span>3</span><strong>Localização</strong></li>
+                <li><span>4</span><strong>Revisão</strong></li>
+            </ol>
+        </nav>
+
+        <form class="report-form" id="new-report-form" action="#" method="POST">
+            <section class="form-column primary-column" aria-labelledby="details-title">
+                <article class="form-card">
+                    <header class="card-header">
+                        <h2 id="details-title">Detalhes do evento</h2>
+                        <p>Escolha a categoria e descreva a situação com clareza.</p>
+                    </header>
+
+                    <fieldset class="category-section">
+                        <legend>Categoria</legend>
+                        <ul class="category-grid">
+                            <li><label class="category-option is-selected"><input type="radio" name="categoria" value="Alagamento" checked><span class="icon flood">A</span><strong>Alagamento</strong></label></li>
+                            <li><label class="category-option"><input type="radio" name="categoria" value="Queimada"><span class="icon fire">Q</span><strong>Queimada</strong></label></li>
+                            <li><label class="category-option"><input type="radio" name="categoria" value="Calor Extremo"><span class="icon heat">C</span><strong>Calor Extremo</strong></label></li>
+                            <li><label class="category-option"><input type="radio" name="categoria" value="Arvore Caida"><span class="icon tree">V</span><strong>Árvore Caída</strong></label></li>
+                            <li><label class="category-option"><input type="radio" name="categoria" value="Lixo"><span class="icon waste">L</span><strong>Lixo</strong></label></li>
+                            <li><label class="category-option"><input type="radio" name="categoria" value="Poluicao Agua"><span class="icon water">P</span><strong>Poluição Água</strong></label></li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="field-group">
+                        <label for="report-title">Título do relato</label>
+                        <input id="report-title" name="titulo" type="text" maxlength="80" placeholder="Ex: Rua alagada apos chuva forte" required>
+                        <small><span id="title-count">0</span>/80 caracteres</small>
+                    </fieldset>
+
+                    <fieldset class="field-group">
+                        <label for="report-description">Descrição</label>
+                        <textarea id="report-description" name="descricao" maxlength="280" rows="5" placeholder="Descreva o que aconteceu, quando comecou e se ha riscos para moradores." required></textarea>
+                        <small><span id="description-count">0</span>/280 caracteres</small>
+                    </fieldset>
+
+                    <fieldset class="severity-section">
+                        <legend>Severidade</legend>
+                        <div class="severity-options">
+                            <label><input type="radio" name="severidade" value="Leve"><span>Leve</span></label>
+                            <label class="is-selected"><input type="radio" name="severidade" value="Moderada" checked><span>Moderada</span></label>
+                            <label><input type="radio" name="severidade" value="Grave"><span>Grave</span></label>
+                            <label><input type="radio" name="severidade" value="Critica"><span>Critica</span></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="upload-zone" id="upload-zone">
+                        <legend>Foto do local</legend>
+                        <label for="photo-upload">
+                            <span class="upload-icon" aria-hidden="true">+</span>
+                            <strong>Arraste uma foto ou clique para enviar</strong>
+                            <small>PNG ou JPG ate 5MB</small>
+                        </label>
+                        <input id="photo-upload" name="foto" type="file" accept="image/png,image/jpeg">
+                        <p id="upload-feedback" aria-live="polite"></p>
+                    </fieldset>
+                </article>
+            </section>
+
+            <aside class="form-column side-column" aria-labelledby="location-title">
+                <article class="form-card">
+                    <header class="card-header">
+                        <h2 id="location-title">Localização</h2>
+                        <p>Clique no mini-mapa para ajustar o ponto do relato.</p>
+                    </header>
+
+                    <section class="mini-map-section" aria-labelledby="map-title">
+                        <h3 id="map-title">Mini-mapa</h3>
+                        <button class="mini-map" id="mini-map" type="button" aria-label="Selecionar ponto no mapa">
+                            <span class="map-grid" aria-hidden="true"></span>
+                            <span class="map-river" aria-hidden="true"></span>
+                            <span class="map-area area-one" aria-hidden="true"></span>
+                            <span class="map-area area-two" aria-hidden="true"></span>
+                            <span class="map-pin" id="map-pin" aria-hidden="true"></span>
+                        </button>
+                        <p class="coordinates">Coordenadas: <strong id="coordinates">-23.5461, -46.6172</strong></p>
+                    </section>
+
+                    <div class="location-fields">
+                        <fieldset class="field-group">
+                            <label for="city">Cidade</label>
+                            <input id="city" name="cidade" type="text" value="Sao Paulo" required>
+                        </fieldset>
+
+                        <fieldset class="field-group">
+                            <label for="neighborhood">Bairro</label>
+                            <input id="neighborhood" name="bairro" type="text" value="Bras" required>
+                        </fieldset>
+
+                        <fieldset class="field-group full">
+                            <label for="reference">Ponto de referência</label>
+                            <input id="reference" name="referencia" type="text" placeholder="Ex: próximo a estação, escola ou praça">
+                        </fieldset>
+                    </div>
+
+                    <aside class="info-card" aria-label="Tempo estimado">
+                        <span aria-hidden="true">i</span>
+                        <div>
+                            <strong>Tempo estimado</strong>
+                            <p>O relato leva cerca de 2 minutos para ser enviado e fica pendente de moderação.</p>
+                        </div>
+                    </aside>
+                </article>
+            </aside>
+
+            <footer class="form-footer">
+                <p id="form-feedback" aria-live="polite"></p>
+                <button type="submit">Enviar relato para revisão</button>
+            </footer>
+        </form>
+    </main>
+
+    <footer class="main-footer">
+        <section class="footer-brand">
+            <strong class="footer-logo">ClimaFy</strong>
+            <span class="footer-sub">Plataforma de Monitoramento Climatico Comunitario</span>
+        </section>
+
+        <nav class="footer-nav" aria-label="Navegacao de rodape">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="#">Ranking</a>
+            <a href="#">Relatos</a>
+            <a href="#">Sobre</a>
+        </nav>
+
+        <p class="footer-copy">&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="../JS/new-report.js"></script>
+</body>
+</html>

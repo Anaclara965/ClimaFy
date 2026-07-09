@@ -31,9 +31,9 @@ export default function AppLayout({ children }) {
             <Link className="hidden text-[14px] font-medium leading-[17px] text-[#48525f] hover:text-[#1a9651] sm:inline-flex" to="/login">
               Entrar
             </Link>
-            <a className="grid h-9 w-[98px] place-items-center rounded-lg bg-[#1a9651] text-[13px] font-semibold text-white hover:bg-[#116b38]" href="#relatar">
+            <Link className="grid h-9 w-[98px] place-items-center rounded-lg bg-[#1a9651] text-[13px] font-semibold text-white hover:bg-[#116b38]" to="/novo-relato">
               + Relatar
-            </a>
+            </Link>
           </div>
         </div>
       </header>

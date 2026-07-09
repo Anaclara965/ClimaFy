@@ -100,6 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
         feedback.textContent = "Preferências salvas com sucesso.";
+        window.setTimeout(() => {
+            window.location.href = "welcome.html";
+        }, 650);
     });
 
     renderSelectedNeighborhoods();

@@ -36,7 +36,7 @@ export default function HomeFigma() {
             Enquanto os dados oficiais olham so para a cidade como um todo, o alagamento e na sua rua. O ClimaFy transforma cada relato de morador em pressao real por investimento - rua por rua, bairro por bairro.
           </p>
           <div className="mt-[78px] flex flex-wrap gap-4">
-            <a className="grid h-14 w-[280px] place-items-center rounded-[28px] bg-[#116b38] text-[15px] font-semibold text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)]" href="#relatar">
+            <a className="grid h-14 w-[280px] place-items-center rounded-[28px] bg-[#116b38] text-[15px] font-semibold text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)]" href="/novo-relato">
               Relatar um problema agora
             </a>
             <a className="grid h-14 w-[230px] place-items-center rounded-[28px] border-[1.5px] border-[#8b96a3] bg-white text-[15px] font-semibold text-[#15191e]" href="#ranking">
@@ -166,7 +166,7 @@ export default function HomeFigma() {
         <h2 className="relative text-[32px] font-bold leading-10">Viu algo errado na sua cidade?</h2>
         <p className="relative mt-3 text-[14px] leading-[17px] text-[#c7ead1]">Seu relato pode mudar a realidade do seu bairro. Registre agora - e gratuito e leva 2 minutos.</p>
         <div className="relative mt-5 flex flex-wrap justify-center gap-5">
-          <a className="grid h-12 w-56 place-items-center rounded-xl border-2 border-[#63a93a] bg-[#1a9651] text-[14px] font-semibold text-white" href="#relatar">
+          <a className="grid h-12 w-56 place-items-center rounded-xl border-2 border-[#63a93a] bg-[#1a9651] text-[14px] font-semibold text-white" href="/novo-relato">
             + Registrar um Evento
           </a>
           <a className="grid h-12 w-56 place-items-center rounded-xl bg-white text-[14px] font-semibold text-[#116b38]" href="#mapa">
