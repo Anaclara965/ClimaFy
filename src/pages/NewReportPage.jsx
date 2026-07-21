@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { reportsAPI } from '../services/api.js';
 
 const categories = [
   ['Alagamento', 'A', '#2469d6'],
@@ -19,7 +20,12 @@ export default function NewReportPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [pin, setPin] = useState({ x: 52, y: 48, lat: '-23.5574', lng: '-46.6546' });
+  const [city, setCity] = useState('Sao Paulo');
+  const [neighborhood, setNeighborhood] = useState('Bras');
+  const [reference, setReference] = useState('');
+  const [photo, setPhoto] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   function handleMapClick(event) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -34,9 +40,31 @@ export default function NewReportPage() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    setFeedback('Relato mockado enviado para revisao. Nenhum backend foi acionado.');
+    setSubmitting(true);
+    setFeedback('');
+
+    const formData = new FormData();
+    formData.append('category', category);
+    formData.append('severity', severity);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('city', city);
+    formData.append('neighborhood', neighborhood);
+    formData.append('reference', reference);
+    formData.append('lat', pin.lat);
+    formData.append('lng', pin.lng);
+    if (photo) formData.append('photo', photo);
+
+    try {
+      await reportsAPI.create(formData);
+      setFeedback('Relato enviado para revisao com sucesso.');
+    } catch {
+      setFeedback('Backend indisponivel. Relato mantido como mock local para revisao visual.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -81,7 +109,7 @@ export default function NewReportPage() {
 
             <fieldset className="mt-6">
               <legend className="text-[13px] font-black text-[#15191e]">Categoria</legend>
-              <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+              <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {categories.map(([label, icon, color]) => (
                   <li key={label}>
                     <button
@@ -126,8 +154,9 @@ export default function NewReportPage() {
                 <span className="grid h-[38px] w-[38px] place-items-center rounded-full bg-[#e0f5e9] text-[22px] font-black text-[#116b38]">+</span>
                 <strong className="text-[13px] font-black">Arraste uma foto ou clique para enviar</strong>
                 <small className="text-[12px] font-bold text-[#8b96a3]">PNG ou JPG ate 5MB</small>
-                <input className="sr-only" type="file" accept="image/png,image/jpeg" />
+                <input className="sr-only" type="file" accept="image/png,image/jpeg" onChange={(event) => setPhoto(event.target.files?.[0] ?? null)} />
               </label>
+              {photo ? <p className="mt-2 text-[11px] font-bold text-[#1a9651]">{photo.name}</p> : null}
             </fieldset>
           </section>
 
@@ -155,15 +184,15 @@ export default function NewReportPage() {
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
               <fieldset className="grid gap-2">
                 <label className="text-[13px] font-black" htmlFor="city">Cidade</label>
-                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="city" defaultValue="Sao Paulo" />
+                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="city" onChange={(event) => setCity(event.target.value)} value={city} />
               </fieldset>
               <fieldset className="grid gap-2">
                 <label className="text-[13px] font-black" htmlFor="neighborhood">Bairro</label>
-                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="neighborhood" defaultValue="Bras" />
+                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="neighborhood" onChange={(event) => setNeighborhood(event.target.value)} value={neighborhood} />
               </fieldset>
               <fieldset className="grid gap-2 sm:col-span-2">
                 <label className="text-[13px] font-black" htmlFor="reference">Ponto de referencia</label>
-                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="reference" placeholder="Ex: proximo a estacao, escola ou praca" />
+                <input className="h-[46px] rounded-lg border border-[#dbe3e8] px-3.5 text-[14px] outline-none focus:border-[#1a9651] focus:ring-4 focus:ring-[#1a9651]/10" id="reference" onChange={(event) => setReference(event.target.value)} placeholder="Ex: proximo a estacao, escola ou praca" value={reference} />
               </fieldset>
             </div>
 
@@ -178,8 +207,8 @@ export default function NewReportPage() {
 
           <footer className="grid gap-3 lg:col-span-2">
             <p className="min-h-[18px] text-center text-[13px] font-black text-[#116b38]">{feedback}</p>
-            <button className="h-[52px] rounded-lg bg-[#1a9651] text-[14px] font-black text-white shadow-[0_10px_20px_rgba(26,150,81,0.24)] transition hover:bg-[#116b38]" type="submit">
-              Enviar relato para revisao
+            <button className="h-[52px] rounded-lg bg-[#1a9651] text-[14px] font-black text-white shadow-[0_10px_20px_rgba(26,150,81,0.24)] transition hover:bg-[#116b38] disabled:cursor-wait disabled:opacity-70" disabled={submitting} type="submit">
+              {submitting ? 'Enviando...' : 'Enviar relato para revisao'}
             </button>
           </footer>
         </form>

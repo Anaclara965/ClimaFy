@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
@@ -8,8 +9,9 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { rankingAPI, unwrap } from '../services/api.js';
 
-const rankingRows = [
+const fallbackRankingRows = [
   { name: 'Bras', city: 'Sao Paulo, SP', reports: 147, investment: 124000, score: 91, risk: 'CRITICA', tone: 'red', trend: '+12' },
   { name: 'Vila Madalena', city: 'Sao Paulo, SP', reports: 118, investment: 210000, score: 88, risk: 'CRITICA', tone: 'red', trend: '+8' },
   { name: 'Pinheiros', city: 'Sao Paulo, SP', reports: 94, investment: 380000, score: 71, risk: 'ALTA', tone: 'orange', trend: '0' },
@@ -26,12 +28,6 @@ const toneStyles = {
   yellow: { text: 'text-[#b88700]', bg: 'bg-[#fff4cc]', fill: '#f2c94c' },
   green: { text: 'text-[#1a9651]', bg: 'bg-[#e0f5e9]', fill: '#1a9651' },
 };
-
-const chartRows = rankingRows.map((item) => ({
-  bairro: item.name.split(' ')[0],
-  score: item.score,
-  investimento: Math.round(item.investment / 10000),
-}));
 
 const zones = [
   ['Zona Leste', 372, 'R$ 420 mil', '#d62727'],
@@ -58,8 +54,71 @@ const categoryCards = [
 
 const money = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
+const parseMoney = (value) => {
+  if (typeof value === 'number') return value;
+  if (!value) return 0;
+  const text = String(value).toLowerCase().replace(/\s/g, '');
+  const numeric = Number(text.replace(/[^\d,.-]/g, '').replace(',', '.'));
+  if (text.includes('mi')) return numeric * 1000000;
+  if (text.includes('k') || text.includes('mil')) return numeric * 1000;
+  return Number.isNaN(numeric) ? 0 : numeric;
+};
+
+const normalizeRankingRows = (payload) => {
+  const items = Array.isArray(payload) ? payload : payload?.ranking ?? payload?.items ?? [];
+
+  return items.map((item, index) => {
+    const score = Number(item.score ?? item.riskScore ?? 0);
+    const risk = (item.risk ?? item.classification ?? (score >= 85 ? 'CRITICA' : score >= 60 ? 'ALTA' : score >= 40 ? 'MEDIA' : 'BAIXA')).toUpperCase();
+    const tone = item.tone ?? (risk === 'CRITICA' ? 'red' : risk === 'ALTA' ? 'orange' : risk === 'MEDIA' ? 'yellow' : 'green');
+
+    return {
+      name: item.name ?? item.neighborhood?.name ?? item.neighborhood ?? item.bairro ?? `Bairro ${index + 1}`,
+      city: item.city ?? item.neighborhood?.city ?? 'Sao Paulo, SP',
+      reports: Number(item.reports ?? item.openReports ?? item.relatosAbertos ?? 0),
+      investment: parseMoney(item.investment ?? item.investmentAmount ?? item.totalInvestment),
+      score,
+      risk,
+      tone,
+      trend: String(item.trend ?? item.tendencia ?? '0'),
+    };
+  });
+};
+
 export default function RankingPage() {
+  const [rankingRows, setRankingRows] = useState(fallbackRankingRows);
+  const [sortMode, setSortMode] = useState('vulnerability');
+  const [period, setPeriod] = useState('year');
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadRanking = useCallback(async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const data = unwrap(await rankingAPI.list({ sort: sortMode, period, search }));
+      const nextRows = normalizeRankingRows(data);
+      setRankingRows(nextRows.length ? nextRows : fallbackRankingRows);
+    } catch {
+      setRankingRows(fallbackRankingRows);
+      setError('Nao foi possivel carregar o ranking do backend. Exibindo dados mockados.');
+    } finally {
+      setLoading(false);
+    }
+  }, [period, search, sortMode]);
+
+  useEffect(() => {
+    loadRanking();
+  }, [loadRanking]);
+
   const maxReports = Math.max(...rankingRows.map((item) => item.reports));
+  const chartRows = useMemo(() => rankingRows.map((item) => ({
+    bairro: item.name.split(' ')[0],
+    score: item.score,
+    investimento: Math.round(item.investment / 10000),
+  })), [rankingRows]);
 
   return (
     <div className="bg-[#f8fafb] text-[#15191e]">
@@ -87,24 +146,30 @@ export default function RankingPage() {
         <form className="grid min-h-8 grid-cols-[auto_1fr_267px] items-center gap-11 max-xl:grid-cols-1 max-xl:gap-4">
           <fieldset className="flex items-center gap-2 border-0 max-sm:flex-wrap">
             <legend className="mr-4 text-[13px] font-medium text-[#48525f]">Ordenar por:</legend>
-            <button className="h-8 rounded-lg bg-[#1a9651] px-4 text-[12px] font-semibold text-white" type="button">Mais Vulneraveis</button>
-            <button className="h-8 rounded-lg bg-[#eff3f5] px-4 text-[12px] text-[#48525f]" type="button">Menos Investidos</button>
+            <button className={`h-8 rounded-lg px-4 text-[12px] ${sortMode === 'vulnerability' ? 'bg-[#15191e] font-semibold text-white' : 'bg-[#eff3f5] text-[#48525f]'}`} onClick={() => setSortMode('vulnerability')} type="button">Mais Vulneraveis</button>
+            <button className={`h-8 rounded-lg px-4 text-[12px] ${sortMode === 'investment' ? 'bg-[#15191e] font-semibold text-white' : 'bg-[#eff3f5] text-[#48525f]'}`} onClick={() => setSortMode('investment')} type="button">Menos Investidos</button>
           </fieldset>
           <fieldset className="flex items-center gap-8 border-0 max-sm:flex-wrap max-sm:gap-2">
             <legend className="text-[13px] font-medium text-[#48525f]">Periodo:</legend>
-            {['7 dias', '30 dias', '90 dias'].map((period) => (
-              <button className="h-8 rounded-lg border border-[#e3e8ec] px-3 text-[12px] text-[#8b96a3]" type="button" key={period}>{period}</button>
+            {[
+              ['7d', '7 dias'],
+              ['30d', '30 dias'],
+              ['90d', '90 dias'],
+            ].map(([value, label]) => (
+              <button className={`h-8 rounded-lg border border-[#e3e8ec] px-3 text-[12px] ${period === value ? 'bg-[#15191e] font-semibold text-white' : 'text-[#8b96a3]'}`} onClick={() => setPeriod(value)} type="button" key={value}>{label}</button>
             ))}
-            <button className="h-8 rounded-lg bg-[#15191e] px-3 text-[12px] font-semibold text-white" type="button">Este ano</button>
+            <button className={`h-8 rounded-lg px-3 text-[12px] ${period === 'year' ? 'bg-[#15191e] font-semibold text-white' : 'border border-[#e3e8ec] text-[#8b96a3]'}`} onClick={() => setPeriod('year')} type="button">Este ano</button>
           </fieldset>
           <label className="flex h-8 items-center rounded-lg border border-[#d1d8de] bg-[#f8fafb] px-4">
             <span className="sr-only">Buscar bairro</span>
-            <input className="w-full bg-transparent text-[12px] outline-none placeholder:text-[#8b96a3]" placeholder="Buscar bairro..." type="search" />
+            <input className="w-full bg-transparent text-[12px] outline-none placeholder:text-[#8b96a3]" onChange={(event) => setSearch(event.target.value)} placeholder="Buscar bairro..." type="search" value={search} />
           </label>
         </form>
       </section>
 
-      <section aria-labelledby="table-title" className="overflow-auto border-b border-[#e3e8ec] bg-white">
+      {error ? <ErrorBanner message={error} onRetry={loadRanking} /> : null}
+
+      <section aria-labelledby="table-title" className="overflow-auto border-b border-[#e3e8ec] bg-white max-md:hidden">
         <h2 id="table-title" className="sr-only">Tabela do ranking</h2>
         <table className="w-full min-w-[1120px] table-fixed border-collapse">
           <thead className="sticky top-0 z-10 h-11 bg-[#eff3f5] text-left text-[11px] font-semibold text-[#8b96a3]">
@@ -115,8 +180,13 @@ export default function RankingPage() {
             </tr>
           </thead>
           <tbody>
-            {rankingRows.map((item, index) => {
-              const tone = toneStyles[item.tone];
+            {loading ? Array.from({ length: 6 }).map((_, index) => (
+              <tr className="h-[58px] border-b border-[#e3e8ec]" key={index}>
+                <td className="pl-[72px]" colSpan="8"><span className="block h-5 w-[85%] animate-pulse rounded bg-[#e3e8ec]" /></td>
+              </tr>
+            )) : rankingRows.map((item, index) => {
+              const tone = toneStyles[item.tone] ?? toneStyles.green;
+              const detailHref = item.name === 'Bras' ? '/bairro/bras' : item.name === 'Pinheiros' ? '/bairro/pinheiros' : '#';
               return (
                 <tr className="h-[58px] border-b border-[#e3e8ec] odd:bg-white even:bg-[#f8fafb]" key={item.name}>
                   <td className="pl-[72px]"><span className={`grid size-7 place-items-center rounded-lg text-[12px] font-bold ${index < 2 ? 'bg-[#116b38] text-white' : 'bg-[#eff3f5] text-[#48525f]'}`}>{index + 1}</span></td>
@@ -126,12 +196,41 @@ export default function RankingPage() {
                   <td><strong className={`grid h-11 w-[45px] place-items-center rounded-[22px] border-2 text-[14px] ${tone.bg} ${tone.text}`} style={{ borderColor: tone.fill }}>{item.score}</strong></td>
                   <td><span className={`rounded-xl px-3 py-1 text-[11px] font-bold ${tone.bg} ${tone.text}`}>{item.risk}</span></td>
                   <td className={`text-[13px] font-semibold ${item.trend.startsWith('+') ? 'text-[#d62727]' : 'text-[#1a9651]'}`}>{item.trend.startsWith('+') ? '↑' : item.trend === '0' ? '→' : '↓'} {item.trend}</td>
-                  <td className="pr-[72px]"><a className="grid h-7 w-[92px] place-items-center rounded-lg bg-[#e0f5e9] text-[12px] font-semibold text-[#1a9651]" href="/bairro/bras">Ver bairro →</a></td>
+                  <td className="pr-[72px]"><a className="grid h-7 w-[92px] place-items-center rounded-lg bg-[#e0f5e9] text-[12px] font-semibold text-[#1a9651]" href={detailHref}>Ver bairro →</a></td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </section>
+
+      <section className="hidden bg-white px-5 py-5 max-md:block" aria-label="Ranking em cards">
+        <div className="grid gap-3">
+          {loading ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />) : rankingRows.map((item, index) => {
+            const tone = toneStyles[item.tone] ?? toneStyles.green;
+            const detailHref = item.name === 'Bras' ? '/bairro/bras' : item.name === 'Pinheiros' ? '/bairro/pinheiros' : '#';
+
+            return (
+              <article className="rounded-xl border border-[#e3e8ec] bg-[#f8fafb] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]" key={item.name}>
+                <header className="flex items-start justify-between gap-3">
+                  <div>
+                    <span className="grid size-8 place-items-center rounded-lg bg-[#15191e] text-[12px] font-bold text-white">#{index + 1}</span>
+                    <h2 className="mt-3 text-[18px] font-bold">{item.name}</h2>
+                    <p className="text-[11px] text-[#8b96a3]">{item.city}</p>
+                  </div>
+                  <strong className={`grid size-12 place-items-center rounded-full border-2 text-[14px] ${tone.bg} ${tone.text}`} style={{ borderColor: tone.fill }}>{item.score}</strong>
+                </header>
+                <dl className="mt-4 grid grid-cols-2 gap-3 text-[12px]">
+                  <div><dt className="text-[#8b96a3]">Relatos abertos</dt><dd className="font-bold">{item.reports}</dd></div>
+                  <div><dt className="text-[#8b96a3]">Investimento</dt><dd className="font-bold">{money(item.investment)}</dd></div>
+                  <div><dt className="text-[#8b96a3]">Classificacao</dt><dd className={`inline-flex rounded-xl px-3 py-1 text-[10px] font-bold ${tone.bg} ${tone.text}`}>{item.risk}</dd></div>
+                  <div><dt className="text-[#8b96a3]">Tendencia</dt><dd className="font-bold">{item.trend}</dd></div>
+                </dl>
+                <a className="mt-4 grid h-9 place-items-center rounded-lg bg-[#e0f5e9] text-[12px] font-semibold text-[#1a9651]" href={detailHref}>Ver bairro →</a>
+              </article>
+            );
+          })}
+        </div>
       </section>
 
       <section className="mx-auto my-4 w-[calc(100%-48px)] max-w-[1276px] rounded-[14px] border border-[#e3e8ec] bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]" aria-labelledby="chart-title">
@@ -172,7 +271,7 @@ export default function RankingPage() {
             <li className="rounded-[14px] border border-[#e3e8ec] border-t-[3px] bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]" style={{ borderTopColor: color }} key={title}>
               <h3 className="text-[14px] font-bold">{title}</h3>
               <p className="mt-3 text-[12px] font-semibold text-[#1a9651]">{weight}</p>
-              <small className="mt-2 block text-[11px] leading-snug text-[#8b96a3]">Criterio normalizado diariamente com dados mockados para a tela.</small>
+              <small className="mt-2 block text-[11px] leading-snug text-[#8b96a3]">Criterio normalizado diariamente com dados da plataforma.</small>
             </li>
           ))}
         </ol>
@@ -237,4 +336,17 @@ export default function RankingPage() {
       </section>
     </div>
   );
+}
+
+function ErrorBanner({ message, onRetry }) {
+  return (
+    <section className="mx-auto my-4 flex w-[calc(100%-48px)] max-w-[1276px] flex-wrap items-center justify-between gap-3 rounded-lg border border-[#f4b60d]/40 bg-[#fff6d6] px-5 py-3 text-[12px] font-semibold text-[#725600]" aria-live="polite">
+      <span>{message}</span>
+      <button className="rounded-md bg-[#15191e] px-3 py-2 text-white" onClick={onRetry} type="button">Tentar novamente</button>
+    </section>
+  );
+}
+
+function SkeletonCard() {
+  return <article className="h-44 animate-pulse rounded-xl border border-[#e3e8ec] bg-[#e3e8ec]" aria-label="Carregando ranking" />;
 }

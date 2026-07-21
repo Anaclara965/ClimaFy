@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReportCard from '../components/ReportCard.jsx';
+import { reportsAPI, unwrap } from '../services/api.js';
 
-const reports = [
+const fallbackReports = [
   { id: 1, category: 'Alagamento', neighborhood: 'Vila Madalena', title: 'Rua das Flores completamente alagada', description: "Nivel d'agua subiu 40cm apos 30min de chuva. Drenos obstruidos ha semanas.", status: 'Aberto', time: 'Ha 2 horas', votes: 34, color: '#2469d6', period: '24 horas' },
   { id: 2, category: 'Queimada', neighborhood: 'Bras', title: 'Foco de queimada proximo a linha ferrea', description: 'Fumaca intensa visivel a 2km. Bombeiros acionados mas sem resposta ainda.', status: 'Em andamento', time: 'Ha 4 horas', votes: 67, color: '#d62727', period: '24 horas' },
   { id: 3, category: 'Calor Extremo', neighborhood: 'Consolacao', title: 'Ponto de hidratacao desativado na praca', description: 'Com 38 graus, o ponto de apoio montado pela prefeitura foi retirado sem aviso previo.', status: 'Aberto', time: 'Ha 6 horas', votes: 29, color: '#f35c22', period: '24 horas' },
@@ -35,6 +36,24 @@ const neighborhoodRanking = [
 
 const statusTabs = ['Todos', 'Aberto', 'Em andamento', 'Resolvido'];
 
+const normalizeReports = (payload) => {
+  const items = Array.isArray(payload) ? payload : payload?.reports ?? payload?.items ?? [];
+
+  return items.map((report, index) => ({
+    id: report.id ?? report._id ?? index + 1,
+    category: report.category ?? report.type ?? 'Alagamento',
+    neighborhood: report.neighborhood?.name ?? report.neighborhood ?? report.bairro ?? 'Bairro',
+    title: report.title ?? report.titulo ?? 'Relato da comunidade',
+    description: report.description ?? report.descricao ?? report.summary ?? '',
+    status: report.status ?? 'Aberto',
+    time: report.time ?? report.createdAgo ?? report.created_at ?? 'Agora',
+    votes: report.votes ?? report.upvotes ?? 0,
+    color: report.color ?? report.categoryColor,
+    tone: report.tone,
+    period: report.period ?? '7 dias',
+  }));
+};
+
 export default function ReportsPage() {
   const [status, setStatus] = useState('Todos');
   const [category, setCategory] = useState('Categoria');
@@ -42,9 +61,40 @@ export default function ReportsPage() {
   const [period, setPeriod] = useState('Periodo');
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('recent');
+  const [reports, setReports] = useState(fallbackReports);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const categories = [...new Set(reports.map((report) => report.category))];
   const neighborhoods = [...new Set(reports.map((report) => report.neighborhood))];
+
+  const loadReports = useCallback(async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const params = {
+        status: status === 'Todos' ? undefined : status,
+        category: category === 'Categoria' ? undefined : category,
+        neighborhood: neighborhood === 'Bairro' ? undefined : neighborhood,
+        period: period === 'Periodo' ? undefined : period,
+        search: search || undefined,
+        sort,
+      };
+      const data = unwrap(await reportsAPI.list(params));
+      const nextReports = normalizeReports(data);
+      setReports(nextReports.length ? nextReports : fallbackReports);
+    } catch {
+      setReports(fallbackReports);
+      setError('Nao foi possivel carregar os relatos do backend. Exibindo dados mockados.');
+    } finally {
+      setLoading(false);
+    }
+  }, [category, neighborhood, period, search, sort, status]);
+
+  useEffect(() => {
+    loadReports();
+  }, [loadReports]);
 
   const filtered = useMemo(() => {
     const items = reports.filter((report) => {
@@ -111,10 +161,12 @@ export default function ReportsPage() {
         </select>
       </section>
 
+      {error ? <ErrorBanner message={error} onRetry={loadReports} /> : null}
+
       <section className="mx-auto mt-4 w-[calc(100%-96px)] max-w-[1296px] max-md:w-[calc(100%-32px)]" aria-labelledby="cards-title">
         <h2 id="cards-title" className="sr-only">Lista de relatos</h2>
         <div className="grid grid-cols-3 gap-7 max-lg:grid-cols-2 max-md:grid-cols-1">
-          {filtered.map((report) => <ReportCard key={report.id} report={report} />)}
+          {loading ? Array.from({ length: 9 }).map((_, index) => <SkeletonCard key={index} />) : filtered.map((report) => <ReportCard key={report.id} report={report} />)}
         </div>
         <nav className="my-7 flex justify-center gap-2 text-[11px]" aria-label="Paginacao dos relatos">
           {['←', '1', '2', '3', '...', '12', '→'].map((item) => <a className={`grid h-6 min-w-6 place-items-center rounded-md border border-[#e3e8ec] ${item === '1' ? 'bg-[#1a9651] text-white' : 'bg-white text-[#8b96a3]'}`} href="#" key={item}>{item}</a>)}
@@ -183,7 +235,7 @@ export default function ReportsPage() {
               <li className="rounded-xl border border-[#e3e8ec] border-t-[3px] bg-[#f8fafb] p-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]" style={{ borderTopColor: ['#2469d6', '#f4b60d', '#1a9651', '#63a93a'][index] }} key={step}>
                 <span className="grid size-8 place-items-center rounded-lg bg-[#e0f5e9] text-[11px] font-bold text-[#1a9651]">{String(index + 1).padStart(2, '0')}</span>
                 <h3 className="mt-3 text-[13px] font-bold">{step}</h3>
-                <p className="mt-2 text-[11px] leading-snug text-[#48525f]">Etapa de validacao com dados mockados e acompanhamento publico.</p>
+                <p className="mt-2 text-[11px] leading-snug text-[#48525f]">Etapa de validacao com acompanhamento publico e historico da plataforma.</p>
               </li>
             ))}
           </ol>
@@ -193,12 +245,25 @@ export default function ReportsPage() {
   );
 }
 
+function ErrorBanner({ message, onRetry }) {
+  return (
+    <section className="mx-auto my-4 flex w-[calc(100%-96px)] max-w-[1296px] flex-wrap items-center justify-between gap-3 rounded-lg border border-[#f4b60d]/40 bg-[#fff6d6] px-5 py-3 text-[12px] font-semibold text-[#725600] max-md:w-[calc(100%-32px)]" aria-live="polite">
+      <span>{message}</span>
+      <button className="rounded-md bg-[#15191e] px-3 py-2 text-white" onClick={onRetry} type="button">Tentar novamente</button>
+    </section>
+  );
+}
+
+function SkeletonCard() {
+  return <article className="min-h-[220px] animate-pulse rounded-xl border border-[#e3e8ec] bg-[#e3e8ec]" aria-label="Carregando relato" />;
+}
+
 function SectionCopy({ pill, title, id, action, href = '#' }) {
   return (
     <article>
       <p className="inline-flex h-[26px] items-center rounded-[13px] bg-[#e0f5e9] px-3 text-[10px] font-bold uppercase text-[#1a9651]">{pill}</p>
       <h2 id={id} className="mt-3 text-[28px] font-bold leading-tight">{title}</h2>
-      <p className="mt-3 text-[14px] leading-snug text-[#8b96a3]">Dados mockados para acompanhar volume, status e concentracao dos relatos.</p>
+      <p className="mt-3 text-[14px] leading-snug text-[#8b96a3]">Acompanhe volume, status e concentracao dos relatos por bairro.</p>
       {action ? <a className="mt-7 inline-grid h-10 min-w-[170px] place-items-center rounded-lg border border-[#1a9651] px-4 text-[12px] font-bold text-[#1a9651]" href={href}>{action}</a> : null}
     </article>
   );

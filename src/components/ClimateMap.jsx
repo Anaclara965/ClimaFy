@@ -22,9 +22,34 @@ const districts = [
   { name: 'Mooca', left: '30.5%', top: '64%', width: '22.5%', height: '24%', border: '#f37d22', fill: 'rgba(255,237,224,0.62)', text: '#f37d22' },
 ];
 
-export default function ClimateMap() {
+const toPercent = (value, fallback) => {
+  if (typeof value === 'number') return `${value}%`;
+  return value ?? `${fallback}%`;
+};
+
+const normalizePin = (pin, index) => ({
+  left: toPercent(pin.left ?? pin.x ?? pin.positionPercent?.x, 10 + index * 8),
+  top: toPercent(pin.top ?? pin.y ?? pin.positionPercent?.y, 20 + index * 6),
+  color: pin.color ?? pin.categoryColor ?? '#2469d6',
+});
+
+const normalizeDistrict = (district) => ({
+  name: district.name ?? district.neighborhood ?? 'Bairro',
+  left: district.left ?? `${district.bounds?.left ?? 4}%`,
+  top: district.top ?? `${district.bounds?.top ?? 8}%`,
+  width: district.width ?? `${district.bounds?.width ?? 18}%`,
+  height: district.height ?? `${district.bounds?.height ?? 22}%`,
+  border: district.border ?? district.color ?? '#f37d22',
+  fill: district.fill ?? `${district.color ?? '#f37d22'}1f`,
+  text: district.text ?? district.color ?? '#f37d22',
+});
+
+export default function ClimateMap({ data }) {
+  const activePins = (data?.pins?.length ? data.pins : pins).map(normalizePin);
+  const activeDistricts = (data?.districts?.length ? data.districts : data?.neighborhoods?.length ? data.neighborhoods : districts).map(normalizeDistrict);
+
   return (
-    <div id="mapa" className="relative h-[460px] w-full overflow-hidden rounded-[20px] bg-[#d4dfd6] shadow-[0_8px_32px_rgba(0,0,0,0.15)]">
+    <div id="mapa" className="relative h-[460px] w-full overflow-hidden rounded-[20px] bg-[#d4dfd6] shadow-[0_8px_32px_rgba(0,0,0,0.15)] max-md:h-[calc(100vh-120px)] max-md:rounded-none">
       <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(#f4f4f2_2px,transparent_2px),linear-gradient(90deg,#f4f4f2_2px,transparent_2px)] [background-size:67px_85px]" />
       <div className="absolute left-[56%] top-[23%] h-[177px] w-[115px] rounded-[14px] bg-[#abd3e7] text-center text-[11px] text-[#2469a3]">
         <span className="absolute left-1/2 top-[82px] -translate-x-1/2 whitespace-nowrap">Rio Tiete</span>
@@ -33,7 +58,7 @@ export default function ClimateMap() {
         <span className="absolute left-1/2 top-4 -translate-x-1/2 whitespace-nowrap">Parque Central</span>
       </div>
 
-      {districts.map((district) => (
+      {activeDistricts.map((district) => (
         <div
           key={district.name}
           className="absolute grid place-items-center rounded-md border-[1.5px] text-[10px] font-semibold"
@@ -51,7 +76,7 @@ export default function ClimateMap() {
         </div>
       ))}
 
-      {pins.map((pin) => (
+      {activePins.map((pin) => (
         <span
           className="absolute h-4 w-4 rounded-full border-2 border-white shadow-[0_3px_6px_rgba(0,0,0,0.25)]"
           key={`${pin.left}-${pin.top}`}
@@ -59,7 +84,7 @@ export default function ClimateMap() {
         />
       ))}
 
-      <aside className="absolute right-[10px] top-[9px] h-[396px] w-[184px] rounded-xl bg-white/95 p-4 shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
+      <aside className="absolute right-[10px] top-[9px] h-[396px] w-[184px] rounded-xl bg-white/95 p-4 shadow-[0_2px_10px_rgba(0,0,0,0.12)] max-md:bottom-3 max-md:left-3 max-md:right-3 max-md:top-auto max-md:h-auto max-md:w-auto">
         <h3 className="text-[11px] font-bold text-[#15191e]">Legenda do Mapa</h3>
         <div className="mt-2 h-px bg-[#e3e8ec]" />
         <p className="mt-3 text-[9px] font-semibold uppercase text-[#8b96a3]">Vulnerabilidade</p>

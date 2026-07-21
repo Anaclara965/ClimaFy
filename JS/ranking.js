@@ -179,6 +179,7 @@ function renderTable() {
     body.innerHTML = data.map((item, index) => {
         const width = Math.max(18, Math.round((item.reports / maxReports) * 100));
         const pos = index + 1;
+        const detailHref = item.name === 'BrÃ¡s' ? 'bairro-bras.html' : item.name === 'Pinheiros' ? 'bairro-pinheiros.html' : '#';
 
         return `
             <tr>
@@ -197,7 +198,7 @@ function renderTable() {
                 <td><strong class="score-pill tone-${item.tone} tone-${item.tone}-bg">${item.score}</strong></td>
                 <td><span class="badge tone-${item.tone}-bg">${item.classification}</span></td>
                 <td>${trendMarkup(item.trend)}</td>
-                <td><a class="row-action" href="bairro-bras.html">Ver bairro -></a></td>
+                <td><a class="row-action" href="${detailHref}">Ver bairro -></a></td>
             </tr>
         `;
     }).join('');
