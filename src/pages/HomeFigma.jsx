@@ -1,8 +1,10 @@
+import { useCallback, useEffect, useState } from 'react';
 import ClimateMap from '../components/ClimateMap.jsx';
 import ReportCard from '../components/ReportCardFigma.jsx';
 import WeeklyReportsChart from '../components/WeeklyReportsChart.jsx';
 import { useClimateReports } from '../hooks/useClimateReports.js';
-import { ranking, stats } from '../utils/climafyData.js';
+import { neighborhoodsAPI, rankingAPI, unwrap } from '../services/api.js';
+import { ranking as fallbackRanking, stats as fallbackStats } from '../utils/climafyData.js';
 
 const steps = [
   ['01', 'Registre o Evento', 'Clique no mapa, marque o local exato e preencha um formulario rapido com foto. Leva menos de 2 minutos.'],
@@ -18,8 +20,60 @@ const purposeCards = [
   ['04', 'Justica climatica', 'Direcionar atencao e investimento para comunidades onde o risco climatico e mais critico.'],
 ];
 
+const normalizeRankingPreview = (payload) => {
+  const items = Array.isArray(payload) ? payload : payload?.ranking ?? payload?.items ?? [];
+
+  return items.slice(0, 3).map((item, index) => ({
+    position: item.position ?? item.rank ?? index + 1,
+    neighborhood: item.neighborhood?.name ?? item.neighborhood ?? item.name ?? item.bairro ?? 'Bairro',
+    score: item.score ?? item.riskScore ?? item.reports ?? 0,
+    investment: typeof item.investment === 'string' ? item.investment : `R$ ${Math.round((item.investment ?? 0) / 1000)}K`,
+    risk: item.risk ?? item.classification ?? 'alta',
+    trend: item.trend ?? '+0',
+  }));
+};
+
 export default function HomeFigma() {
-  const { reports } = useClimateReports();
+  const { reports, loading: reportsLoading, error: reportsError, retry: retryReports } = useClimateReports();
+  const [mapData, setMapData] = useState(null);
+  const [homeStats, setHomeStats] = useState(fallbackStats);
+  const [homeRanking, setHomeRanking] = useState(fallbackRanking);
+  const [loadingHome, setLoadingHome] = useState(true);
+  const [homeError, setHomeError] = useState('');
+
+  const loadHomeData = useCallback(async () => {
+    setLoadingHome(true);
+    setHomeError('');
+
+    const [mapResult, rankingResult] = await Promise.allSettled([
+      neighborhoodsAPI.mapData(),
+      rankingAPI.list({ limit: 3 }),
+    ]);
+
+    if (mapResult.status === 'fulfilled') {
+      const data = unwrap(mapResult.value);
+      setMapData(data);
+      if (Array.isArray(data?.stats)) setHomeStats(data.stats);
+    } else {
+      setMapData(null);
+      setHomeStats(fallbackStats);
+      setHomeError('Nao foi possivel carregar o mapa do backend. Exibindo dados mockados.');
+    }
+
+    if (rankingResult.status === 'fulfilled') {
+      const nextRanking = normalizeRankingPreview(unwrap(rankingResult.value));
+      setHomeRanking(nextRanking.length ? nextRanking : fallbackRanking);
+    } else {
+      setHomeRanking(fallbackRanking);
+      setHomeError((message) => message || 'Nao foi possivel carregar o ranking do backend. Exibindo dados mockados.');
+    }
+
+    setLoadingHome(false);
+  }, []);
+
+  useEffect(() => {
+    loadHomeData();
+  }, [loadHomeData]);
 
   return (
     <div className="overflow-hidden bg-[#f8fafb]">
@@ -36,22 +90,29 @@ export default function HomeFigma() {
             Enquanto os dados oficiais olham so para a cidade como um todo, o alagamento e na sua rua. O ClimaFy transforma cada relato de morador em pressao real por investimento - rua por rua, bairro por bairro.
           </p>
           <div className="mt-[78px] flex flex-wrap gap-4">
-            <a className="grid h-14 w-[280px] place-items-center rounded-[28px] bg-[#116b38] text-[15px] font-semibold text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)]" href="#relatar">
+            <a className="grid h-14 w-[280px] place-items-center rounded-[28px] bg-[#116b38] text-[15px] font-semibold text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)]" href="/novo-relato">
               Relatar um problema agora
             </a>
-            <a className="grid h-14 w-[230px] place-items-center rounded-[28px] border-[1.5px] border-[#8b96a3] bg-white text-[15px] font-semibold text-[#15191e]" href="#ranking">
+            <a className="grid h-14 w-[230px] place-items-center rounded-[28px] border-[1.5px] border-[#8b96a3] bg-white text-[15px] font-semibold text-[#15191e]" href="/ranking">
               Ver bairros esquecidos
             </a>
           </div>
         </div>
-        <div className="mt-10 lg:absolute lg:left-[662px] lg:top-[80px] lg:mt-0 lg:w-[698px]">
-          <ClimateMap />
+        <div className="mt-10 lg:absolute lg:left-[662px] lg:top-[80px] lg:mt-0 lg:w-[698px] max-md:-mx-5">
+          {loadingHome ? <SkeletonBlock className="h-[460px] max-md:h-[calc(100vh-120px)]" /> : <ClimateMap data={mapData} />}
         </div>
       </section>
 
+      {(homeError || reportsError) ? (
+        <section className="mx-auto my-4 flex max-w-[1296px] flex-wrap items-center justify-between gap-3 rounded-lg border border-[#f4b60d]/40 bg-[#fff6d6] px-5 py-3 text-[12px] font-semibold text-[#725600]" aria-live="polite">
+          <span>{homeError || reportsError}</span>
+          <button className="rounded-md bg-[#15191e] px-3 py-2 text-white" onClick={() => { loadHomeData(); retryReports(); }} type="button">Tentar novamente</button>
+        </section>
+      ) : null}
+
       <section className="bg-[#15191e]">
         <div className="mx-auto grid h-auto max-w-[1440px] grid-cols-2 px-[72px] py-6 sm:grid-cols-3 lg:h-[148px] lg:grid-cols-5 lg:py-0 max-md:px-5">
-          {stats.map((stat) => (
+          {homeStats.map((stat) => (
             <div className="flex flex-col items-center justify-center border-[#262d36] px-4 text-center lg:border-r last:border-r-0" key={stat.label}>
               <strong className="text-[28px] font-extrabold leading-[34px] text-[#1a9651]">{stat.value}</strong>
               <span className="mt-1 text-[12px] font-semibold leading-[15px] text-white">{stat.label}</span>
@@ -82,12 +143,12 @@ export default function HomeFigma() {
             <p className="inline-flex h-[26px] items-center rounded-[13px] bg-[#e0f5e9] px-3 text-[10px] font-semibold uppercase text-[#1a9651]">Ranking de vulnerabilidade</p>
             <h2 className="mt-4 text-[30px] font-bold leading-[36px] text-[#15191e]">Os bairros que mais precisam de atencao</h2>
             <p className="mt-4 text-[13px] leading-[16px] text-[#8b96a3]">Relatos da comunidade cruzados com dados publicos de investimento geram um score de risco por bairro.</p>
-            <a className="mt-[58px] inline-grid h-10 w-[196px] place-items-center rounded-lg bg-[#1a9651] text-[13px] font-semibold text-white" href="#ranking">
+            <a className="mt-[58px] inline-grid h-10 w-[196px] place-items-center rounded-lg bg-[#1a9651] text-[13px] font-semibold text-white" href="/ranking">
               Ver ranking completo +
             </a>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
-            {ranking.map((item) => (
+            {homeRanking.map((item) => (
               <article className="h-[382px] rounded-[14px] border border-[#e3e8ec] bg-[#f8fafb] p-[15px] shadow-[0_2px_10px_rgba(0,0,0,0.08)]" key={item.neighborhood}>
                 <div className="flex items-center justify-between">
                   <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#15191e] text-[12px] font-bold text-white">#{item.position}</span>
@@ -109,7 +170,7 @@ export default function HomeFigma() {
                   </div>
                 </div>
                 <p className="mt-8 text-[10px] text-[#8b96a3]">Tendencia esta semana <span className="font-semibold text-[#d62727]">{item.trend}</span></p>
-                <a className="mt-[21px] grid h-10 w-full place-items-center rounded-lg border border-[#1a9651] bg-white text-[12px] font-semibold text-[#1a9651]" href="#mapa">
+                <a className="mt-[21px] grid h-10 w-full place-items-center rounded-lg border border-[#1a9651] bg-white text-[12px] font-semibold text-[#1a9651]" href={item.neighborhood === 'Bras' ? '/bairro/bras' : item.neighborhood === 'Pinheiros' ? '/bairro/pinheiros' : '#mapa'}>
                   Ver detalhes do bairro +
                 </a>
               </article>
@@ -124,10 +185,12 @@ export default function HomeFigma() {
             <p className="inline-flex h-[26px] items-center rounded-[13px] bg-[#e0f5e9] px-3 text-[10px] font-semibold uppercase text-[#1a9651]">Ultimos relatos</p>
             <h2 className="mt-4 text-[30px] font-bold leading-[36px] text-[#15191e]">Registrados agora pela comunidade</h2>
           </div>
-          <a className="grid h-10 w-[196px] place-items-center rounded-lg border border-[#1a9651] text-[13px] font-semibold text-[#1a9651]" href="#relatos">Ver todos os relatos +</a>
+          <a className="grid h-10 w-[196px] place-items-center rounded-lg border border-[#1a9651] text-[13px] font-semibold text-[#1a9651]" href="/relatos">Ver todos os relatos +</a>
         </div>
         <div className="mt-[34px] grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {reports.map((report) => (
+          {reportsLoading ? Array.from({ length: 4 }).map((_, index) => (
+            <SkeletonBlock className="h-[204px]" key={index} />
+          )) : reports.map((report) => (
             <ReportCard key={report.title} report={report} />
           ))}
         </div>
@@ -166,7 +229,7 @@ export default function HomeFigma() {
         <h2 className="relative text-[32px] font-bold leading-10">Viu algo errado na sua cidade?</h2>
         <p className="relative mt-3 text-[14px] leading-[17px] text-[#c7ead1]">Seu relato pode mudar a realidade do seu bairro. Registre agora - e gratuito e leva 2 minutos.</p>
         <div className="relative mt-5 flex flex-wrap justify-center gap-5">
-          <a className="grid h-12 w-56 place-items-center rounded-xl border-2 border-[#63a93a] bg-[#1a9651] text-[14px] font-semibold text-white" href="#relatar">
+          <a className="grid h-12 w-56 place-items-center rounded-xl border-2 border-[#63a93a] bg-[#1a9651] text-[14px] font-semibold text-white" href="/novo-relato">
             + Registrar um Evento
           </a>
           <a className="grid h-12 w-56 place-items-center rounded-xl bg-white text-[14px] font-semibold text-[#116b38]" href="#mapa">
@@ -183,13 +246,17 @@ export default function HomeFigma() {
           </div>
           <nav className="flex flex-wrap gap-[54px]">
             <a href="#mapa">Inicio</a>
-            <a href="#ranking">Ranking</a>
-            <a href="#relatos">Relatos</a>
-            <a href="#sobre">Sobre</a>
+            <a href="/ranking">Ranking</a>
+            <a href="/relatos">Relatos</a>
+            <a href="/sobre">Sobre</a>
           </nav>
           <span className="text-[11px] text-[#48525f]">(c) ClimaFy 2026</span>
         </div>
       </footer>
     </div>
   );
+}
+
+function SkeletonBlock({ className = '' }) {
+  return <div className={`animate-pulse rounded-[14px] bg-[#e3e8ec] ${className}`} aria-label="Carregando" />;
 }

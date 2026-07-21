@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Brás</title>
+    <link rel="stylesheet" href="../CSS/bairro.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="home-interativo.html" aria-label="Voltar para o inicio">
+            <i class="ph-fill ph-plant" aria-hidden="true"></i>
+            <span>ClimaFy</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegacao principal">
+            <a href="home-interativo.html">Inicio</a>
+            <a class="active" href="ranking.html">Ranking</a>
+            <a href="relatos.html">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <menu class="header-actions">
+            <li><a href="login.html">Entrar</a></li>
+            <li><a class="report-link" href="new-report.html">+ Relatar</a></li>
+        </menu>
+    </header>
+
+    <main>
+        <section class="neighborhood-hero" aria-labelledby="bairro-title">
+            <div class="hero-copy">
+                <a class="back-link" href="ranking.html">&larr; Voltar ao Ranking</a>
+                <p class="hero-meta"><span>CRÍTICA</span> Posicao #1 no Ranking</p>
+                <h1 id="bairro-title">Brás</h1>
+                <p>São Paulo, SP · Zona Leste</p>
+            </div>
+            <aside class="score-circle" aria-label="Score de vulnerabilidade">
+                <strong>91</strong>
+                <span>/ 100</span>
+                <small>Score de Vulnerabilidade</small>
+            </aside>
+        </section>
+
+        <section class="kpi-strip" aria-label="Indicadores do bairro">
+            <dl>
+                <div><dt>Relatos Abertos</dt><dd class="red">147</dd><small>↑ 12 esta semana</small></div>
+                <div><dt>Investimento</dt><dd class="orange">R$ 124K</dd><small>↓ -43% vs meta</small></div>
+                <div><dt>Score</dt><dd class="red">91</dd><small>Mais alto da cidade</small></div>
+                <div><dt>Resolvidos</dt><dd class="orange">22</dd><small>Nos ultimos 30 dias</small></div>
+                <div><dt>Dias desde ultimo</dt><dd class="blue">2</dd><small>Relato novo hoje</small></div>
+                <div><dt>Tendência</dt><dd class="hot">+12%</dd><small>Risco subindo</small></div>
+            </dl>
+        </section>
+
+        <section class="content-grid" aria-label="Analises do bairro">
+            <div class="main-column">
+                <article class="panel" aria-labelledby="category-title">
+                    <header>
+                        <h2 id="category-title">Relatos por Categoria</h2>
+                        <p>Distribuição dos eventos registrados no bairro</p>
+                    </header>
+                    <div class="category-chart" id="category-chart"></div>
+                </article>
+
+                <article class="panel monthly-panel" aria-labelledby="history-title">
+                    <header class="chart-header">
+                        <div>
+                            <h2 id="history-title">Histórico - Relatos x Investimento Mensal</h2>
+                            <p>Últimos 12 meses · 2024-2025</p>
+                        </div>
+                        <ul class="chart-legend">
+                            <li><i class="red-key"></i>Relatos</li>
+                            <li><i class="blue-key"></i>Investimento</li>
+                        </ul>
+                    </header>
+                    <figure>
+                        <svg id="monthly-chart" viewBox="0 0 820 250" role="img" aria-label="Grafico mensal de relatos e investimento"></svg>
+                    </figure>
+                </article>
+
+                <article class="panel investment-panel" aria-labelledby="deficit-title">
+                    <header>
+                        <h2 id="deficit-title">Déficit de Investimento - Brás vs. Meta Municipal</h2>
+                        <p>Valor investido vs. estimativa necessaria para infraestrutura</p>
+                    </header>
+                    <div class="deficit-chart" id="deficit-chart"></div>
+                    <ul class="chart-legend bottom">
+                        <li><i class="green-key"></i>Investido</li>
+                        <li><i class="need-key"></i>Meta necessária</li>
+                    </ul>
+                </article>
+            </div>
+
+            <aside class="side-column" aria-label="Contexto lateral">
+                <article class="panel map-panel" aria-labelledby="map-title">
+                    <h2 id="map-title">Localização do Bairro</h2>
+                    <figure class="mini-map">
+                        <svg viewBox="0 0 360 210" role="img" aria-label="Mapa esquematico do Brás">
+                            <rect width="360" height="210" rx="8" fill="#d8e5db"></rect>
+                            <path d="M0 55H360M0 105H360M0 155H360M42 0V210M98 0V210M154 0V210M210 0V210M266 0V210M322 0V210" stroke="#f7fbf8" stroke-width="3"></path>
+                            <polygon points="142,72 241,62 254,145 128,154" fill="#d8e9f5"></polygon>
+                            <rect x="30" y="32" width="300" height="145" rx="4" fill="rgba(214,39,39,.08)" stroke="#d62727" stroke-width="3"></rect>
+                            <circle cx="167" cy="96" r="17" fill="#d62727"></circle>
+                            <text x="167" y="101" text-anchor="middle" fill="#fff" font-size="16">●</text>
+                            <text x="167" y="129" text-anchor="middle" fill="#d62727" font-size="13" font-weight="700">Brás</text>
+                        </svg>
+                        <figcaption>-23.5499°, -46.6169° · São Paulo</figcaption>
+                    </figure>
+                </article>
+
+                <article class="panel score-breakdown" aria-labelledby="breakdown-title">
+                    <header>
+                        <h2 id="breakdown-title">Composição da Pontuação</h2>
+                        <p>Como o índice 91/100 foi calculado</p>
+                    </header>
+                    <div id="score-breakdown"></div>
+                </article>
+
+                <article class="panel timeline-panel" aria-labelledby="timeline-title">
+                    <header class="timeline-header">
+                        <h2 id="timeline-title">Últimos Relatos no Bairro</h2>
+                        <a href="relatos.html">Ver todos &rarr;</a>
+                    </header>
+                    <ol class="timeline" id="timeline"></ol>
+                </article>
+            </aside>
+        </section>
+
+        <section class="related-section" aria-labelledby="related-title">
+            <h2 id="related-title">Bairros Próximos - Compare a Vulnerabilidade</h2>
+            <div class="related-grid" id="related-grid"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <section>
+            <h2>ClimaFy</h2>
+            <p>Plataforma de Monitoramento Climático Comunitário</p>
+        </section>
+        <nav aria-label="Navegacao do rodape">
+            <a href="home-interativo.html">Início</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="relatos.html">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <p>&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="../JS/bairro.js"></script>
+</body>
+</html>

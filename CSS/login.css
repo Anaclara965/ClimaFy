@@ -411,3 +411,44 @@ fieldset { border: none; }
     .hero-section, .login-section { padding: 3rem 2rem; }
     .main-header, .main-footer { padding: 1rem 2rem; flex-direction: column; gap: 1rem; }
 }
+
+@media (max-width: 768px) {
+    .main-header {
+        align-items: stretch;
+    }
+
+    .main-nav,
+    .auth-actions,
+    .footer-nav {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .content-wrapper {
+        display: block;
+    }
+
+    .hero-section,
+    .login-section {
+        width: 100%;
+        padding: 2rem 1.25rem;
+    }
+
+    .feature-list {
+        margin-bottom: 2rem;
+    }
+
+    .stats-section {
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .login-container {
+        max-width: none;
+    }
+
+    .main-footer {
+        text-align: center;
+    }
+}

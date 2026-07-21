@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Dashboard Admin</title>
+    <link rel="stylesheet" href="../CSS/admin-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-shell">
+        <aside class="sidebar" aria-label="Menu administrativo">
+            <header class="sidebar-brand">
+                <span class="brand-mark" aria-hidden="true">🌿</span>
+                <strong>ClimaFy</strong>
+                <span class="admin-badge">ADMIN</span>
+            </header>
+
+            <nav class="sidebar-nav" aria-label="Navegação do painel">
+                <a class="active" href="admin-dashboard.html">
+                    <img src="https://www.figma.com/api/mcp/asset/2849affa-b94a-4be5-9120-6e997901841f" alt="" aria-hidden="true">
+                    <span>Dashboard</span>
+                </a>
+                <a href="admin-moderacao.html">
+                    <img src="https://www.figma.com/api/mcp/asset/cf78a45b-6605-4703-99d3-d992699a5ff5" alt="" aria-hidden="true">
+                    <span>Moderação</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/1aa09a24-5b72-414d-b0bc-2a263d8a95fa" alt="" aria-hidden="true">
+                    <span>Todos os Relatos</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/791be82d-89a1-4999-8341-ebc8a33afca5" alt="" aria-hidden="true">
+                    <span>Usuários</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/019a329e-b879-4387-9d55-d3040fff5c3a" alt="" aria-hidden="true">
+                    <span>Investimentos</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/eda79420-29c0-490b-9473-81abd6dc4fa7" alt="" aria-hidden="true">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <footer class="sidebar-user">
+                <img src="https://www.figma.com/api/mcp/asset/5c8535df-55c3-4d3d-becc-54faec3a5567" alt="" aria-hidden="true">
+                <strong>Administrador</strong>
+                <span>admin@climafy.br</span>
+                <a href="login.html">← Sair do painel</a>
+            </footer>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <section>
+                    <h1>Dashboard</h1>
+                    <p>Visão geral do sistema em tempo real</p>
+                </section>
+                <menu class="header-actions" aria-label="Ações administrativas">
+                    <li>
+                        <button class="icon-button" type="button" aria-label="Notificações">
+                            <img src="https://www.figma.com/api/mcp/asset/15d9556b-5681-4fa3-bbcc-23fbc7474591" alt="" aria-hidden="true">
+                            <span>3</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="avatar-button" type="button" aria-label="Perfil administrador">
+                            <img src="https://www.figma.com/api/mcp/asset/c73d5c4d-e192-4369-8f01-51d7aa1adc89" alt="" aria-hidden="true">
+                        </button>
+                    </li>
+                </menu>
+            </header>
+
+            <section class="dashboard-content" aria-label="Resumo administrativo">
+                <section class="kpi-grid" id="kpi-grid" aria-label="Indicadores do sistema"></section>
+
+                <section class="top-grid">
+                    <article class="panel moderation-panel" aria-labelledby="moderation-title">
+                        <header class="panel-header">
+                            <div class="title-row">
+                                <h2 id="moderation-title">Fila de Moderação</h2>
+                                <span class="pending-chip">47 pendentes</span>
+                            </div>
+                            <a class="see-all" href="#">Ver todos →</a>
+                        </header>
+                        <div class="table-wrap">
+                            <table class="moderation-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Título</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Bairro</th>
+                                        <th scope="col">Enviado</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="moderation-body"></tbody>
+                            </table>
+                        </div>
+                    </article>
+
+                    <aside class="panel activity-panel" aria-labelledby="activity-title">
+                        <h2 id="activity-title">Atividade Recente</h2>
+                        <ol id="activity-list" class="activity-list"></ol>
+                    </aside>
+                </section>
+
+                <section class="bottom-grid">
+                    <article class="panel reports-chart" aria-labelledby="daily-title">
+                        <header>
+                            <h2 id="daily-title">Relatos por Dia — Últimos 14 dias</h2>
+                            <p>Total: 847 relatos no período</p>
+                        </header>
+                        <figure class="bar-chart">
+                            <ol id="daily-chart"></ol>
+                        </figure>
+                    </article>
+
+                    <article class="panel category-panel" aria-labelledby="category-title">
+                        <h2 id="category-title">Distribuição por Categoria</h2>
+                        <dl id="category-bars" class="category-bars"></dl>
+                    </article>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="../JS/admin-dashboard.js"></script>
+</body>
+</html>

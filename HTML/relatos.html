@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Relatos da Comunidade</title>
+    <link rel="stylesheet" href="../CSS/relatos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="home-interativo.html" aria-label="Voltar para o inicio">
+            <i class="ph-fill ph-plant" aria-hidden="true"></i>
+            <span>ClimaFy</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegacao principal">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="ranking.html">Ranking</a>
+            <a class="active" href="relatos.html" aria-current="page">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <menu class="header-actions">
+            <li><a class="login-link" href="login.html">Entrar</a></li>
+            <li><a class="report-link" href="new-report.html">+ Relatar</a></li>
+        </menu>
+    </header>
+
+    <main>
+        <section class="reports-hero" aria-labelledby="reports-title">
+            <article>
+                <h1 id="reports-title">Relatos da Comunidade</h1>
+                <p>Acompanhe eventos climaticos e ambientais registrados por cidadaos.</p>
+            </article>
+            <dl class="hero-metrics" aria-label="Resumo dos relatos">
+                <div>
+                    <dt>Total</dt>
+                    <dd>1.247</dd>
+                </div>
+                <div>
+                    <dt>Resolvidos</dt>
+                    <dd>312</dd>
+                </div>
+                <div>
+                    <dt>Bairros</dt>
+                    <dd>48</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="filter-bar" aria-label="Filtros de relatos">
+            <form class="filter-form">
+                <fieldset class="status-tabs">
+                    <legend>Filtrar:</legend>
+                    <button class="tab active" type="button" data-status="Todos" aria-pressed="true">Todos</button>
+                    <button class="tab" type="button" data-status="Aberto" aria-pressed="false">Aberto</button>
+                    <button class="tab" type="button" data-status="Em andamento" aria-pressed="false">Em Andamento</button>
+                    <button class="tab" type="button" data-status="Resolvido" aria-pressed="false">Resolvido</button>
+                </fieldset>
+
+                <label>
+                    <span class="sr-only">Categoria</span>
+                    <select id="category-filter">
+                        <option value="Todas">Categoria</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span class="sr-only">Bairro</span>
+                    <select id="neighborhood-filter">
+                        <option value="Todos">Bairro</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span class="sr-only">Periodo</span>
+                    <select id="period-filter">
+                        <option>Periodo</option>
+                        <option>24 horas</option>
+                        <option>7 dias</option>
+                        <option>30 dias</option>
+                    </select>
+                </label>
+
+                <label class="search-field">
+                    <span class="sr-only">Buscar relato</span>
+                    <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                    <input id="report-search" type="search" placeholder="Buscar...">
+                </label>
+            </form>
+        </section>
+
+        <section class="results-toolbar" aria-label="Resultado e ordenacao">
+            <p id="results-count">1.247 relatos encontrados</p>
+            <label>
+                <span class="sr-only">Ordenar relatos</span>
+                <select id="sort-filter">
+                    <option value="recent">Mais recentes</option>
+                    <option value="votes">Mais votados</option>
+                    <option value="oldest">Mais antigos</option>
+                </select>
+            </label>
+        </section>
+
+        <section class="cards-section" aria-labelledby="cards-title">
+            <h2 class="sr-only" id="cards-title">Lista de relatos</h2>
+            <div class="reports-grid" id="reports-grid"></div>
+            <nav class="pagination" aria-label="Paginacao dos relatos">
+                <a href="#" aria-label="Pagina anterior">&larr;</a>
+                <a class="active" href="#" aria-current="page">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">12</a>
+                <a href="#" aria-label="Proxima pagina">&rarr;</a>
+            </nav>
+        </section>
+
+        <section class="dark-stats" aria-label="Indicadores de impacto">
+            <dl>
+                <div><dt>Relatos Ativos</dt><dd>1.247</dd><small>Em aberto agora</small></div>
+                <div><dt>Resolvidos no mes</dt><dd>312</dd><small>+21% este mes</small></div>
+                <div><dt>Em Andamento</dt><dd>89</dd><small>Sob verificacao</small></div>
+                <div><dt>Tempo medio</dt><dd>4h</dd><small>Primeira resposta</small></div>
+                <div><dt>Taxa de aprovacao</dt><dd>98%</dd><small>Validacao comunitaria</small></div>
+            </dl>
+        </section>
+
+        <section class="featured-section" aria-labelledby="featured-title">
+            <article class="section-copy">
+                <p class="section-pill">Relatos em destaque</p>
+                <h2 id="featured-title">Os casos mais votados pela comunidade</h2>
+                <p>Relatos com maior engajamento e impacto social na cidade.</p>
+                <a class="outline-action" href="new-report.html">Ver todos os relatos</a>
+            </article>
+            <div class="featured-grid" id="featured-grid"></div>
+        </section>
+
+        <section class="distribution-section" aria-labelledby="distribution-title">
+            <article class="section-copy">
+                <p class="section-pill">Analise de categorias</p>
+                <h2 id="distribution-title">O que a comunidade mais reporta?</h2>
+                <p>Entenda quais tipos de eventos aparecem com mais frequencia nos relatos recentes.</p>
+            </article>
+            <div class="category-bars" id="category-bars"></div>
+        </section>
+
+        <section class="voices-section" aria-labelledby="voices-title">
+            <header>
+                <p class="section-pill">Vozes da comunidade</p>
+                <h2 id="voices-title">O que dizem quem ja relatou</h2>
+            </header>
+            <div class="voice-grid">
+                <blockquote>
+                    <p>Recebi a ligacao da equipe no mesmo dia. Nosso alagamento finalmente entrou no mapa.</p>
+                    <footer><strong>FM</strong> Felipe M.</footer>
+                </blockquote>
+                <blockquote>
+                    <p>Validaram as fotos do entulho com cuidado. A rua ganhou pressao para limpeza.</p>
+                    <footer><strong>KG</strong> Kayque G.</footer>
+                </blockquote>
+                <blockquote>
+                    <p>Em 3 minutos registrei a arvore caida na minha quadra. No mesmo dia virou alerta publico.</p>
+                    <footer><strong>AA</strong> Arthur A.</footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="neighborhood-section" aria-labelledby="neighborhood-title">
+            <article class="section-copy">
+                <p class="section-pill">Concentracao por bairro</p>
+                <h2 id="neighborhood-title">Onde os problemas estao se acumulando</h2>
+                <p>Veja os bairros com maior volume de relatos abertos no momento.</p>
+                <a class="outline-action" href="ranking.html">Ver ranking completo</a>
+            </article>
+            <ol class="neighborhood-ranking" id="neighborhood-ranking"></ol>
+        </section>
+
+        <section class="validation-section" aria-labelledby="validation-title">
+            <header class="section-copy">
+                <p class="section-pill">Moderacao e qualidade</p>
+                <h2 id="validation-title">Cada relato e verificado antes de ir ao mapa</h2>
+                <p>Garantimos que apenas informacoes veridicas e relevantes sejam publicadas.</p>
+            </header>
+            <ol class="validation-steps">
+                <li><span>01</span><h3>Envio pelo Cidadao</h3><p>Formulario com localizacao, categoria, descricao e foto.</p></li>
+                <li><span>02</span><h3>Analise da Equipe</h3><p>Moderadores verificam veracidade e categorizacao em ate 24 horas.</p></li>
+                <li><span>03</span><h3>Publicacao no Mapa</h3><p>O relato aprovado aparece no mapa publico e alimenta o score.</p></li>
+                <li><span>04</span><h3>Acompanhamento</h3><p>Status atualizado ate a resolucao pela equipe ou autoridades.</p></li>
+            </ol>
+        </section>
+
+        <section class="reports-cta" aria-labelledby="cta-title">
+            <h2 id="cta-title">Testemunhou um problema ambiental ou climatico?</h2>
+            <p>Registre em menos de 2 minutos. Seu relato ajuda a pressionar por solucao.</p>
+            <menu>
+                <li><a class="cta-primary" href="new-report.html">+ Registrar um Relato</a></li>
+                <li><a class="cta-secondary" href="home-interativo.html#mapa">Ver o Mapa Interativo -></a></li>
+            </menu>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <section>
+            <h2>ClimaFy</h2>
+            <p>Plataforma de Monitoramento Climatico Comunitario</p>
+        </section>
+        <nav aria-label="Navegacao do rodape">
+            <a href="home-interativo.html">Inicio</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="relatos.html">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <p>&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="../JS/relatos.js"></script>
+</body>
+</html>

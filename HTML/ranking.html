@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Ranking de Bairros</title>
+    <link rel="stylesheet" href="../CSS/ranking.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="home-interativo.html" aria-label="Voltar para a pagina inicial do ClimaFy">
+            <i class="ph-fill ph-plant" aria-hidden="true"></i>
+            <span>ClimaFy</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegacao principal">
+            <a href="home-interativo.html">Início</a>
+            <a class="active" href="ranking.html" aria-current="page">Ranking</a>
+            <a href="relatos.html">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+
+        <menu class="header-actions">
+            <li><a class="login-link" href="login.html">Entrar</a></li>
+            <li><a class="report-link" href="new-report.html">+ Relatar</a></li>
+        </menu>
+    </header>
+
+    <main>
+        <section class="ranking-hero" aria-labelledby="ranking-title">
+            <div class="hero-copy">
+                <h1 id="ranking-title">Ranking de Vulnerabilidade Urbana</h1>
+                <p>Bairros ordenados por nivel de risco climático cruzado com investimento público declarado.</p>
+            </div>
+
+            <dl class="hero-metrics" aria-label="Resumo do ranking">
+                <div>
+                    <dt>Bairros monitorados</dt>
+                    <dd>8</dd>
+                </div>
+                <div>
+                    <dt>Relatos no mês</dt>
+                    <dd>1.247</dd>
+                </div>
+                <div>
+                    <dt>Investimento cruzado</dt>
+                    <dd>R$ 2,4M</dd>
+                </div>
+                <div>
+                    <dt>Cidades</dt>
+                    <dd>12</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="ranking-controls" aria-label="Controles do ranking">
+            <form class="controls-form">
+                <fieldset class="control-group">
+                    <legend>Ordenar por:</legend>
+                    <button class="chip active" type="button" data-sort="vulnerability" aria-pressed="true">Mais Vulneráveis</button>
+                    <button class="chip" type="button" data-sort="investment" aria-pressed="false">Menos Investidos</button>
+                </fieldset>
+
+                <fieldset class="control-group period-group">
+                    <legend>Período:</legend>
+                    <button class="period" type="button">7 dias</button>
+                    <button class="period" type="button">30 dias</button>
+                    <button class="period" type="button">90 dias</button>
+                    <button class="period active" type="button" aria-pressed="true">Este ano</button>
+                </fieldset>
+
+                <label class="search-field">
+                    <span class="sr-only">Buscar bairro</span>
+                    <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                    <input type="search" id="ranking-search" placeholder="Buscar bairro...">
+                </label>
+            </form>
+        </section>
+
+        <section class="ranking-table-section" aria-labelledby="table-title">
+            <header class="section-heading visually-hidden-heading">
+                <h2 id="table-title">Tabela do ranking</h2>
+            </header>
+
+            <div class="table-wrap">
+                <table class="ranking-table">
+                    <caption>Ranking dos bairros por vulnerabilidade urbana</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Bairro</th>
+                            <th scope="col">Relatos Abertos</th>
+                            <th scope="col">Investimento (R$)</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Classificação</th>
+                            <th scope="col">Tendência</th>
+                            <th scope="col">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="chart-card" aria-labelledby="chart-title">
+            <header>
+                <h2 id="chart-title">Score de Vulnerabilidade - Top 8 Bairros</h2>
+                <p>Comparativo entre score calculado e investimento declarado</p>
+            </header>
+            <figure>
+                <svg id="ranking-chart" viewBox="0 0 980 300" role="img" aria-labelledby="chart-title chart-desc"></svg>
+                <ul class="chart-legend" aria-label="Legenda do grafico">
+                    <li><i class="score-key" aria-hidden="true"></i>Score de Vulnerabilidade</li>
+                    <li><i class="investment-key" aria-hidden="true"></i>Investimento relativo</li>
+                </ul>
+                <figcaption id="chart-desc">Barras agrupadas com score de vulnerabilidade e investimento relativo para os oito bairros.</figcaption>
+            </figure>
+        </section>
+
+        <section class="method-section" aria-labelledby="method-title">
+            <article class="method-intro">
+                <p class="section-pill">Metodologia</p>
+                <h2 id="method-title">Como calculamos o score de vulnerabilidade</h2>
+                <p>O índice combina quantidade de relatos, investimento público declarado e concentração por categoria para revelar bairros com maior urgência.</p>
+                <strong>Score = Relatos x 0,5 + Déficit de Investimento x 0,4 + Conflito x 0,1</strong>
+            </article>
+
+            <ol class="factor-list">
+                <li class="factor-card">
+                    <i class="ph ph-warning-circle" aria-hidden="true"></i>
+                    <h3>Relatos em Aberto</h3>
+                    <p>Peso: 50%</p>
+                    <small>Considera ocorrências aprovadas pela comunidade e ainda sem resolução.</small>
+                </li>
+                <li class="factor-card">
+                    <i class="ph ph-coins" aria-hidden="true"></i>
+                    <h3>Déficit de Investimento</h3>
+                    <p>Peso: 40%</p>
+                    <small>Compara demanda climática local com verbas declaradas em portais públicos.</small>
+                </li>
+                <li class="factor-card">
+                    <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+                    <h3>Atualização Contínua</h3>
+                    <p>Peso: 10%</p>
+                    <small>Recalculo diário com novas validações e cruzamentos de dados.</small>
+                </li>
+            </ol>
+        </section>
+
+        <section class="investment-section" aria-labelledby="investment-title">
+            <article class="investment-copy">
+                <p class="section-pill">Análise territorial</p>
+                <h2 id="investment-title">Investimento declarado vs. relatos registrados por zona</h2>
+                <p>Visualize onde o dinheiro público cruza, ou deixa de cruzar, os principais pontos de vulnerabilidade.</p>
+
+                <ul class="zone-list" id="zone-list" aria-label="Resumo por zona"></ul>
+            </article>
+
+            <figure class="heat-map" aria-label="Mapa de calor de investimento em Sao Paulo">
+                <div class="zone zone-center">Centro<br><strong>91</strong></div>
+                <div class="zone zone-north">Zona Norte<br><strong>68</strong></div>
+                <div class="zone zone-west">Zona Oeste<br><strong>29</strong></div>
+                <div class="zone zone-east">Zona Leste<br><strong>83</strong></div>
+                <div class="zone zone-south">Zona Sul<br><strong>48</strong></div>
+                <div class="zone zone-southeast">Sudeste<br><strong>73</strong></div>
+                <figcaption class="heat-legend">
+                    <span><i class="legend-dot low"></i>Baixo</span>
+                    <span><i class="legend-dot medium"></i> Médio</span>
+                    <span><i class="legend-dot high"></i>Alto</span>
+                    <span><i class="legend-dot critical"></i>Crítico</span>
+                </figcaption>
+            </figure>
+        </section>
+
+        <section class="history-section" aria-labelledby="history-title">
+            <article class="history-copy">
+                <p class="section-pill">Evolução mensal</p>
+                <h2 id="history-title">Como o ranking mudou nos últimos 6 meses</h2>
+                <p>Acompanhe a mudança de classificação e score dos bairros mais sensíveis.</p>
+            </article>
+
+            <div class="history-table-wrap">
+                <table class="history-table">
+                    <caption>Histórico mensal de scores por bairro</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Bairro</th>
+                            <th scope="col">Jan</th>
+                            <th scope="col">Fev</th>
+                            <th scope="col">Mar</th>
+                            <th scope="col">Abr</th>
+                            <th scope="col">Mai</th>
+                            <th scope="col">Jun</th>
+                            <th scope="col">Jul</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="category-section" aria-labelledby="category-title">
+            <header class="category-copy">
+                <p class="section-pill">Detalhamento por categoria</p>
+                <h2 id="category-title">Qual tipo de problema predomina em cada bairro vulnerável?</h2>
+                <p>Entenda a composição dos relatos em cada bairro para direcionar ações mais assertivas.</p>
+            </header>
+
+            <div class="category-grid" id="category-grid"></div>
+        </section>
+
+        <section class="data-section" aria-labelledby="data-title">
+            <h2 id="data-title">Dados abertos, metodologia pública, impacto real</h2>
+            <p>Os scores são calculados com base em relatos aprovados pela comunidade e dados oficiais de portais de transparência.</p>
+            <ul class="source-list">
+                <li><i class="ph ph-bank" aria-hidden="true"></i>Portal da Transparência Federal</li>
+                <li><i class="ph ph-map-trifold" aria-hidden="true"></i>Dados georreferenciados OpenStreetMap</li>
+                <li><i class="ph ph-users-three" aria-hidden="true"></i>Relatos verificados pela comunidade</li>
+                <li><i class="ph ph-calendar-check" aria-hidden="true"></i>Atualizado diariamente as 00:00</li>
+            </ul>
+        </section>
+
+        <section class="ranking-cta" aria-labelledby="cta-title">
+            <h2 id="cta-title">Quer ver seu bairro no ranking?</h2>
+            <p>Registre problemas, acompanhe investimentos e pressione por melhorias na sua região.</p>
+            <menu>
+                <li><a class="cta-primary" href="new-report.html">+ Registrar um Relato</a></li>
+                <li><a class="cta-secondary" href="home-interativo.html#mapa">Ver o Mapa Interativo -></a></li>
+            </menu>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <section>
+            <h2>ClimaFy</h2>
+            <p>Plataforma de Monitoramento Climático Comunitário</p>
+        </section>
+        <nav aria-label="Navegacao do rodape">
+            <a href="home-interativo.html">Início</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="relatos.html">Relatos</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+        <p>&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="../JS/ranking.js"></script>
+</body>
+</html>

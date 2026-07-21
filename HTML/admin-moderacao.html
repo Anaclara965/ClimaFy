@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaFy - Moderação</title>
+    <link rel="stylesheet" href="../CSS/admin-moderacao.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-shell moderation-shell">
+        <aside class="sidebar" aria-label="Menu administrativo">
+            <header class="sidebar-brand">
+                <span class="brand-mark" aria-hidden="true">🌿</span>
+                <strong>ClimaFy</strong>
+                <span class="admin-badge">ADMIN</span>
+            </header>
+
+            <nav class="sidebar-nav" aria-label="Navegação do painel">
+                <a href="admin-dashboard.html">
+                    <img src="https://www.figma.com/api/mcp/asset/bfbea7c7-3b5f-496b-9fd6-a909afe6bf5b" alt="" aria-hidden="true">
+                    <span>Dashboard</span>
+                </a>
+                <a class="active" href="admin-moderacao.html">
+                    <img src="https://www.figma.com/api/mcp/asset/26da52fd-9535-43b8-9277-04bbe4332554" alt="" aria-hidden="true">
+                    <span>Moderação</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/90bec432-b9ca-45cc-9d67-61548a8d7cab" alt="" aria-hidden="true">
+                    <span>Todos os Relatos</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/6129e68b-5c14-49e0-8e53-2aea7b364702" alt="" aria-hidden="true">
+                    <span>Usuários</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/a37ef261-f696-4ce7-92ca-083810de945d" alt="" aria-hidden="true">
+                    <span>Investimentos</span>
+                </a>
+                <a href="#">
+                    <img src="https://www.figma.com/api/mcp/asset/395e3ff7-efec-4ae7-90be-44a249f6e753" alt="" aria-hidden="true">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <footer class="sidebar-user">
+                <img src="https://www.figma.com/api/mcp/asset/fea6c806-b7e3-4df2-9706-0cc9b0e731c4" alt="" aria-hidden="true">
+                <strong>Administrador</strong>
+                <span>admin@climafy.br</span>
+                <a href="login.html">← Sair do painel</a>
+            </footer>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <section>
+                    <h1>Fila de Moderação</h1>
+                    <p>Revise e publique os relatos enviados pela comunidade</p>
+                </section>
+                <menu class="header-actions" aria-label="Ações administrativas">
+                    <li>
+                        <button class="icon-button" type="button" aria-label="Notificações">
+                            <img src="https://www.figma.com/api/mcp/asset/f585f86f-4367-460c-8489-0922778b907e" alt="" aria-hidden="true">
+                            <span>3</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="avatar-button" type="button" aria-label="Perfil administrador">
+                            <img src="https://www.figma.com/api/mcp/asset/3b886930-175c-45bd-abf7-64529814895e" alt="" aria-hidden="true">
+                        </button>
+                    </li>
+                </menu>
+            </header>
+
+            <section class="moderation-content" aria-label="Gerenciamento de relatos">
+                <section class="filter-bar" aria-label="Filtros da fila">
+                    <label class="search-field">
+                        <span class="sr-only">Buscar relatos pendentes</span>
+                        <input id="moderation-search" type="search" placeholder="⌕  Buscar relatos pendentes...">
+                    </label>
+                    <menu class="status-tabs" id="status-tabs" aria-label="Filtrar por status"></menu>
+                    <label class="sort-field">
+                        <span class="sr-only">Ordenar relatos</span>
+                        <select id="moderation-sort">
+                            <option value="oldest">Mais antigos primeiro</option>
+                            <option value="newest">Mais recentes primeiro</option>
+                        </select>
+                    </label>
+                </section>
+
+                <section class="stat-strip" aria-label="Indicadores de moderação">
+                    <dl id="moderation-stats"></dl>
+                </section>
+
+                <section class="moderation-list" aria-labelledby="table-title">
+                    <h2 id="table-title" class="sr-only">Relatos aguardando moderação</h2>
+                    <div class="wide-table">
+                        <table class="review-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Relato</th>
+                                    <th scope="col">Categoria</th>
+                                    <th scope="col">Bairro</th>
+                                    <th scope="col">Usuário</th>
+                                    <th scope="col">Enviado</th>
+                                    <th scope="col">Foto</th>
+                                    <th scope="col">Localização</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="review-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <footer class="pagination-panel">
+                    <p id="pagination-summary">Mostrando 1–6 de 47 relatos pendentes</p>
+                    <nav aria-label="Paginação da fila de moderação">
+                        <a href="#" aria-label="Página anterior">←</a>
+                        <a class="active" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">...</a>
+                        <a href="#">8</a>
+                        <a href="#" aria-label="Próxima página">→</a>
+                    </nav>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <dialog class="reject-modal" id="reject-modal" aria-labelledby="reject-title">
+        <form method="dialog" id="reject-form">
+            <div class="modal-accent" aria-hidden="true"></div>
+            <h2 id="reject-title">Justificativa para Rejeição</h2>
+
+            <label class="modal-field" for="reject-reason">
+                <span>Motivo da rejeição *</span>
+                <select id="reject-reason" required>
+                    <option value="">Selecione um motivo</option>
+                    <option>Conteúdo inválido</option>
+                    <option>Relato duplicado</option>
+                    <option>Localização incorreta</option>
+                    <option>Sem evidência suficiente</option>
+                    <option>Fora do escopo da plataforma</option>
+                </select>
+            </label>
+
+            <label class="modal-field modal-note" for="reject-note">
+                <span>Observação adicional (opcional)</span>
+                <textarea id="reject-note" placeholder="Descreva o motivo detalhadamente..."></textarea>
+            </label>
+
+            <footer class="modal-actions">
+                <button class="modal-cancel" id="reject-cancel" type="button">Cancelar</button>
+                <button class="modal-confirm" type="submit">Confirmar rejeição</button>
+            </footer>
+        </form>
+    </dialog>
+
+    <script src="../JS/admin-moderacao.js"></script>
+</body>
+</html>

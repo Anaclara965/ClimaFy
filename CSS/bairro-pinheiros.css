@@ -1,0 +1,25 @@
+@import url("./bairro.css");
+
+.hero-meta span,
+.score-circle,
+.total-score strong {
+    border-color: var(--orange);
+    background: var(--orange-soft);
+    color: var(--orange);
+}
+
+.score-circle {
+    border-color: var(--orange);
+}
+
+.score-circle small {
+    color: #b7e0c4;
+}
+
+.pinheiros-tone {
+    color: var(--orange);
+}
+
+.red-key {
+    background: var(--orange);
+}
