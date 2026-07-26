@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="../CSS/admin-moderacao.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="admin-shell moderation-shell">
+    <section class="admin-shell moderation-shell">
         <aside class="sidebar" aria-label="Menu administrativo">
             <header class="sidebar-brand">
                 <span class="brand-mark" aria-hidden="true">🌿</span>
@@ -96,7 +96,7 @@
 
                 <section class="moderation-list" aria-labelledby="table-title">
                     <h2 id="table-title" class="sr-only">Relatos aguardando moderação</h2>
-                    <div class="wide-table">
+                    <section class="wide-table">
                         <table class="review-table">
                             <thead>
                                 <tr>
@@ -112,7 +112,7 @@
                             </thead>
                             <tbody id="review-body"></tbody>
                         </table>
-                    </div>
+                    </section>
                 </section>
 
                 <footer class="pagination-panel">
@@ -129,11 +129,11 @@
                 </footer>
             </section>
         </main>
-    </div>
+    </section>
 
     <dialog class="reject-modal" id="reject-modal" aria-labelledby="reject-title">
         <form method="dialog" id="reject-form">
-            <div class="modal-accent" aria-hidden="true"></div>
+            <section class="modal-accent" aria-hidden="true"></section>
             <h2 id="reject-title">Justificativa para Rejeição</h2>
 
             <label class="modal-field" for="reject-reason">

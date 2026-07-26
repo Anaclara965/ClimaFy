@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="../CSS/bairro-pinheiros.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     <header class="site-header">
-        <a class="brand" href="home-interativo.html" aria-label="Voltar para o inicio">
+        <a class="brand" href="../index.html" aria-label="Voltar para o inicio">
             <i class="ph-fill ph-plant" aria-hidden="true"></i>
             <span>ClimaFy</span>
         </a>
         <nav class="main-nav" aria-label="Navegacao principal">
-            <a href="home-interativo.html">Inicio</a>
+            <a href="../index.html">Inicio</a>
             <a class="active" href="ranking.html">Ranking</a>
             <a href="relatos.html">Relatos</a>
             <a href="sobre.html">Sobre</a>
@@ -30,12 +30,12 @@
 
     <main>
         <section class="neighborhood-hero" aria-labelledby="bairro-title">
-            <div class="hero-copy">
+            <section class="hero-copy">
                 <a class="back-link" href="ranking.html">&larr; Voltar ao Ranking</a>
                 <p class="hero-meta"><span>ALTA</span> Posição #3 no Ranking</p>
                 <h1 id="bairro-title">Pinheiros</h1>
                 <p>São Paulo, SP - Zona Leste</p>
-            </div>
+            </section>
             <aside class="score-circle" aria-label="Score de vulnerabilidade">
                 <strong>71</strong>
                 <span>/ 100</span>
@@ -45,31 +45,31 @@
 
         <section class="kpi-strip" aria-label="Indicadores do bairro">
             <dl>
-                <div><dt>Relatos Abertos</dt><dd class="orange">94</dd><small>&uarr; 12 esta semana</small></div>
-                <div><dt>Investimento</dt><dd class="orange">R$ 380K</dd><small>&darr; -30% vs meta</small></div>
-                <div><dt>Score de Risco</dt><dd class="orange">91</dd><small>Alto impacto local</small></div>
-                <div><dt>Dias s/ resolução</dt><dd class="orange">22</dd><small>Fila crítica</small></div>
-                <div><dt>Relatos p/ Alagamento</dt><dd class="blue">35%</dd><small>Categoria dominante</small></div>
-                <div><dt>Temp máx</dt><dd class="hot">38.4&deg;C</dd><small>Ilha de calor</small></div>
+                <section><dt>Relatos Abertos</dt><dd class="orange">94</dd><small>&uarr; 12 esta semana</small></section>
+                <section><dt>Investimento</dt><dd class="orange">R$ 380K</dd><small>&darr; -30% vs meta</small></section>
+                <section><dt>Score de Risco</dt><dd class="orange">91</dd><small>Alto impacto local</small></section>
+                <section><dt>Dias s/ resolução</dt><dd class="orange">22</dd><small>Fila crítica</small></section>
+                <section><dt>Relatos p/ Alagamento</dt><dd class="blue">35%</dd><small>Categoria dominante</small></section>
+                <section><dt>Temp máx</dt><dd class="hot">38.4&deg;C</dd><small>Ilha de calor</small></section>
             </dl>
         </section>
 
         <section class="content-grid" aria-label="Analises do bairro">
-            <div class="main-column">
+            <section class="main-column">
                 <article class="panel" aria-labelledby="category-title">
                     <header>
                         <h2 id="category-title">Relatos por Categoria</h2>
                         <p>Distribuição dos eventos registrados no bairro</p>
                     </header>
-                    <div class="category-chart" id="category-chart"></div>
+                    <section class="category-chart" id="category-chart"></section>
                 </article>
 
                 <article class="panel monthly-panel" aria-labelledby="history-title">
                     <header class="chart-header">
-                        <div>
+                        <section>
                             <h2 id="history-title">Histórico - Relatos x Investimento Mensal</h2>
                             <p>Últimos 12 meses - 2024-2025</p>
-                        </div>
+                        </section>
                         <ul class="chart-legend">
                             <li><i class="red-key"></i>Relatos</li>
                             <li><i class="blue-key"></i>Investimento</li>
@@ -85,13 +85,13 @@
                         <h2 id="deficit-title">Déficit de Investimento - Pinheiros vs. Meta Municipal</h2>
                         <p>Valor investido vs. estimativa necessaria para infraestrutura</p>
                     </header>
-                    <div class="deficit-chart" id="deficit-chart"></div>
+                    <section class="deficit-chart" id="deficit-chart"></section>
                     <ul class="chart-legend bottom">
                         <li><i class="green-key"></i>Investido</li>
                         <li><i class="need-key"></i>Meta necessária</li>
                     </ul>
                 </article>
-            </div>
+            </section>
 
             <aside class="side-column" aria-label="Contexto lateral">
                 <article class="panel map-panel" aria-labelledby="map-title">
@@ -115,7 +115,7 @@
                         <h2 id="breakdown-title">Composição da Pontuação</h2>
                         <p>Como o índice 71/100 foi calculado</p>
                     </header>
-                    <div id="score-breakdown"></div>
+                    <section id="score-breakdown"></section>
                 </article>
 
                 <article class="panel timeline-panel" aria-labelledby="timeline-title">
@@ -130,7 +130,7 @@
 
         <section class="related-section" aria-labelledby="related-title">
             <h2 id="related-title">Bairros Próximos - Compare a Vulnerabilidade</h2>
-            <div class="related-grid" id="related-grid"></div>
+            <section class="related-grid" id="related-grid"></section>
         </section>
     </main>
 
@@ -140,7 +140,7 @@
             <p>Plataforma de Monitoramento Climático Comunitário</p>
         </section>
         <nav aria-label="Navegacao do rodape">
-            <a href="home-interativo.html">Inicio</a>
+            <a href="../index.html">Inicio</a>
             <a href="ranking.html">Ranking</a>
             <a href="relatos.html">Relatos</a>
             <a href="sobre.html">Sobre</a>

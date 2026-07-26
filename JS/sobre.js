@@ -16,7 +16,7 @@ const steps = [
 ];
 
 const tech = [
-    ['React 18 + Vite', 'Frontend'],
+    ['HTML, CSS e JavaScript', 'Frontend'],
     ['Leaflet.js', 'Mapas'],
     ['Node.js + Express', 'Backend'],
     ['MySQL 8', 'Banco de Dados'],

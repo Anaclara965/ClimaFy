@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Prevenção do recarregamento da página ao enviar o formulário (uso em prototipagem)
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
         const email = document.getElementById("email").value;
         console.log(`Tentativa de login com o e-mail: ${email}`);
-        
+
         // Aqui você integraria a lógica real de autenticação (API, etc)
     });
 });

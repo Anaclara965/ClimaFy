@@ -20,16 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Evita o recarregamento na prototipagem e simula o sucesso do formulário nativo
     form.addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
         // Se a validação nativa do HTML passar, este bloco será executado.
         if (form.checkValidity()) {
             window.location.href = "cadastro-verificacao.html";
             return;
             const nomeUsuario = document.getElementById("nome").value;
             console.log(`Cadastro realizado com sucesso para: ${nomeUsuario}`);
-            
+
             // Simulação de redirecionamento ou próxima etapa
-            // window.location.href = "home-interativo.html";
+            // window.location.href = "../index.html";
         }
     });
 });

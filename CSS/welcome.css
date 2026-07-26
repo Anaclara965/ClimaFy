@@ -1,5 +1,5 @@
 :root {
-    --primary-green: #1a9651;
+    --primary-green: #147a43;
     --primary-green-dark: #116b38;
     --primary-green-soft: #e0f5e9;
     --page-bg: #f8fafb;
@@ -7,7 +7,7 @@
     --text-dark: #15191e;
     --text-medium: #48525f;
     --text-muted: #66717f;
-    --text-light: #8b96a3;
+    --text-light: #667085;
     --border-color: #e3e8ec;
     --border-strong: #dbe3e8;
     --blue-line: #2297f3;
@@ -289,7 +289,7 @@ ol, ul { list-style: none; }
     margin-top: 1rem;
 }
 
-.summary-list div {
+.summary-list section {
     min-width: 0;
     padding: 0.85rem;
     border-radius: 8px;
@@ -304,8 +304,13 @@ ol, ul { list-style: none; }
 }
 
 .summary-list dd {
-    overflow-wrap: anywhere;
-    margin-top: 0.35rem;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 0.5rem;
+    padding-right: 0.15rem;
     color: var(--text-dark);
     font-size: 0.8125rem;
     font-weight: 800;

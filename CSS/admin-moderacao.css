@@ -118,13 +118,13 @@
     align-items: center;
 }
 
-.stat-strip div {
+.stat-strip section {
     min-height: 40px;
     border-right: 1px solid var(--line);
     padding-left: 24px;
 }
 
-.stat-strip div:last-child {
+.stat-strip section:last-child {
     border-right: 0;
 }
 
@@ -495,7 +495,7 @@
         padding: 12px 0;
     }
 
-    .stat-strip div:nth-child(2) {
+    .stat-strip section:nth-child(2) {
         border-right: 0;
     }
 

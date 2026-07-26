@@ -41,11 +41,11 @@ const related = [
 
 function renderCategoryChart() {
     document.querySelector('#category-chart').innerHTML = categories.map(([label, value, color]) => `
-        <div class="category-row" style="--color:${color}">
+        <section class="category-row" style="--color:${color}">
             <span>${label}</span>
             <span class="bar-bg"><span class="bar-fill" style="width:${value}%"></span></span>
             <strong>${value}%</strong>
-        </div>
+        </section>
     `).join('');
 }
 
@@ -89,14 +89,14 @@ function renderMonthlyChart() {
 function renderDeficitChart() {
     const max = Math.max(...deficit.map((item) => item[2]));
     document.querySelector('#deficit-chart').innerHTML = deficit.map(([label, invested, required]) => `
-        <div class="deficit-row">
+        <section class="deficit-row">
             <span>${label}</span>
             <span class="deficit-track">
                 <span class="deficit-need" style="width:${(required / max) * 100}%"></span>
                 <span class="deficit-invested" style="width:${(invested / max) * 100}%">R$ ${Math.round(invested / 1000)}K</span>
                 <span class="deficit-required">R$ ${Math.round(required / 1000)}K</span>
             </span>
-        </div>
+        </section>
     `).join('');
 }
 
@@ -111,7 +111,7 @@ function renderScoreBreakdown() {
     target.innerHTML = scoreFactors.map(([label, weight, value, max, points, color]) => `
         <section class="score-factor" style="--color:${color}">
             <header><strong>${label}</strong><span>${weight}</span></header>
-            <div class="factor-track"><span class="factor-fill" style="width:${(value / max) * 100}%"></span></div>
+            <section class="factor-track"><span class="factor-fill" style="width:${(value / max) * 100}%"></span></section>
             <p class="factor-meta"><span>${value} / ${max}</span><strong>+${points} pts</strong></p>
         </section>
     `).join('') + '<p class="total-score">Pontuacao Total <strong>71 / 100</strong></p>';
@@ -136,7 +136,7 @@ function renderRelated() {
         <article class="related-card" style="--color:${color}">
             <header><h3>${name}</h3><span class="badge">${risk}</span></header>
             <p>${meta}</p>
-            <div class="mini"><span style="width:${score}%"></span></div>
+            <section class="mini"><span style="width:${score}%"></span></section>
             <footer><span>Score ${score}</span><a href="${href}">Ver -></a></footer>
         </article>
     `).join('');

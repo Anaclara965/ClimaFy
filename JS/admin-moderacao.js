@@ -101,10 +101,10 @@ function renderTabs() {
 
 function renderStats() {
     document.querySelector('#moderation-stats').innerHTML = stats.map(([value, label, color]) => `
-        <div style="--color:${color}">
+        <section style="--color:${color}">
             <dd>${value}</dd>
             <dt>${label}</dt>
-        </div>
+        </section>
     `).join('');
 }
 
@@ -139,11 +139,11 @@ function renderReports() {
             <td><span class="photo-chip" style="--photo-bg:${report.photo ? '#e0f5e9' : '#eff3f5'};--photo-color:${report.photo ? '#1a9651' : '#8b96a3'}">${report.photo ? 'Sim' : 'Não'}</span></td>
             <td><a class="location-link" href="#">📍 Ver no mapa</a></td>
             <td>
-                <div class="review-actions">
+                <section class="review-actions">
                     <button class="approve" type="button" data-action="approve">✓ Aprovar</button>
                     <button class="reject" type="button" data-action="reject">× Negar</button>
                     <button class="details" type="button">Detalhes</button>
-                </div>
+                </section>
             </td>
         </tr>
     `).join('');

@@ -47,10 +47,10 @@ function renderKpis() {
     target.innerHTML = kpis.map((kpi) => `
         <article class="kpi-card" style="--tone:${kpi.color};--tone-soft:${kpi.soft}">
             <dl>
-                <div class="kpi-top">
+                <section class="kpi-top">
                     <dt class="kpi-icon" aria-hidden="true">${kpi.icon}</dt>
                     <dd>${kpi.value}</dd>
-                </div>
+                </section>
                 <dt>${kpi.label}</dt>
                 <small>${kpi.helper}</small>
             </dl>
@@ -70,10 +70,10 @@ function renderModerationRows() {
             <td>${row.neighborhood}</td>
             <td>${row.time}</td>
             <td>
-                <div class="row-actions">
+                <section class="row-actions">
                     <button class="approve" type="button" data-action="approve">✓ Aprovar</button>
                     <button class="reject" type="button" data-action="reject">× Negar</button>
-                </div>
+                </section>
             </td>
         </tr>
     `).join('');
@@ -114,13 +114,13 @@ function renderCategoryBars() {
     const target = document.querySelector('#category-bars');
 
     target.innerHTML = categoryStats.map((item) => `
-        <div class="category-row" style="--color:${item.color}">
+        <section class="category-row" style="--color:${item.color}">
             <dt>${item.label}</dt>
-            <div class="category-track">
+            <section class="category-track">
                 <span class="category-fill" style="width:${item.percent}%">${item.value}</span>
-            </div>
+            </section>
             <dd>${item.percent}%</dd>
-        </div>
+        </section>
     `).join('');
 }
 

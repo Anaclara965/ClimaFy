@@ -7,30 +7,30 @@
     <link rel="stylesheet" href="../CSS/cadastro-verificacao.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     <header class="main-header">
-        <a href="home-interativo.html" class="brand-logo" aria-label="Ir para a página inicial do ClimaFy">
+        <a href="../index.html" class="brand-logo" aria-label="Ir para a página inicial do ClimaFy">
             <i class="ph-fill ph-plant" aria-hidden="true"></i>
             <span>ClimaFy</span>
         </a>
 
         <nav class="main-nav" aria-label="Navegação principal">
-            <a href="home-interativo.html">Início</a>
+            <a href="../index.html">Início</a>
             <a href="#">Ranking</a>
             <a href="#">Relatos</a>
             <a href="#">Sobre</a>
         </nav>
 
-        <div class="auth-actions" aria-label="Ações da conta">
+        <section class="auth-actions" aria-label="Ações da conta">
             <a href="login.html" class="login-link">Entrar</a>
             <a href="#" class="btn-primary">
                 <i class="ph ph-plus" aria-hidden="true"></i>
                 Relatar
             </a>
-        </div>
+        </section>
     </header>
 
     <main class="verify-page">
@@ -72,14 +72,14 @@
                 <fieldset class="otp-fieldset">
                     <legend class="otp-legend">Código de verificação</legend>
 
-                    <div class="otp-inputs" aria-label="Código OTP">
+                    <section class="otp-inputs" aria-label="Código OTP">
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" placeholder="0" aria-label="Dígito 1" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 2" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 3" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 4" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 5" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 6" required>
-                    </div>
+                    </section>
                 </fieldset>
 
                 <p class="otp-feedback" id="otp-feedback" aria-live="polite"></p>
@@ -107,21 +107,21 @@
     </main>
 
     <footer class="main-footer">
-        <div class="footer-brand">
+        <section class="footer-brand">
             <strong class="footer-logo">ClimaFy</strong>
             <span class="footer-sub">Plataforma de Monitoramento Climático Comunitário</span>
-        </div>
+        </section>
 
         <nav class="footer-nav" aria-label="Navegação de rodapé">
-            <a href="home-interativo.html">Início</a>
+            <a href="../index.html">Início</a>
             <a href="#">Ranking</a>
             <a href="#">Relatos</a>
             <a href="#">Sobre</a>
         </nav>
 
-        <div class="footer-copy">
+        <section class="footer-copy">
             &copy; ClimaFy 2026
-        </div>
+        </section>
     </footer>
 
     <script src="../JS/cadastro-verificacao.js"></script>

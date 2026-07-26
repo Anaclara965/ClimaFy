@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateSubmitState() {
         const isComplete = inputs.every((input) => /^\d$/.test(input.value));
-        const isTimerFinished = remainingSeconds <= 0; 
-        
+        const isTimerFinished = remainingSeconds <= 0;
+
         const shouldBeActive = isComplete || isTimerFinished;
 
         submitButton.disabled = !shouldBeActive;
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (remainingSeconds <= 0) {
             countdown.textContent = "Tempo esgotado - Pode avançar"; // Você pode mudar esse texto se quiser
             window.clearInterval(timerId);
-            updateSubmitState(); 
+            updateSubmitState();
             return;
         }
 
