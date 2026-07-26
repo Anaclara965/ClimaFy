@@ -1,11 +1,11 @@
 :root {
-    --green: #1a9651;
+    --green: #147a43;
     --green-dark: #116b38;
     --green-deep: #0a4624;
     --green-soft: #e0f5e9;
     --text: #15191e;
     --muted: #48525f;
-    --soft: #8b96a3;
+    --soft: #667085;
     --line: #e3e8ec;
     --line-dark: #d1d8de;
     --page: #f8fafb;
@@ -186,7 +186,7 @@ caption,
     padding-top: 2px;
 }
 
-.hero-metrics div {
+.hero-metrics article {
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -206,6 +206,30 @@ caption,
     font-size: 10px;
     line-height: 1.25;
     order: 2;
+}
+
+.data-message {
+    width: min(1296px, calc(100% - 96px));
+    margin: 18px auto 0;
+    padding: 12px 16px;
+    border: 1px solid #c9d8e8;
+    border-radius: 10px;
+    background: #edf5ff;
+    color: #24558f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.data-message.success {
+    border-color: #b9dfc7;
+    background: #e9f7ee;
+    color: #116b38;
+}
+
+.data-message.error {
+    border-color: #f3b6b6;
+    background: #fff0f0;
+    color: #a51f1f;
 }
 
 .ranking-controls {

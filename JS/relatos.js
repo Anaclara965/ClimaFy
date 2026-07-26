@@ -66,7 +66,7 @@ function renderCards() {
 
     grid.innerHTML = data.map((report) => `
         <article class="report-card" style="--accent:${report.tone}">
-            <div class="report-card-inner">
+            <section class="report-card-inner">
                 <header class="card-meta">
                     <span class="category-badge">${report.category}</span>
                     <span class="neighborhood">${report.neighborhood}</span>
@@ -79,7 +79,7 @@ function renderCards() {
                     <span class="votes">▲ ${report.votes}</span>
                     <a class="arrow" href="#" aria-label="Abrir relato ${report.title}">→</a>
                 </footer>
-            </div>
+            </section>
         </article>
     `).join('');
 }
@@ -101,11 +101,11 @@ function renderFeatured() {
             </header>
             <h3>${report.title}</h3>
             <p>${report.description}</p>
-            <div class="tag-list">
+            <section class="tag-list">
                 <span>${report.neighborhood}</span>
                 <span>${report.status}</span>
                 <span>${report.time}</span>
-            </div>
+            </section>
             <a href="#">Ver relato completo -></a>
         </article>
     `).join('');
@@ -113,11 +113,11 @@ function renderFeatured() {
 
 function renderCategoryBars() {
     document.querySelector('#category-bars').innerHTML = categoryDistribution.map(([name, percent, color]) => `
-        <div class="category-row" style="--accent:${color}">
+        <section class="category-row" style="--accent:${color}">
             <span>${name}</span>
             <span class="bar"><span style="width:${percent}%"></span></span>
             <strong>${percent}%</strong>
-        </div>
+        </section>
     `).join('');
 }
 

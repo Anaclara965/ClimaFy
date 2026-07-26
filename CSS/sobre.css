@@ -1,5 +1,5 @@
 :root {
-    --green: #1a9651;
+    --green: #147a43;
     --green-dark: #116b38;
     --green-soft: #e1f6e8;
     --tech-bg: #eaf7ee;
@@ -101,13 +101,13 @@ menu, ul, ol { list-style: none; }
     align-items: center;
 }
 
-.about-metrics div {
+.about-metrics article {
     min-height: 60px;
     padding-left: 38px;
     border-left: 1px solid var(--line);
 }
 
-.about-metrics div:first-child { border-left: 0; padding-left: 0; }
+.about-metrics article:first-child { border-left: 0; padding-left: 0; }
 .about-metrics dd { color: var(--green); font-size: 30px; font-weight: 800; }
 .about-metrics dt { margin-top: 4px; color: var(--soft); font-size: 12px; }
 
@@ -313,7 +313,7 @@ menu, ul, ol { list-style: none; }
     .main-nav a.active::after { bottom: -8px; }
     .about-hero h1 { font-size: 42px; }
     .about-metrics, .purpose-grid, .steps-grid, .tech-grid, .team-grid { grid-template-columns: 1fr; }
-    .about-metrics div { border-left: 0; border-top: 1px solid var(--line); padding: 18px 0 0; }
+    .about-metrics article { border-left: 0; border-top: 1px solid var(--line); padding: 18px 0 0; }
     .highlight-card { grid-template-columns: 1fr; }
     .about-cta menu { flex-wrap: wrap; }
     .site-footer { grid-template-columns: 1fr; padding: 18px 24px; }

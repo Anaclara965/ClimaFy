@@ -1,10 +1,10 @@
 :root {
-    --green: #1a9651;
+    --green: #147a43;
     --green-dark: #116b38;
     --green-soft: #e0f5e9;
     --text: #15191e;
     --muted: #48525f;
-    --soft: #8b96a3;
+    --soft: #667085;
     --line: #e3e8ec;
     --line-dark: #d1d8de;
     --page: #f8fafb;
@@ -173,13 +173,13 @@ ol {
     gap: 34px;
 }
 
-.hero-metrics div {
+.hero-metrics article {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.hero-metrics div + div::before {
+.hero-metrics article + article::before {
     position: absolute;
     left: -20px;
     top: 7px;
@@ -987,7 +987,7 @@ blockquote strong {
         grid-template-columns: 1fr;
     }
 
-    .hero-metrics div + div::before {
+    .hero-metrics article + article::before {
         display: none;
     }
 

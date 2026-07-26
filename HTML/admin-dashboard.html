@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="../CSS/admin-dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="admin-shell">
+    <section class="admin-shell">
         <aside class="sidebar" aria-label="Menu administrativo">
             <header class="sidebar-brand">
                 <span class="brand-mark" aria-hidden="true">🌿</span>
@@ -80,13 +80,13 @@
                 <section class="top-grid">
                     <article class="panel moderation-panel" aria-labelledby="moderation-title">
                         <header class="panel-header">
-                            <div class="title-row">
+                            <section class="title-row">
                                 <h2 id="moderation-title">Fila de Moderação</h2>
                                 <span class="pending-chip">47 pendentes</span>
-                            </div>
+                            </section>
                             <a class="see-all" href="#">Ver todos →</a>
                         </header>
-                        <div class="table-wrap">
+                        <section class="table-wrap">
                             <table class="moderation-table">
                                 <thead>
                                     <tr>
@@ -99,7 +99,7 @@
                                 </thead>
                                 <tbody id="moderation-body"></tbody>
                             </table>
-                        </div>
+                        </section>
                     </article>
 
                     <aside class="panel activity-panel" aria-labelledby="activity-title">
@@ -126,7 +126,7 @@
                 </section>
             </section>
         </main>
-    </div>
+    </section>
 
     <script src="../JS/admin-dashboard.js"></script>
 </body>
