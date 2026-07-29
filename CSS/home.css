@@ -296,3 +296,14 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .stat-item dt { font-size: 1.85rem; }
     .chart-legend { flex-direction: column; gap: 0.75rem; }
 }
+
+.brand-icon {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    color: inherit;
+    font-size: 1.1rem;
+    font-weight: 900;
+}

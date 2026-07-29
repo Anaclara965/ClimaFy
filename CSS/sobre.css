@@ -320,3 +320,14 @@ menu, ul, ol { list-style: none; }
     .site-footer nav { flex-wrap: wrap; gap: 18px; }
     .site-footer > p { text-align: left; }
 }
+
+.brand-icon {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    color: inherit;
+    font-size: 1.1rem;
+    font-weight: 900;
+}

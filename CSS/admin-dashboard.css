@@ -757,3 +757,60 @@ ul {
         grid-template-columns: 1fr;
     }
 }
+
+/* Navegação administrativa sem ícones */
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+@media (max-width: 1180px) and (min-width: 721px) {
+    .admin-shell {
+        grid-template-columns: 200px minmax(0, 1fr);
+    }
+
+    .sidebar-brand {
+        padding: 20px 18px;
+    }
+
+    .brand-mark {
+        left: 18px;
+    }
+
+    .sidebar-brand strong,
+    .sidebar-nav span,
+    .sidebar-user strong,
+    .sidebar-user span,
+    .sidebar-user a {
+        display: block;
+    }
+
+    .admin-badge {
+        display: grid;
+    }
+
+    .sidebar-nav a {
+        padding: 0 18px;
+    }
+
+    .sidebar-user {
+        margin: 0 18px;
+    }
+}
+
+@media (max-width: 720px) {
+    .sidebar-nav a {
+        padding: 0 16px;
+    }
+}
+.icon-button svg {
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+}
+
+.avatar-button {
+    color: var(--green-dark);
+    font-weight: 800;
+}
