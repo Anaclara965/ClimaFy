@@ -1,0 +1,365 @@
+@import url("./admin-dashboard.css");
+
+.admin-area-content {
+    display: grid;
+    gap: 16px;
+    padding: 20px 32px 36px 24px;
+}
+
+.area-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.summary-card {
+    min-height: 104px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.summary-card span {
+    color: var(--soft);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.summary-card strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--card-color, var(--green));
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.summary-card small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.area-panel {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.area-toolbar {
+    display: grid;
+    min-height: 68px;
+    grid-template-columns: minmax(240px, 1fr) auto auto;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 18px;
+}
+
+.area-search,
+.area-select {
+    height: 38px;
+    border: 1px solid #d1d8de;
+    border-radius: 8px;
+    background: var(--page);
+    color: var(--muted);
+    font: inherit;
+    font-size: 12px;
+    outline: none;
+    padding: 0 12px;
+}
+
+.area-search:focus,
+.area-select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(20, 122, 67, .1);
+}
+
+.primary-action,
+.secondary-action {
+    min-height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 15px;
+}
+
+.primary-action {
+    background: var(--green);
+    color: white;
+}
+
+.secondary-action {
+    border: 1px solid var(--line);
+    background: var(--line-soft);
+    color: var(--muted);
+}
+
+.area-table-wrap {
+    overflow-x: auto;
+}
+
+.area-table {
+    width: 100%;
+    min-width: 920px;
+    border-collapse: collapse;
+}
+
+.area-table th {
+    height: 44px;
+    background: var(--line-soft);
+    color: var(--soft);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.area-table th,
+.area-table td {
+    padding: 0 18px;
+}
+
+.area-table tbody tr {
+    height: 68px;
+    border-top: 1px solid var(--line);
+}
+
+.area-table tbody tr:hover {
+    background: #fbfdfc;
+}
+
+.area-table td {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.cell-title {
+    display: block;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.cell-subtitle {
+    display: block;
+    margin-top: 4px;
+    color: var(--soft);
+    font-size: 10px;
+}
+
+.status-pill {
+    display: inline-flex;
+    min-height: 26px;
+    align-items: center;
+    border-radius: 13px;
+    background: var(--pill-bg);
+    color: var(--pill-color);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.table-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.table-actions button {
+    min-height: 30px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.table-actions .view-action {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.table-actions .toggle-action {
+    background: var(--yellow-soft);
+    color: #8a6500;
+}
+
+.table-actions .danger-action {
+    background: var(--red-soft);
+    color: var(--red);
+}
+
+.empty-state {
+    display: none;
+    min-height: 220px;
+    place-items: center;
+    color: var(--soft);
+    font-size: 13px;
+    text-align: center;
+}
+
+.empty-state.visible {
+    display: grid;
+}
+
+.area-footer {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    color: var(--soft);
+    font-size: 11px;
+    padding: 0 18px;
+}
+
+.progress-track {
+    display: block;
+    width: 150px;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--line-soft);
+}
+
+.progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    background: var(--progress-color, var(--green));
+}
+
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.report-card {
+    display: grid;
+    min-height: 180px;
+    align-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+
+.report-card-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--icon-bg);
+    color: var(--icon-color);
+    font-size: 20px;
+}
+
+.report-card h2 {
+    margin-top: 14px;
+    font-size: 14px;
+}
+
+.report-card p {
+    margin-top: 7px;
+    color: var(--soft);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.report-card footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+
+.report-card footer span {
+    color: var(--soft);
+    font-size: 10px;
+}
+
+.report-card button {
+    min-height: 32px;
+    border-radius: 8px;
+    background: var(--green-soft);
+    color: var(--green);
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 12px;
+}
+
+.activity-message {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 20;
+    max-width: 340px;
+    border-radius: 10px;
+    background: var(--dark);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+    color: white;
+    font-size: 12px;
+    padding: 13px 16px;
+}
+
+
+.sidebar-user strong,
+.sidebar-user span {
+    margin-left: 0;
+}
+
+@media (max-width: 1000px) {
+    .area-summary,
+    .reports-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .admin-area-content {
+        padding: 16px;
+    }
+
+    .area-summary,
+    .reports-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .area-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .area-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px 18px;
+    }
+}
+
+/* Utilitário acessível: mantém títulos disponíveis para leitores de tela. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.icon-button svg {
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+}

@@ -359,3 +359,14 @@ abbr { text-decoration: none; color: var(--error-red); }
     .main-header, .main-footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
     .stepper-nav { display: none; /* Simplificação em mobile extrema */ }
 }
+
+.brand-icon {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    color: inherit;
+    font-size: 1.1rem;
+    font-weight: 900;
+}

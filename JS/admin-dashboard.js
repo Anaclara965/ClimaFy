@@ -1,7 +1,7 @@
 const kpis = [
     { value: '1.247', label: 'Relatos Ativos', helper: '↑ 8% esta semana', icon: '▣', color: '#d62727', soft: '#ffe0e0' },
     { value: '47', label: 'Pendentes Mod.', helper: 'Aguardando revisão', icon: '⌛', color: '#f4b60d', soft: '#fff6d6' },
-    { value: '312', label: 'Aprovados (mês)', helper: '↑ 23% vs anterior', icon: '✓', color: '#1a9651', soft: '#e0f5e9' },
+    { value: '312', label: 'Aprovados (mês)', helper: '+23% vs anterior', icon: 'OK', color: '#1a9651', soft: '#e0f5e9' },
     { value: '29', label: 'Rejeitados (mês)', helper: '2,3% dos enviados', icon: '×', color: '#48525f', soft: '#eff3f5' },
     { value: '8', label: 'Cidades Ativas', helper: 'São Paulo + 7', icon: '▥', color: '#2469d6', soft: '#e0efff' },
 ];
@@ -71,7 +71,7 @@ function renderModerationRows() {
             <td>${row.time}</td>
             <td>
                 <section class="row-actions">
-                    <button class="approve" type="button" data-action="approve">✓ Aprovar</button>
+                    <button class="approve" type="button" data-action="approve">Aprovar</button>
                     <button class="reject" type="button" data-action="reject">× Negar</button>
                 </section>
             </td>
