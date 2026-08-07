@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClimaFy - Prioridade por Subprefeitura</title>
+    <link rel="stylesheet" href="/css/ranking.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  </head>
+  <body>
+    <%- include('../partials/header') %>
+
+    <main>
+      <section class="ranking-hero" aria-labelledby="ranking-title">
+        <article class="hero-copy">
+          <h1 id="ranking-title">Prioridade por Subprefeitura</h1>
+          <p>
+            Ocorrências oficiais de alagamento cruzadas com o orçamento geral
+            realizado pelas subprefeituras em 2026.
+          </p>
+        </article>
+
+        <dl
+          class="hero-metrics"
+          id="ranking-resumo"
+          aria-label="Resumo do ranking"
+        >
+          <article>
+            <dt>Subprefeituras monitoradas</dt>
+            <dd>—</dd>
+          </article>
+          <article>
+            <dt>Ocorrências oficiais</dt>
+            <dd>—</dd>
+          </article>
+          <article>
+            <dt>Orçamento realizado</dt>
+            <dd>—</dd>
+          </article>
+          <article>
+            <dt>Áreas com ocorrências</dt>
+            <dd>—</dd>
+          </article>
+        </dl>
+      </section>
+
+      <section class="ranking-controls" aria-label="Controles do ranking">
+        <form class="controls-form">
+          <fieldset class="control-group">
+            <legend>Ordenar por:</legend>
+            <button
+              class="chip active"
+              type="button"
+              data-sort="prioridade"
+              aria-pressed="true"
+            >
+              Maior prioridade
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-sort="orcamento"
+              aria-pressed="false"
+            >
+              Menor orçamento realizado
+            </button>
+          </fieldset>
+
+          <fieldset class="control-group period-group">
+            <legend>Período:</legend>
+            <button
+              class="period"
+              type="button"
+              data-periodo="7d"
+              aria-pressed="false"
+            >
+              7 dias
+            </button>
+            <button
+              class="period"
+              type="button"
+              data-periodo="30d"
+              aria-pressed="false"
+            >
+              30 dias
+            </button>
+            <button
+              class="period"
+              type="button"
+              data-periodo="90d"
+              aria-pressed="false"
+            >
+              90 dias
+            </button>
+            <button
+              class="period active"
+              type="button"
+              data-periodo="ano"
+              aria-pressed="true"
+            >
+              Este ano
+            </button>
+          </fieldset>
+
+          <label class="search-field">
+            <span class="sr-only">Buscar subprefeitura</span>
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+            <input
+              type="search"
+              id="ranking-search"
+              placeholder="Buscar subprefeitura..."
+            />
+          </label>
+        </form>
+      </section>
+
+      <p class="data-message" id="data-message" role="status">
+        Carregando dados públicos...
+      </p>
+
+      <section class="ranking-table-section" aria-labelledby="table-title">
+        <header class="section-heading visually-hidden-heading">
+          <h2 id="table-title">Tabela de prioridade</h2>
+        </header>
+
+        <section class="table-wrap">
+          <table class="ranking-table">
+            <caption>
+              Comparação de ocorrências e orçamento por subprefeitura
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subprefeitura</th>
+                <th scope="col">Ocorrências oficiais</th>
+                <th scope="col">Orçamento realizado</th>
+                <th scope="col">Execução</th>
+                <th scope="col">Índice</th>
+                <th scope="col">Prioridade</th>
+                <th scope="col">R$ por ocorrência</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <section class="chart-card" aria-labelledby="chart-title">
+        <header>
+          <h2 id="chart-title">Índice de prioridade e orçamento realizado</h2>
+          <p>
+            Comparação das dez subprefeituras com maior prioridade; orçamento em
+            milhões de reais.
+          </p>
+        </header>
+        <figure>
+          <svg
+            id="ranking-chart"
+            viewBox="0 0 980 320"
+            role="img"
+            aria-labelledby="chart-title chart-desc"
+          ></svg>
+          <ul class="chart-legend" aria-label="Legenda do gráfico">
+            <li>
+              <i class="score-key" aria-hidden="true"></i>Índice de prioridade
+            </li>
+            <li>
+              <i class="investment-key" aria-hidden="true"></i>Orçamento
+              realizado
+            </li>
+          </ul>
+          <figcaption id="chart-desc">
+            Barras agrupadas com o índice de prioridade e o orçamento realizado
+            por subprefeitura.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="method-section" aria-labelledby="method-title">
+        <article class="method-intro">
+          <p class="section-pill">Metodologia transparente</p>
+          <h2 id="method-title">Como calculamos o índice de prioridade</h2>
+          <p>
+            O índice é uma comparação visual. Ele não prova falta de
+            investimento climático nem relação de causa e efeito.
+          </p>
+          <strong
+            >Índice = ocorrências normalizadas × 65% + déficit relativo do
+            orçamento realizado × 35%</strong
+          >
+        </article>
+
+        <ol class="factor-list">
+          <li class="factor-card">
+            <i class="ph ph-warning-circle" aria-hidden="true"></i>
+            <h3>Ocorrências oficiais</h3>
+            <p>Peso: 65%</p>
+            <small>Registros de alagamento da Defesa Civil em 2026.</small>
+          </li>
+          <li class="factor-card">
+            <i class="ph ph-coins" aria-hidden="true"></i>
+            <h3>Orçamento realizado</h3>
+            <p>Peso: 35%</p>
+            <small
+              >Orçamento geral executado pela subprefeitura, não apenas ações
+              climáticas.</small
+            >
+          </li>
+          <li class="factor-card">
+            <i class="ph ph-info" aria-hidden="true"></i>
+            <h3>Leitura responsável</h3>
+            <p>Indicador comparativo</p>
+            <small
+              >Mais ocorrências e menor orçamento elevam a prioridade
+              relativa.</small
+            >
+          </li>
+        </ol>
+      </section>
+
+      <section class="data-section" aria-labelledby="data-title">
+        <h2 id="data-title">Fontes utilizadas</h2>
+        <p>
+          Os dados são carregados diretamente dos CSVs presentes no projeto.
+        </p>
+        <ul class="source-list">
+          <li>
+            <i class="ph ph-map-pin" aria-hidden="true"></i>Defesa Civil /
+            GeoSampa — alagamentos de 2026
+          </li>
+          <li>
+            <i class="ph ph-bank" aria-hidden="true"></i>Orçamento das
+            subprefeituras — execução de 2026
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <section>
+        <h2>ClimaFy</h2>
+        <p>Plataforma de Monitoramento Climático Comunitário</p>
+      </section>
+      <nav aria-label="Navegação do rodapé">
+        <a href="/index.ejs">Início</a>
+        <a href="/ranking.ejs">Ranking</a>
+        <a href="/relatos.ejs">Relatos</a>
+        <a href="/sobre.ejs">Sobre</a>
+      </nav>
+      <p>&copy; ClimaFy 2026</p>
+    </footer>
+
+    <script src="/js/dados-publicos.js"></script>
+    <script src="/js/ranking.js"></script>
+  </body>
+</html>

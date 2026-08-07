@@ -4,28 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClimaFy - Verificação de E-mail</title>
-    <link rel="stylesheet" href="../CSS/cadastro-verificacao.css">
+    <link rel="stylesheet" href="/css/cadastro-verificacao.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-    <header class="main-header">
-        <a href="../index.html" class="brand-logo" aria-label="Ir para a página inicial do ClimaFy">
-            <span class="brand-icon" aria-hidden="true">+</span>
-            <span>ClimaFy</span>
-        </a>
+    <%- include('../partials/header') %>
 
-        <nav class="main-nav" aria-label="Navegação principal">
-            <a href="../index.html">Início</a>
-            <a href="#">Ranking</a>
-            <a href="#">Relatos</a>
-            <a href="#">Sobre</a>
-        </nav>
-
-        <section class="auth-actions" aria-label="Ações da conta">
-            <a href="login.html" class="login-link">Entrar</a>
+    <section class="auth-actions" aria-label="Ações da conta">
+            <a href="/login.ejs" class="login-link">Entrar</a>
             <a href="#" class="btn-primary">
                 <i class="ph ph-plus" aria-hidden="true"></i>
                 Relatar
@@ -93,7 +82,7 @@
                     Confirmar
                 </button>
 
-                <a class="back-email-link" href="cadastro-dados-pessoais.html">
+                <a class="back-email-link" href="/cadastro-dados-pessoais.ejs">
                     Voltar e corrigir e-mail
                 </a>
             </form>
@@ -113,7 +102,7 @@
         </section>
 
         <nav class="footer-nav" aria-label="Navegação de rodapé">
-            <a href="../index.html">Início</a>
+            <a href="/index.ejs">Início</a>
             <a href="#">Ranking</a>
             <a href="#">Relatos</a>
             <a href="#">Sobre</a>
@@ -124,6 +113,6 @@
         </section>
     </footer>
 
-    <script src="../JS/cadastro-verificacao.js"></script>
+    <script src="/js/cadastro-verificacao.js"></script>
 </body>
 </html>

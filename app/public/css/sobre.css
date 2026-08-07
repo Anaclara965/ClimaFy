@@ -21,7 +21,7 @@ body { min-width: 320px; background: var(--page); color: var(--text); font-famil
 a { color: inherit; text-decoration: none; }
 menu, ul, ol { list-style: none; }
 
-.site-header {
+.main-header {
     position: sticky;
     top: 0;
     z-index: 30;

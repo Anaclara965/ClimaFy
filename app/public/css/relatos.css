@@ -65,7 +65,7 @@ ol {
     white-space: nowrap;
 }
 
-.site-header {
+.main-header {
     position: sticky;
     top: 0;
     z-index: 30;
@@ -914,7 +914,7 @@ blockquote strong {
 }
 
 @media (max-width: 1180px) {
-    .site-header,
+    .main-header,
     .reports-hero,
     .filter-form {
         padding-left: 32px;
@@ -948,7 +948,7 @@ blockquote strong {
 }
 
 @media (max-width: 760px) {
-    .site-header {
+    .main-header {
         height: auto;
         flex-wrap: wrap;
         gap: 14px;

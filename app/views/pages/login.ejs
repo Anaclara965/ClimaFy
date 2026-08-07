@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClimaFy - Login</title>
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Ícones via Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  </head>
+  <body>
+    <%- include('../partials/header') %>
+
+    <!-- Conteúdo Central -->
+    <main class="content-wrapper">
+      <!-- Lado Esquerdo: Informações -->
+      <section class="hero-section">
+        <article class="hero-content">
+          <header class="hero-header">
+            <span class="hero-logo-icon" aria-hidden="true">+</span>
+            <h1>ClimaFy</h1>
+            <h2>Monitoramento Climático<br />Comunitário</h2>
+          </header>
+          <p class="hero-description">
+            Cada relato é uma voz.<br />
+            Juntos construímos cidades mais seguras<br />
+            e preparadas para o clima.
+          </p>
+        </article>
+
+        <section class="stats-section">
+          <article class="stat-item">
+            <strong>1.247</strong>
+            <span>Relatos Ativos</span>
+          </article>
+          <span class="stat-divider"></span>
+          <article class="stat-item">
+            <strong>48</strong>
+            <span>Bairros</span>
+          </article>
+          <span class="stat-divider"></span>
+          <article class="stat-item">
+            <strong>12</strong>
+            <span>Cidades</span>
+          </article>
+        </section>
+      </section>
+
+      <!-- Lado Direito: Formulário de Login -->
+      <section class="login-section">
+        <article class="login-container">
+          <header class="tabs-header">
+            <button class="tab-btn active" id="tab-login">Entrar</button>
+            <a
+              href="/cadastro-dados-pessoais.ejs"
+              class="tab-btn"
+              id="tab-register"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                color: var(--text-gray);
+              "
+              >Criar conta</a
+            >
+          </header>
+          <section class="form-header">
+            <h2>Bem-vindo de volta</h2>
+            <p>
+              Entre para registrar relatos e acompanhar<br />os eventos
+              climáticos da sua região.
+            </p>
+          </section>
+
+          <button class="btn-google">
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              width="20"
+            />
+            Continuar com Google
+          </button>
+
+          <section class="separator">
+            <span class="line"></span>
+            <span class="text">ou</span>
+            <span class="line"></span>
+          </section>
+
+          <form id="login-form">
+            <fieldset class="input-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="sergio.silva@gmail.com"
+                required
+              />
+            </fieldset>
+
+            <fieldset class="input-group">
+              <label for="password">Senha</label>
+              <input type="password" id="password" value="........" required />
+            </fieldset>
+
+            <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+
+            <button type="submit" class="btn-submit">
+              Entrar na plataforma
+            </button>
+          </form>
+
+          <section class="security-badge">
+            <i class="ph-fill ph-lock-key"></i>
+            <span
+              >Suas informações são protegidas com criptografia de ponta.</span
+            >
+          </section>
+
+          <footer class="login-footer">
+            Não tem uma conta?
+            <a href="/cadastro-dados-pessoais.ejs">Cadastre-se grátis &rarr;</a>
+          </footer>
+        </article>
+      </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="main-footer">
+      <section class="footer-brand">
+        <strong class="footer-logo">ClimaFy</strong>
+        <span class="footer-sub"
+          >Plataforma de Monitoramento Climático Comunitário</span
+        >
+      </section>
+      <nav class="footer-nav">
+        <a href="/index.ejs">Início</a>
+        <a href="#">Início</a>
+        <a href="#">Ranking</a>
+        <a href="#">Relatos</a>
+        <a href="#">Sobre</a>
+      </nav>
+      <section class="footer-copy">&copy; ClimaFy 2026</section>
+    </footer>
+    <script src="/js/login.js"></script>
+  </body>
+</html>
