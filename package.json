@@ -1,0 +1,22 @@
+{
+  "name": "climafy",
+  "version": "1.0.0",
+  "description": "ClimaFy para todos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "ejs"
+  ],
+  "author": "Grupo ClimaFy",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "readline-sync": "^1.4.10"
+  }
+}

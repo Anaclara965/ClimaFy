@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClimaFy - Dashboard Admin</title>
-    <link rel="stylesheet" href="../CSS/admin-dashboard.css">
+    <link rel="stylesheet" href="/css/adm-dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -19,22 +19,22 @@
             </header>
 
             <nav class="sidebar-nav" aria-label="Navegação do painel">
-                <a class="active" href="admin-dashboard.html">
+                <a class="active" href="/adm-dashboard.ejs">
                     <span>Dashboard</span>
                 </a>
-                <a href="admin-moderacao.html">
+                <a href="/adm-moderacao.ejs">
                     <span>Moderação</span>
                 </a>
-                <a href="admin-relatos.html">
+                <a href="/adm-relatos.ejs">
                     <span>Todos os Relatos</span>
                 </a>
-                <a href="admin-usuarios.html">
+                <a href="/adm-usuarios.ejs">
                     <span>Usuários</span>
                 </a>
-                <a href="admin-investimentos.html">
+                <a href="/adm-investimentos.ejs">
                     <span>Investimentos</span>
                 </a>
-                <a href="admin-relatorios.html">
+                <a href="/adm-relatorios.ejs">
                     <span>Relatórios</span>
                 </a>
             </nav>
@@ -43,7 +43,7 @@
                 <img src="https://www.figma.com/api/mcp/asset/5c8535df-55c3-4d3d-becc-54faec3a5567" alt="" aria-hidden="true">
                 <strong>Administrador</strong>
                 <span>admin@climafy.br</span>
-                <a href="login.html">← Sair do painel</a>
+                <a href="/login.ejs">← Sair do painel</a>
             </footer>
         </aside>
 
@@ -69,7 +69,7 @@
                                 <h2 id="moderation-title">Fila de Moderação</h2>
                                 <span class="pending-chip">47 pendentes</span>
                             </section>
-                            <a class="see-all" href="admin-moderacao.html">Ver todos →</a>
+                            <a class="see-all" href="/adm-moderacao.ejs">Ver todos →</a>
                         </header>
                         <section class="table-wrap">
                             <table class="moderation-table">
@@ -113,6 +113,6 @@
         </main>
     </section>
 
-    <script src="../JS/admin-dashboard.js"></script>
+    <script src="/js/adm-dashboard.js"></script>
 </body>
 </html>

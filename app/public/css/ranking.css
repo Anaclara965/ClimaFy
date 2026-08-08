@@ -73,7 +73,7 @@ caption,
     white-space: nowrap;
 }
 
-.site-header {
+.main-header {
     position: sticky;
     top: 0;
     z-index: 20;
@@ -1168,7 +1168,7 @@ caption,
 }
 
 @media (max-width: 1180px) {
-    .site-header,
+    .main-header,
     .ranking-hero,
     .controls-form,
     .data-section,
@@ -1205,7 +1205,7 @@ caption,
 }
 
 @media (max-width: 760px) {
-    .site-header {
+    .main-header {
         height: auto;
         flex-wrap: wrap;
         gap: 14px;
