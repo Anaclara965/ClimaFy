@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setFeedback("Aguarde o tempo acabar ou digite o código.");
             return;
         }
-        window.location.href = "cadastro-preferencias.html";
+        window.location.href = "/cadastro-preferencias";
     });
 
     startCountdown();

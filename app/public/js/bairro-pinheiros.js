@@ -34,7 +34,7 @@ const timeline = [
 
 const related = [
     ['Mooca', 'ALTA', 67, '82 relatos - R$ 290K investidos', '#f37d22', '#'],
-    ['Brás', 'CRÍTICA', 91, '147 relatos - R$ 124K investidos', '#d62727', 'bairro-bras.html'],
+    ['Brás', 'CRÍTICA', 91, '147 relatos - R$ 124K investidos', '#d62727', '/bairro-bras'],
     ['Consolação', 'MÉDIA', 48, '61 relatos - R$ 450K investidos', '#f4b60d', '#'],
     ['Perdizes', 'BAIXA', 21, '28 relatos - R$ 680K investidos', '#1a9651', '#'],
 ];
