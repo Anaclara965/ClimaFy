@@ -1,86 +1,236 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Relatórios Administrativos</title>
-    <link rel="stylesheet" href="/css/adm-areas.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-</head>
-<body data-admin-page="relatorios">
+    <link rel="stylesheet" href="/css/adm-areas.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-admin-page="relatorios">
     <section class="admin-shell">
-        <aside class="sidebar" aria-label="Menu administrativo">
-            <header class="sidebar-brand">
-                <span class="brand-mark" aria-hidden="true">+</span>
-                <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
-            </header>
-            <nav class="sidebar-nav" aria-label="Navegação do painel">
-                <a href="/adm-dashboard.ejs"><span>Dashboard</span></a>
-                <a href="/adm-moderacao.ejs"><span>Moderação</span></a>
-                <a href="/adm-relatos.ejs"><span>Todos os Relatos</span></a>
-                <a href="/adm-usuarios.ejs"><span>Usuários</span></a>
-                <a href="/adm-investimentos.ejs"><span>Investimentos</span></a>
-                <a class="active" href="/adm-relatorios.ejs" aria-current="page"><span>Relatórios</span></a>
-            </nav>
-            <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login.ejs">← Sair do painel</a>
-            </footer>
-        </aside>
+      <aside class="sidebar" aria-label="Menu administrativo">
+        <header class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <strong>ClimaFy</strong>
+          <span class="admin-badge">ADMIN</span>
+        </header>
+        <%- include('../partials/header-adm') %>
+        <footer class="sidebar-user">
+          <strong>Administrador</strong>
+          <span>admin@climafy.br</span>
+          <a href="/login">← Sair do painel</a>
+        </footer>
+      </aside>
 
-        <main class="admin-main">
-            <header class="admin-header">
-                <section>
-                    <h1>Relatórios</h1>
-                    <p>Gere análises consolidadas para acompanhamento e prestação de contas</p>
-                </section>
-                <menu class="header-actions" aria-label="Ações administrativas">
-                    <li><button class="icon-button" type="button" aria-label="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></button></li>
-                    <li><button class="avatar-button" type="button" aria-label="Perfil administrador">A</button></li>
-                </menu>
-            </header>
+      <main class="admin-main">
+        <header class="admin-header">
+          <section>
+            <h1>Relatórios</h1>
+            <p>
+              Gere análises consolidadas para acompanhamento e prestação de
+              contas
+            </p>
+          </section>
+          <menu class="header-actions" aria-label="Ações administrativas">
+            <li>
+              <button
+                class="icon-button"
+                type="button"
+                aria-label="Notificações"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path></svg
+                ><span>3</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="avatar-button"
+                type="button"
+                aria-label="Perfil administrador"
+              >
+                A
+              </button>
+            </li>
+          </menu>
+        </header>
 
-            <section class="admin-area-content">
-                <section class="area-summary" aria-label="Resumo dos relatórios">
-                    <article class="summary-card"><span>Relatórios disponíveis</span><strong>6</strong><small>Atualizados automaticamente</small></article>
-                    <article class="summary-card" style="--card-color:#147a43"><span>Última atualização</span><strong>Hoje</strong><small>29/07/2026 às 09:30</small></article>
-                    <article class="summary-card" style="--card-color:#2469d6"><span>Período padrão</span><strong>30 dias</strong><small>Personalizável na exportação</small></article>
-                    <article class="summary-card" style="--card-color:#f4b60d"><span>Exportações no mês</span><strong>18</strong><small>PDF e CSV</small></article>
-                </section>
+        <section class="admin-area-content">
+          <section class="area-summary" aria-label="Resumo dos relatórios">
+            <article class="summary-card">
+              <span>Relatórios disponíveis</span><strong>6</strong
+              ><small>Atualizados automaticamente</small>
+            </article>
+            <article class="summary-card" style="--card-color: #147a43">
+              <span>Última atualização</span><strong>Hoje</strong
+              ><small>29/07/2026 às 09:30</small>
+            </article>
+            <article class="summary-card" style="--card-color: #2469d6">
+              <span>Período padrão</span><strong>30 dias</strong
+              ><small>Personalizável na exportação</small>
+            </article>
+            <article class="summary-card" style="--card-color: #f4b60d">
+              <span>Exportações no mês</span><strong>18</strong
+              ><small>PDF e CSV</small>
+            </article>
+          </section>
 
-                <section class="reports-grid" aria-label="Relatórios disponíveis">
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#e0efff;--icon-color:#2469d6">RG</span><h2>Relatos por região</h2><p>Volume, categorias e evolução dos relatos organizados por bairro e subprefeitura.</p></section>
-                        <footer><span>Atualizado hoje</span><button type="button" data-message="Relatório de relatos por região preparado.">Gerar relatório</button></footer>
-                    </article>
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#e0f5e9;--icon-color:#147a43">MD</span><h2>Desempenho da moderação</h2><p>Tempo médio de análise, aprovações, rejeições e produtividade da equipe.</p></section>
-                        <footer><span>Atualizado hoje</span><button type="button" data-message="Relatório de moderação preparado.">Gerar relatório</button></footer>
-                    </article>
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#fff6d6;--icon-color:#8a6500">$</span><h2>Execução de investimentos</h2><p>Recursos planejados, comprometidos e executados por projeto e território.</p></section>
-                        <footer><span>Atualizado ontem</span><button type="button" data-message="Relatório de investimentos preparado.">Gerar relatório</button></footer>
-                    </article>
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#f3e8ff;--icon-color:#7d3ec7">US</span><h2>Engajamento de usuários</h2><p>Cadastros, atividade, recorrência e participação da comunidade na plataforma.</p></section>
-                        <footer><span>Atualizado hoje</span><button type="button" data-message="Relatório de usuários preparado.">Gerar relatório</button></footer>
-                    </article>
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#ffe8d8;--icon-color:#d96516">EC</span><h2>Eventos climáticos</h2><p>Consolidação das ocorrências por tipo, severidade, duração e áreas afetadas.</p></section>
-                        <footer><span>Atualizado há 2 dias</span><button type="button" data-message="Relatório de eventos climáticos preparado.">Gerar relatório</button></footer>
-                    </article>
-                    <article class="report-card">
-                        <section><span class="report-card-icon" style="--icon-bg:#ffe0e0;--icon-color:#d62727">!</span><h2>Áreas de risco</h2><p>Priorização de territórios críticos baseada em ocorrências e investimentos.</p></section>
-                        <footer><span>Atualizado ontem</span><button type="button" data-message="Relatório de áreas de risco preparado.">Gerar relatório</button></footer>
-                    </article>
-                </section>
-            </section>
-        </main>
+          <section class="reports-grid" aria-label="Relatórios disponíveis">
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #e0efff; --icon-color: #2469d6"
+                  >RG</span
+                >
+                <h2>Relatos por região</h2>
+                <p>
+                  Volume, categorias e evolução dos relatos organizados por
+                  bairro e subprefeitura.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado hoje</span
+                ><button
+                  type="button"
+                  data-message="Relatório de relatos por região preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #e0f5e9; --icon-color: #147a43"
+                  >MD</span
+                >
+                <h2>Desempenho da moderação</h2>
+                <p>
+                  Tempo médio de análise, aprovações, rejeições e produtividade
+                  da equipe.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado hoje</span
+                ><button
+                  type="button"
+                  data-message="Relatório de moderação preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #fff6d6; --icon-color: #8a6500"
+                  >$</span
+                >
+                <h2>Execução de investimentos</h2>
+                <p>
+                  Recursos planejados, comprometidos e executados por projeto e
+                  território.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado ontem</span
+                ><button
+                  type="button"
+                  data-message="Relatório de investimentos preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #f3e8ff; --icon-color: #7d3ec7"
+                  >US</span
+                >
+                <h2>Engajamento de usuários</h2>
+                <p>
+                  Cadastros, atividade, recorrência e participação da comunidade
+                  na plataforma.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado hoje</span
+                ><button
+                  type="button"
+                  data-message="Relatório de usuários preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #ffe8d8; --icon-color: #d96516"
+                  >EC</span
+                >
+                <h2>Eventos climáticos</h2>
+                <p>
+                  Consolidação das ocorrências por tipo, severidade, duração e
+                  áreas afetadas.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado há 2 dias</span
+                ><button
+                  type="button"
+                  data-message="Relatório de eventos climáticos preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+            <article class="report-card">
+              <section>
+                <span
+                  class="report-card-icon"
+                  style="--icon-bg: #ffe0e0; --icon-color: #d62727"
+                  >!</span
+                >
+                <h2>Áreas de risco</h2>
+                <p>
+                  Priorização de territórios críticos baseada em ocorrências e
+                  investimentos.
+                </p>
+              </section>
+              <footer>
+                <span>Atualizado ontem</span
+                ><button
+                  type="button"
+                  data-message="Relatório de áreas de risco preparado."
+                >
+                  Gerar relatório
+                </button>
+              </footer>
+            </article>
+          </section>
+        </section>
+      </main>
     </section>
     <script src="/js/adm-areas.js"></script>
-</body>
+  </body>
 </html>

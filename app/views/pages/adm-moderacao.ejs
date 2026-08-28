@@ -1,150 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Moderação</title>
-    <link rel="stylesheet" href="/css/adm-moderacao.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/adm-moderacao.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <section class="admin-shell moderation-shell">
-        <aside class="sidebar" aria-label="Menu administrativo">
-            <header class="sidebar-brand">
-                <span class="brand-mark" aria-hidden="true">+</span>
-                <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
-            </header>
+      <aside class="sidebar" aria-label="Menu administrativo">
+        <header class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <strong>ClimaFy</strong>
+          <span class="admin-badge">ADMIN</span>
+        </header>
 
-            <nav class="sidebar-nav" aria-label="Navegação do painel">
-                <a href="/adm-dashboard.ejs">
-                    <span>Dashboard</span>
-                </a>
-                <a class="active" href="/adm-moderacao.ejs">
-                    <span>Moderação</span>
-                </a>
-                <a href="/adm-relatos.ejs">
-                    <span>Todos os Relatos</span>
-                </a>
-                <a href="/adm-usuarios.ejs">
-                    <span>Usuários</span>
-                </a>
-                <a href="/adm-investimentos.ejs">
-                    <span>Investimentos</span>
-                </a>
-                <a href="/adm-relatorios.ejs">
-                    <span>Relatórios</span>
-                </a>
-            </nav>
+        <%- include('../partials/header-adm') %>
 
-            <footer class="sidebar-user">
-                <img src="https://www.figma.com/api/mcp/asset/fea6c806-b7e3-4df2-9706-0cc9b0e731c4" alt="" aria-hidden="true">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login.ejs">← Sair do painel</a>
-            </footer>
-        </aside>
+        <footer class="sidebar-user">
+          <img
+            src="https://www.figma.com/api/mcp/asset/fea6c806-b7e3-4df2-9706-0cc9b0e731c4"
+            alt=""
+            aria-hidden="true"
+          />
+          <strong>Administrador</strong>
+          <span>admin@climafy.br</span>
+          <a href="/login">← Sair do painel</a>
+        </footer>
+      </aside>
 
-        <main class="admin-main">
-            <header class="admin-header">
-                <section>
-                    <h1>Fila de Moderação</h1>
-                    <p>Revise e publique os relatos enviados pela comunidade</p>
-                </section>
-                <menu class="header-actions" aria-label="Ações administrativas">
-                    <li><button class="icon-button" type="button" aria-label="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></button></li>
-                    <li><button class="avatar-button" type="button" aria-label="Perfil administrador">A</button></li>
-                </menu>
-            </header>
+      <main class="admin-main">
+        <header class="admin-header">
+          <section>
+            <h1>Fila de Moderação</h1>
+            <p>Revise e publique os relatos enviados pela comunidade</p>
+          </section>
+          <menu class="header-actions" aria-label="Ações administrativas">
+            <li>
+              <button
+                class="icon-button"
+                type="button"
+                aria-label="Notificações"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path></svg
+                ><span>3</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="avatar-button"
+                type="button"
+                aria-label="Perfil administrador"
+              >
+                A
+              </button>
+            </li>
+          </menu>
+        </header>
 
-            <section class="moderation-content" aria-label="Gerenciamento de relatos">
-                <section class="filter-bar" aria-label="Filtros da fila">
-                    <label class="search-field">
-                        <span class="sr-only">Buscar relatos pendentes</span>
-                        <input id="moderation-search" type="search" placeholder="⌕  Buscar relatos pendentes...">
-                    </label>
-                    <menu class="status-tabs" id="status-tabs" aria-label="Filtrar por status"></menu>
-                    <label class="sort-field">
-                        <span class="sr-only">Ordenar relatos</span>
-                        <select id="moderation-sort">
-                            <option value="oldest">Mais antigos primeiro</option>
-                            <option value="newest">Mais recentes primeiro</option>
-                        </select>
-                    </label>
-                </section>
+        <section
+          class="moderation-content"
+          aria-label="Gerenciamento de relatos"
+        >
+          <section class="filter-bar" aria-label="Filtros da fila">
+            <label class="search-field">
+              <span class="sr-only">Buscar relatos pendentes</span>
+              <input
+                id="moderation-search"
+                type="search"
+                placeholder="⌕  Buscar relatos pendentes..."
+              />
+            </label>
+            <menu
+              class="status-tabs"
+              id="status-tabs"
+              aria-label="Filtrar por status"
+            ></menu>
+            <label class="sort-field">
+              <span class="sr-only">Ordenar relatos</span>
+              <select id="moderation-sort">
+                <option value="oldest">Mais antigos primeiro</option>
+                <option value="newest">Mais recentes primeiro</option>
+              </select>
+            </label>
+          </section>
 
-                <section class="stat-strip" aria-label="Indicadores de moderação">
-                    <dl id="moderation-stats"></dl>
-                </section>
+          <section class="stat-strip" aria-label="Indicadores de moderação">
+            <dl id="moderation-stats"></dl>
+          </section>
 
-                <section class="moderation-list" aria-labelledby="table-title">
-                    <h2 id="table-title" class="sr-only">Relatos aguardando moderação</h2>
-                    <section class="wide-table">
-                        <table class="review-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Relato</th>
-                                    <th scope="col">Categoria</th>
-                                    <th scope="col">Bairro</th>
-                                    <th scope="col">Usuário</th>
-                                    <th scope="col">Enviado</th>
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Localização</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="review-body"></tbody>
-                        </table>
-                    </section>
-                </section>
-
-                <footer class="pagination-panel">
-                    <p id="pagination-summary">Mostrando 1–6 de 47 relatos pendentes</p>
-                    <nav aria-label="Paginação da fila de moderação">
-                        <a href="#" aria-label="Página anterior">←</a>
-                        <a class="active" href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">...</a>
-                        <a href="#">8</a>
-                        <a href="#" aria-label="Próxima página">→</a>
-                    </nav>
-                </footer>
+          <section class="moderation-list" aria-labelledby="table-title">
+            <h2 id="table-title" class="sr-only">
+              Relatos aguardando moderação
+            </h2>
+            <section class="wide-table">
+              <table class="review-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Relato</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Bairro</th>
+                    <th scope="col">Usuário</th>
+                    <th scope="col">Enviado</th>
+                    <th scope="col">Foto</th>
+                    <th scope="col">Localização</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="review-body"></tbody>
+              </table>
             </section>
-        </main>
+          </section>
+
+          <footer class="pagination-panel">
+            <p id="pagination-summary">Mostrando 1–6 de 47 relatos pendentes</p>
+            <nav aria-label="Paginação da fila de moderação">
+              <a href="#" aria-label="Página anterior">←</a>
+              <a class="active" href="#">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">...</a>
+              <a href="#">8</a>
+              <a href="#" aria-label="Próxima página">→</a>
+            </nav>
+          </footer>
+        </section>
+      </main>
     </section>
 
-    <dialog class="reject-modal" id="reject-modal" aria-labelledby="reject-title">
-        <form method="dialog" id="reject-form">
-            <section class="modal-accent" aria-hidden="true"></section>
-            <h2 id="reject-title">Justificativa para Rejeição</h2>
+    <dialog
+      class="reject-modal"
+      id="reject-modal"
+      aria-labelledby="reject-title"
+    >
+      <form method="dialog" id="reject-form">
+        <section class="modal-accent" aria-hidden="true"></section>
+        <h2 id="reject-title">Justificativa para Rejeição</h2>
 
-            <label class="modal-field" for="reject-reason">
-                <span>Motivo da rejeição *</span>
-                <select id="reject-reason" required>
-                    <option value="">Selecione um motivo</option>
-                    <option>Conteúdo inválido</option>
-                    <option>Relato duplicado</option>
-                    <option>Localização incorreta</option>
-                    <option>Sem evidência suficiente</option>
-                    <option>Fora do escopo da plataforma</option>
-                </select>
-            </label>
+        <label class="modal-field" for="reject-reason">
+          <span>Motivo da rejeição *</span>
+          <select id="reject-reason" required>
+            <option value="">Selecione um motivo</option>
+            <option>Conteúdo inválido</option>
+            <option>Relato duplicado</option>
+            <option>Localização incorreta</option>
+            <option>Sem evidência suficiente</option>
+            <option>Fora do escopo da plataforma</option>
+          </select>
+        </label>
 
-            <label class="modal-field modal-note" for="reject-note">
-                <span>Observação adicional (opcional)</span>
-                <textarea id="reject-note" placeholder="Descreva o motivo detalhadamente..."></textarea>
-            </label>
+        <label class="modal-field modal-note" for="reject-note">
+          <span>Observação adicional (opcional)</span>
+          <textarea
+            id="reject-note"
+            placeholder="Descreva o motivo detalhadamente..."
+          ></textarea>
+        </label>
 
-            <footer class="modal-actions">
-                <button class="modal-cancel" id="reject-cancel" type="button">Cancelar</button>
-                <button class="modal-confirm" type="submit">Confirmar rejeição</button>
-            </footer>
-        </form>
+        <footer class="modal-actions">
+          <button class="modal-cancel" id="reject-cancel" type="button">
+            Cancelar
+          </button>
+          <button class="modal-confirm" type="submit">
+            Confirmar rejeição
+          </button>
+        </footer>
+      </form>
     </dialog>
 
     <script src="/js/adm-moderacao.js"></script>
-</body>
+  </body>
 </html>
