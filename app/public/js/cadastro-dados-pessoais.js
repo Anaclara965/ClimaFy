@@ -23,13 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Se a validação nativa do HTML passar, este bloco será executado.
         if (form.checkValidity()) {
-            window.location.href = "cadastro-verificacao.html";
+            window.location.href = "/cadastro-verificacao";
             return;
             const nomeUsuario = document.getElementById("nome").value;
             console.log(`Cadastro realizado com sucesso para: ${nomeUsuario}`);
 
-            // Simulação de redirecionamento ou próxima etapa
-            // window.location.href = "../index.html";
+            // A proxima etapa ainda e apenas visual; o cadastro real sera ligado ao backend.
         }
     });
 });

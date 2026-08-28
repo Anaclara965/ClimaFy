@@ -183,7 +183,7 @@ function renderizarRankingDaHome(ranking) {
         metricas.append(ocorrencias, orcamento);
 
         link.className = 'btn-outline-small';
-        link.href = 'HTML/ranking.html';
+        link.href = '/ranking';
         link.textContent = 'Ver no ranking →';
         cartao.append(cabecalho, titulo, cidade, score, metricas, link);
         areaDosCartoes.append(cartao);
