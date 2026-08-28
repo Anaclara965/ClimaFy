@@ -1,81 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Investimentos</title>
-    <link rel="stylesheet" href="/css/adm-areas.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-</head>
-<body data-admin-page="investimentos">
+    <link rel="stylesheet" href="/css/adm-areas.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-admin-page="investimentos">
     <section class="admin-shell">
-        <aside class="sidebar" aria-label="Menu administrativo">
-            <header class="sidebar-brand">
-                <span class="brand-mark" aria-hidden="true">+</span>
-                <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
+      <aside class="sidebar" aria-label="Menu administrativo">
+        <header class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <strong>ClimaFy</strong>
+          <span class="admin-badge">ADMIN</span>
+        </header>
+
+        <%- include('../partials/header-adm') %>
+
+        <footer class="sidebar-user">
+          <strong>Administrador</strong>
+          <span>admin@climafy.br</span>
+          <a href="/login">← Sair do painel</a>
+        </footer>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <section>
+            <h1>Investimentos</h1>
+            <p>Acompanhe recursos e projetos de adaptação climática</p>
+          </section>
+          <menu class="header-actions" aria-label="Ações administrativas">
+            <li>
+              <button
+                class="icon-button"
+                type="button"
+                aria-label="Notificações"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path></svg
+                ><span>3</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="avatar-button"
+                type="button"
+                aria-label="Perfil administrador"
+              >
+                A
+              </button>
+            </li>
+          </menu>
+        </header>
+
+        <section class="admin-area-content">
+          <section class="area-summary" aria-label="Resumo dos investimentos">
+            <article class="summary-card">
+              <span>Orçamento total</span><strong>R$ 42,6 mi</strong
+              ><small>Ciclo orçamentário de 2026</small>
+            </article>
+            <article class="summary-card" style="--card-color: #2469d6">
+              <span>Em execução</span><strong>R$ 28,4 mi</strong
+              ><small>66,7% do orçamento</small>
+            </article>
+            <article class="summary-card" style="--card-color: #147a43">
+              <span>Valor executado</span><strong>R$ 18,9 mi</strong
+              ><small>44,4% do orçamento</small>
+            </article>
+            <article class="summary-card" style="--card-color: #f4b60d">
+              <span>Projetos ativos</span><strong>23</strong
+              ><small>Em 18 subprefeituras</small>
+            </article>
+          </section>
+
+          <section class="area-panel" aria-labelledby="investments-table-title">
+            <header class="area-toolbar">
+              <input
+                class="area-search"
+                id="area-search"
+                type="search"
+                placeholder="Buscar projeto, região ou identificador..."
+                aria-label="Buscar investimentos"
+              />
+              <select
+                class="area-select"
+                id="area-status"
+                aria-label="Filtrar por status"
+              >
+                <option>Todos</option>
+                <option>Planejado</option>
+                <option>Em execução</option>
+                <option>Concluído</option>
+              </select>
+              <button
+                class="primary-action"
+                type="button"
+                data-message="Cadastro de investimento iniciado."
+              >
+                Novo investimento
+              </button>
             </header>
-            <nav class="sidebar-nav" aria-label="Navegação do painel">
-                <a href="/adm-dashboard.ejs"><span>Dashboard</span></a>
-                <a href="/adm-moderacao.ejs"><span>Moderação</span></a>
-                <a href="/adm-relatos.ejs"><span>Todos os Relatos</span></a>
-                <a href="/adm-usuarios.ejs"><span>Usuários</span></a>
-                <a class="active" href="/adm-investimentos.ejs" aria-current="page"><span>Investimentos</span></a>
-                <a href="/adm-relatorios.ejs"><span>Relatórios</span></a>
-            </nav>
-            <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login.ejs">← Sair do painel</a>
-            </footer>
-        </aside>
-
-        <main class="admin-main">
-            <header class="admin-header">
-                <section>
-                    <h1>Investimentos</h1>
-                    <p>Acompanhe recursos e projetos de adaptação climática</p>
-                </section>
-                <menu class="header-actions" aria-label="Ações administrativas">
-                    <li><button class="icon-button" type="button" aria-label="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></button></li>
-                    <li><button class="avatar-button" type="button" aria-label="Perfil administrador">A</button></li>
-                </menu>
-            </header>
-
-            <section class="admin-area-content">
-                <section class="area-summary" aria-label="Resumo dos investimentos">
-                    <article class="summary-card"><span>Orçamento total</span><strong>R$ 42,6 mi</strong><small>Ciclo orçamentário de 2026</small></article>
-                    <article class="summary-card" style="--card-color:#2469d6"><span>Em execução</span><strong>R$ 28,4 mi</strong><small>66,7% do orçamento</small></article>
-                    <article class="summary-card" style="--card-color:#147a43"><span>Valor executado</span><strong>R$ 18,9 mi</strong><small>44,4% do orçamento</small></article>
-                    <article class="summary-card" style="--card-color:#f4b60d"><span>Projetos ativos</span><strong>23</strong><small>Em 18 subprefeituras</small></article>
-                </section>
-
-                <section class="area-panel" aria-labelledby="investments-table-title">
-                    <header class="area-toolbar">
-                        <input class="area-search" id="area-search" type="search" placeholder="Buscar projeto, região ou identificador..." aria-label="Buscar investimentos">
-                        <select class="area-select" id="area-status" aria-label="Filtrar por status">
-                            <option>Todos</option>
-                            <option>Planejado</option>
-                            <option>Em execução</option>
-                            <option>Concluído</option>
-                        </select>
-                        <button class="primary-action" type="button" data-message="Cadastro de investimento iniciado.">Novo investimento</button>
-                    </header>
-                    <h2 class="sr-only" id="investments-table-title">Lista de investimentos</h2>
-                    <section class="area-table-wrap">
-                        <table class="area-table">
-                            <thead><tr><th>ID</th><th>Projeto</th><th>Região</th><th>Investimento</th><th>Execução</th><th>Status</th><th>Ações</th></tr></thead>
-                            <tbody id="area-table-body"></tbody>
-                        </table>
-                    </section>
-                    <p class="empty-state" id="empty-state">Nenhum investimento encontrado com esses filtros.</p>
-                    <footer class="area-footer"><span id="area-count"></span><span>Valores demonstrativos para o ciclo de 2026</span></footer>
-                </section>
+            <h2 class="sr-only" id="investments-table-title">
+              Lista de investimentos
+            </h2>
+            <section class="area-table-wrap">
+              <table class="area-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Projeto</th>
+                    <th>Região</th>
+                    <th>Investimento</th>
+                    <th>Execução</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="area-table-body"></tbody>
+              </table>
             </section>
-        </main>
+            <p class="empty-state" id="empty-state">
+              Nenhum investimento encontrado com esses filtros.
+            </p>
+            <footer class="area-footer">
+              <span id="area-count"></span
+              ><span>Valores demonstrativos para o ciclo de 2026</span>
+            </footer>
+          </section>
+        </section>
+      </main>
     </section>
     <script src="/js/adm-areas.js"></script>
-</body>
+  </body>
 </html>

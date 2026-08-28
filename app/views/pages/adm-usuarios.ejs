@@ -1,81 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Usuários</title>
-    <link rel="stylesheet" href="/css/adm-areas.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-</head>
-<body data-admin-page="usuarios">
+    <link rel="stylesheet" href="/css/adm-areas.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-admin-page="usuarios">
     <section class="admin-shell">
-        <aside class="sidebar" aria-label="Menu administrativo">
-            <header class="sidebar-brand">
-                <span class="brand-mark" aria-hidden="true">+</span>
-                <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
+      <aside class="sidebar" aria-label="Menu administrativo">
+        <header class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <strong>ClimaFy</strong>
+          <span class="admin-badge">ADMIN</span>
+        </header>
+        <%- include('../partials/header-adm') %>
+        <footer class="sidebar-user">
+          <strong>Administrador</strong>
+          <span>admin@climafy.br</span>
+          <a href="/login">← Sair do painel</a>
+        </footer>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-header">
+          <section>
+            <h1>Usuários</h1>
+            <p>Gerencie os participantes cadastrados na plataforma</p>
+          </section>
+          <menu class="header-actions" aria-label="Ações administrativas">
+            <li>
+              <button
+                class="icon-button"
+                type="button"
+                aria-label="Notificações"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path></svg
+                ><span>3</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="avatar-button"
+                type="button"
+                aria-label="Perfil administrador"
+              >
+                A
+              </button>
+            </li>
+          </menu>
+        </header>
+
+        <section class="admin-area-content">
+          <section class="area-summary" aria-label="Resumo dos usuários">
+            <article class="summary-card">
+              <span>Usuários cadastrados</span><strong>8.542</strong
+              ><small>+126 neste mês</small>
+            </article>
+            <article class="summary-card" style="--card-color: #147a43">
+              <span>Usuários ativos</span><strong>7.918</strong
+              ><small>92,7% da base</small>
+            </article>
+            <article class="summary-card" style="--card-color: #2469d6">
+              <span>Novos esta semana</span><strong>38</strong
+              ><small>↑ 12% vs. semana anterior</small>
+            </article>
+            <article class="summary-card" style="--card-color: #d62727">
+              <span>Bloqueados</span><strong>17</strong
+              ><small>0,2% da base</small>
+            </article>
+          </section>
+
+          <section class="area-panel" aria-labelledby="users-table-title">
+            <header class="area-toolbar">
+              <input
+                class="area-search"
+                id="area-search"
+                type="search"
+                placeholder="Buscar por nome, e-mail ou perfil..."
+                aria-label="Buscar usuários"
+              />
+              <select
+                class="area-select"
+                id="area-status"
+                aria-label="Filtrar por status"
+              >
+                <option>Todos</option>
+                <option>Ativo</option>
+                <option>Pendente</option>
+                <option>Bloqueado</option>
+              </select>
+              <button
+                class="primary-action"
+                type="button"
+                data-message="Formulário de convite iniciado."
+              >
+                Convidar usuário
+              </button>
             </header>
-            <nav class="sidebar-nav" aria-label="Navegação do painel">
-                <a href="/adm-dashboard.ejs"><span>Dashboard</span></a>
-                <a href="/adm-moderacao.ejs"><span>Moderação</span></a>
-                <a href="/adm-relatos.ejs"><span>Todos os Relatos</span></a>
-                <a class="active" href="/adm-usuarios.ejs" aria-current="page"><span>Usuários</span></a>
-                <a href="/adm-investimentos.ejs"><span>Investimentos</span></a>
-                <a href="/adm-relatorios.ejs"><span>Relatórios</span></a>
-            </nav>
-            <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login.ejs">← Sair do painel</a>
-            </footer>
-        </aside>
-
-        <main class="admin-main">
-            <header class="admin-header">
-                <section>
-                    <h1>Usuários</h1>
-                    <p>Gerencie os participantes cadastrados na plataforma</p>
-                </section>
-                <menu class="header-actions" aria-label="Ações administrativas">
-                    <li><button class="icon-button" type="button" aria-label="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></button></li>
-                    <li><button class="avatar-button" type="button" aria-label="Perfil administrador">A</button></li>
-                </menu>
-            </header>
-
-            <section class="admin-area-content">
-                <section class="area-summary" aria-label="Resumo dos usuários">
-                    <article class="summary-card"><span>Usuários cadastrados</span><strong>8.542</strong><small>+126 neste mês</small></article>
-                    <article class="summary-card" style="--card-color:#147a43"><span>Usuários ativos</span><strong>7.918</strong><small>92,7% da base</small></article>
-                    <article class="summary-card" style="--card-color:#2469d6"><span>Novos esta semana</span><strong>38</strong><small>↑ 12% vs. semana anterior</small></article>
-                    <article class="summary-card" style="--card-color:#d62727"><span>Bloqueados</span><strong>17</strong><small>0,2% da base</small></article>
-                </section>
-
-                <section class="area-panel" aria-labelledby="users-table-title">
-                    <header class="area-toolbar">
-                        <input class="area-search" id="area-search" type="search" placeholder="Buscar por nome, e-mail ou perfil..." aria-label="Buscar usuários">
-                        <select class="area-select" id="area-status" aria-label="Filtrar por status">
-                            <option>Todos</option>
-                            <option>Ativo</option>
-                            <option>Pendente</option>
-                            <option>Bloqueado</option>
-                        </select>
-                        <button class="primary-action" type="button" data-message="Formulário de convite iniciado.">Convidar usuário</button>
-                    </header>
-                    <h2 class="sr-only" id="users-table-title">Lista de usuários</h2>
-                    <section class="area-table-wrap">
-                        <table class="area-table">
-                            <thead><tr><th>ID</th><th>Usuário</th><th>Perfil</th><th>Cadastro</th><th>Relatos</th><th>Status</th><th>Ações</th></tr></thead>
-                            <tbody id="area-table-body"></tbody>
-                        </table>
-                    </section>
-                    <p class="empty-state" id="empty-state">Nenhum usuário encontrado com esses filtros.</p>
-                    <footer class="area-footer"><span id="area-count"></span><span>Dados demonstrativos do painel administrativo</span></footer>
-                </section>
+            <h2 class="sr-only" id="users-table-title">Lista de usuários</h2>
+            <section class="area-table-wrap">
+              <table class="area-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Perfil</th>
+                    <th>Cadastro</th>
+                    <th>Relatos</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="area-table-body"></tbody>
+              </table>
             </section>
-        </main>
+            <p class="empty-state" id="empty-state">
+              Nenhum usuário encontrado com esses filtros.
+            </p>
+            <footer class="area-footer">
+              <span id="area-count"></span
+              ><span>Dados demonstrativos do painel administrativo</span>
+            </footer>
+          </section>
+        </section>
+      </main>
     </section>
     <script src="/js/adm-areas.js"></script>
-</body>
+  </body>
 </html>
