@@ -22,7 +22,7 @@ const rotaPrincipal = require("./app/routes/router")
 app.use("/", rotaPrincipal)
 
 const rotaADM = require("./app/routes/router-adm")
-app.use("/adm", rotaADM)
+app.use("/", rotaADM)
 
 app.listen(port, () => {
   console.log(`Servidor ouvindo na porta ${port}

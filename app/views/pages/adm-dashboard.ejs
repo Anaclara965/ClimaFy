@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Dashboard Admin</title>
-    <link rel="stylesheet" href="/css/adm-dashboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/adm-dashboard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <section class="admin-shell">
-        <aside class="sidebar" aria-label="Menu administrativo">
-            <header class="sidebar-brand">
-                <span class="brand-mark" aria-hidden="true">+</span>
-                <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
-            </header>
+      <aside class="sidebar" aria-label="Menu administrativo">
+        <header class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <strong>ClimaFy</strong>
+          <span class="admin-badge">ADMIN</span>
+        </header>
 
             <nav class="sidebar-nav" aria-label="Navegação do painel">
                 <a class="active" href="/adm">
@@ -46,21 +49,56 @@
                 <a href="/login">← Sair do painel</a>
             </footer>
         </aside>
+        <%- include('../partials/header-adm') %>
 
-        <main class="admin-main">
-            <header class="admin-header">
-                <section>
-                    <h1>Dashboard</h1>
-                    <p>Visão geral do sistema em tempo real</p>
-                </section>
-                <menu class="header-actions" aria-label="Ações administrativas">
-                    <li><button class="icon-button" type="button" aria-label="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></button></li>
-                    <li><button class="avatar-button" type="button" aria-label="Perfil administrador">A</button></li>
-                </menu>
-            </header>
+        <footer class="sidebar-user">
+          <img
+            src="https://www.figma.com/api/mcp/asset/5c8535df-55c3-4d3d-becc-54faec3a5567"
+            alt=""
+            aria-hidden="true"
+          />
+          <strong>Administrador</strong>
+          <span>admin@climafy.br</span>
+          <a href="/login">← Sair do painel</a>
+        </footer>
+      </aside>
 
-            <section class="dashboard-content" aria-label="Resumo administrativo">
-                <section class="kpi-grid" id="kpi-grid" aria-label="Indicadores do sistema"></section>
+      <main class="admin-main">
+        <header class="admin-header">
+          <section>
+            <h1>Dashboard</h1>
+            <p>Visão geral do sistema em tempo real</p>
+          </section>
+          <menu class="header-actions" aria-label="Ações administrativas">
+            <li>
+              <button
+                class="icon-button"
+                type="button"
+                aria-label="Notificações"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path></svg
+                ><span>3</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="avatar-button"
+                type="button"
+                aria-label="Perfil administrador"
+              >
+                A
+              </button>
+            </li>
+          </menu>
+        </header>
 
                 <section class="top-grid">
                     <article class="panel moderation-panel" aria-labelledby="moderation-title">
@@ -86,33 +124,73 @@
                             </table>
                         </section>
                     </article>
+        <section class="dashboard-content" aria-label="Resumo administrativo">
+          <section
+            class="kpi-grid"
+            id="kpi-grid"
+            aria-label="Indicadores do sistema"
+          ></section>
 
-                    <aside class="panel activity-panel" aria-labelledby="activity-title">
-                        <h2 id="activity-title">Atividade Recente</h2>
-                        <ol id="activity-list" class="activity-list"></ol>
-                    </aside>
+          <section class="top-grid">
+            <article
+              class="panel moderation-panel"
+              aria-labelledby="moderation-title"
+            >
+              <header class="panel-header">
+                <section class="title-row">
+                  <h2 id="moderation-title">Fila de Moderação</h2>
+                  <span class="pending-chip">47 pendentes</span>
                 </section>
+                <a class="see-all" href="/adm-moderacao.ejs">Ver todos →</a>
+              </header>
+              <section class="table-wrap">
+                <table class="moderation-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Título</th>
+                      <th scope="col">Categoria</th>
+                      <th scope="col">Bairro</th>
+                      <th scope="col">Enviado</th>
+                      <th scope="col">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="moderation-body"></tbody>
+                </table>
+              </section>
+            </article>
 
-                <section class="bottom-grid">
-                    <article class="panel reports-chart" aria-labelledby="daily-title">
-                        <header>
-                            <h2 id="daily-title">Relatos por Dia — Últimos 14 dias</h2>
-                            <p>Total: 847 relatos no período</p>
-                        </header>
-                        <figure class="bar-chart">
-                            <ol id="daily-chart"></ol>
-                        </figure>
-                    </article>
+            <aside
+              class="panel activity-panel"
+              aria-labelledby="activity-title"
+            >
+              <h2 id="activity-title">Atividade Recente</h2>
+              <ol id="activity-list" class="activity-list"></ol>
+            </aside>
+          </section>
 
-                    <article class="panel category-panel" aria-labelledby="category-title">
-                        <h2 id="category-title">Distribuição por Categoria</h2>
-                        <dl id="category-bars" class="category-bars"></dl>
-                    </article>
-                </section>
-            </section>
-        </main>
+          <section class="bottom-grid">
+            <article class="panel reports-chart" aria-labelledby="daily-title">
+              <header>
+                <h2 id="daily-title">Relatos por Dia — Últimos 14 dias</h2>
+                <p>Total: 847 relatos no período</p>
+              </header>
+              <figure class="bar-chart">
+                <ol id="daily-chart"></ol>
+              </figure>
+            </article>
+
+            <article
+              class="panel category-panel"
+              aria-labelledby="category-title"
+            >
+              <h2 id="category-title">Distribuição por Categoria</h2>
+              <dl id="category-bars" class="category-bars"></dl>
+            </article>
+          </section>
+        </section>
+      </main>
     </section>
 
     <script src="/js/adm-dashboard.js"></script>
-</body>
+  </body>
 </html>
