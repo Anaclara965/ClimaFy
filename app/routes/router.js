@@ -38,7 +38,7 @@ router.get("/cadastro-dados-pessoais", function (req, res) {
 });
 
 router.get("/cadastro-preferenciais", function (req, res) {
-    res.render("pages/cadastro-preferenciais")
+    res.render("pages/cadastro-preferencias")
 });
 
 router.get("/cadastro-verificacao", function (req, res) {

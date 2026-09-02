@@ -32,12 +32,13 @@ ul { list-style: none; }
 button { cursor: pointer; border: none; font-family: inherit; }
 fieldset { border: none; }
 
-/* === Header === */
+/* === Header (base: celular — empilhado) === */
 .main-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 4rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
     border-bottom: 2px solid #3b82f6; /* A linha azul fina no topo da imagem original */
 }
 
@@ -52,7 +53,9 @@ fieldset { border: none; }
 
 .main-nav {
     display: flex;
-    gap: 2.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .main-nav a {
@@ -69,7 +72,9 @@ fieldset { border: none; }
 .auth-actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .login-link {
@@ -95,18 +100,19 @@ fieldset { border: none; }
     background-color: #158045;
 }
 
-/* === Layout Principal === */
+/* === Layout Principal (base: celular — seções empilhadas) === */
 .content-wrapper {
-    display: flex;
+    display: block;
     flex: 1;
 }
 
 /* --- Lado Esquerdo (Verde Escuro) --- */
 .hero-section {
     flex: 1;
+    width: 100%;
     background-color: var(--dark-green-bg);
     color: #ffffff;
-    padding: 5rem 5rem 4rem;
+    padding: 3rem 1.25rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -150,7 +156,7 @@ fieldset { border: none; }
 }
 
 .hero-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
 }
@@ -173,7 +179,7 @@ fieldset { border: none; }
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     max-width: 450px;
 }
 
@@ -190,7 +196,8 @@ fieldset { border: none; }
 .stats-section {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .stat-item {
@@ -217,16 +224,17 @@ fieldset { border: none; }
 /* --- Lado Direito (Formulário) --- */
 .login-section {
     flex: 1;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    padding: 2rem;
+    padding: 2rem 1.25rem;
 }
 
 .login-container {
     width: 100%;
-    max-width: 420px;
+    max-width: none;
 }
 
 .tabs-header {
@@ -380,15 +388,17 @@ fieldset { border: none; }
     margin-left: 0.3rem;
 }
 
-/* === Footer Principal === */
+/* === Footer Principal (base: celular — centralizado) === */
 .main-footer {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    gap: 1rem;
     background-color: var(--footer-bg);
-    padding: 1.5rem 4rem;
+    padding: 1.5rem 1.25rem;
     color: #9ca3af;
     font-size: 0.85rem;
+    text-align: center;
 }
 
 .footer-brand {
@@ -404,7 +414,9 @@ fieldset { border: none; }
 
 .footer-nav {
     display: flex;
-    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .footer-nav a {
@@ -416,55 +428,35 @@ fieldset { border: none; }
     color: #ffffff;
 }
 
-/* Ajustes de responsividade (básico) */
-@media (max-width: 968px) {
-    .content-wrapper { flex-direction: column; }
-    .hero-section { padding: 3.5rem 2rem 3rem; }
-    .login-section { padding: 3rem 2rem; }
-    .main-header, .main-footer { padding: 1rem 2rem; flex-direction: column; gap: 1rem; }
+/* =========================================================
+   Progressão para telas maiores (mobile-first, min-width)
+   ========================================================= */
+
+/* Tablets */
+@media (min-width: 768px) {
+    .login-container { max-width: 420px; }
+    .feature-list { margin-bottom: 4rem; }
+    .stats-section { justify-content: flex-start; gap: 2rem; }
 }
 
-@media (max-width: 768px) {
-    .main-header {
-        align-items: stretch;
-    }
+/* Tablets maiores / telas médias */
+@media (min-width: 968px) {
+    .main-header { flex-direction: row; align-items: center; justify-content: space-between; gap: 0; padding: 1rem 2rem; }
+    .main-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 2.5rem; }
+    .auth-actions { justify-content: flex-end; gap: 1.5rem; }
+    .content-wrapper { display: flex; flex-direction: row; }
+    .hero-section { padding: 3.5rem 2rem 3rem; }
+    .login-section { padding: 3rem 2rem; }
+    .main-footer { flex-direction: row; justify-content: space-between; align-items: center; gap: 0; padding: 1.5rem 2rem; text-align: left; }
+    .footer-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 2rem; }
+}
 
-    .main-nav,
-    .auth-actions,
-    .footer-nav {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .content-wrapper {
-        display: block;
-    }
-
-    .hero-section,
-    .login-section {
-        width: 100%;
-    }
-
-    .hero-section { padding: 3rem 1.25rem 2rem; }
-    .login-section { padding: 2rem 1.25rem; }
-
-    .feature-list {
-        margin-bottom: 2rem;
-    }
-
-    .stats-section {
-        justify-content: space-between;
-        gap: 1rem;
-    }
-
-    .login-container {
-        max-width: none;
-    }
-
-    .main-footer {
-        text-align: center;
-    }
+/* Desktops grandes */
+@media (min-width: 1180px) {
+    .main-header { padding: 1rem 4rem; }
+    .hero-section { padding: 5rem 5rem 4rem; }
+    .hero-header h1 { font-size: 2.5rem; }
+    .main-footer { padding: 1.5rem 4rem; }
 }
 
 .brand-icon {

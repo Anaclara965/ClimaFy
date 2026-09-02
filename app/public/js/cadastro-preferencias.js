@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         feedback.textContent = "Preferências salvas com sucesso.";
         window.setTimeout(() => {
-            window.location.href = "welcome.html";
+            window.location.href = "/welcome";
         }, 650);
     });
 
