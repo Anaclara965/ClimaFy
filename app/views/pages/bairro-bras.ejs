@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Brás</title>
-    <link rel="stylesheet" href="/css/bairro.css" />
+    <link rel="stylesheet" href="/css/bairro.css?v=2" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,6 +12,7 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+      <link rel="stylesheet" href="/css/header.css?v=2" />
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -19,7 +20,7 @@
     <main>
       <section class="neighborhood-hero" aria-labelledby="bairro-title">
         <section class="hero-copy">
-          <a class="back-link" href="/ranking.ejs">&larr; Voltar ao Ranking</a>
+          <a class="back-link" href="/ranking">&larr; Voltar ao Ranking</a>
           <p class="hero-meta"><span>CRÍTICA</span> Posicao #1 no Ranking</p>
           <h1 id="bairro-title">Brás</h1>
           <p>São Paulo, SP · Zona Leste</p>
@@ -190,7 +191,7 @@
           >
             <header class="timeline-header">
               <h2 id="timeline-title">Últimos Relatos no Bairro</h2>
-              <a href="/relatos.ejs">Ver todos &rarr;</a>
+              <a href="/relatos">Ver todos &rarr;</a>
             </header>
             <ol class="timeline" id="timeline"></ol>
           </article>
@@ -209,10 +210,10 @@
         <p>Plataforma de Monitoramento Climático Comunitário</p>
       </section>
       <nav aria-label="Navegacao do rodape">
-        <a href="/index.ejs">Início</a>
-        <a href="/ranking.ejs">Ranking</a>
-        <a href="/relatos.ejs">Relatos</a>
-        <a href="/sobre.ejs">Sobre</a>
+        <a href="/">Início</a>
+        <a href="/ranking">Ranking</a>
+        <a href="/relatos">Relatos</a>
+        <a href="/sobre">Sobre</a>
       </nav>
       <p>&copy; ClimaFy 2026</p>
     </footer>

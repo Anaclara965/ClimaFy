@@ -21,6 +21,34 @@
           <span class="admin-badge">ADMIN</span>
         </header>
 
+            <nav class="sidebar-nav" aria-label="Navegação do painel">
+                <a class="active" href="/adm">
+                    <span>Dashboard</span>
+                </a>
+                <a href="/adm/moderacao">
+                    <span>Moderação</span>
+                </a>
+                <a href="/adm/relatos">
+                    <span>Todos os Relatos</span>
+                </a>
+                <a href="/adm/usuarios">
+                    <span>Usuários</span>
+                </a>
+                <a href="/adm/investimentos">
+                    <span>Investimentos</span>
+                </a>
+                <a href="/adm/relatorios">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <footer class="sidebar-user">
+                <img src="https://www.figma.com/api/mcp/asset/5c8535df-55c3-4d3d-becc-54faec3a5567" alt="" aria-hidden="true">
+                <strong>Administrador</strong>
+                <span>admin@climafy.br</span>
+                <a href="/login">← Sair do painel</a>
+            </footer>
+        </aside>
         <%- include('../partials/header-adm') %>
 
         <footer class="sidebar-user">
@@ -72,6 +100,30 @@
           </menu>
         </header>
 
+                <section class="top-grid">
+                    <article class="panel moderation-panel" aria-labelledby="moderation-title">
+                        <header class="panel-header">
+                            <section class="title-row">
+                                <h2 id="moderation-title">Fila de Moderação</h2>
+                                <span class="pending-chip">47 pendentes</span>
+                            </section>
+                            <a class="see-all" href="/adm/moderacao">Ver todos →</a>
+                        </header>
+                        <section class="table-wrap">
+                            <table class="moderation-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Título</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Bairro</th>
+                                        <th scope="col">Enviado</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="moderation-body"></tbody>
+                            </table>
+                        </section>
+                    </article>
         <section class="dashboard-content" aria-label="Resumo administrativo">
           <section
             class="kpi-grid"

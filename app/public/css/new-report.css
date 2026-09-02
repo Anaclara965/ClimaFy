@@ -40,13 +40,15 @@ button { border: 0; cursor: pointer; }
 fieldset { border: 0; }
 ol, ul { list-style: none; }
 
+/* Cabeçalho (base: celular — empilhado) */
 .main-header {
     min-height: 68px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0 4.5rem;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
     background: var(--white);
     border-top: 3px solid var(--blue-line);
     border-bottom: 1px solid var(--border-color);
@@ -81,7 +83,9 @@ ol, ul { list-style: none; }
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 4.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
     color: var(--text-medium);
     font-size: 0.8125rem;
     font-weight: 500;
@@ -169,7 +173,7 @@ ol, ul { list-style: none; }
 
 .report-stepper {
     margin-top: 1.5rem;
-    padding: 1.15rem 1.5rem;
+    padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 14px;
     background: var(--white);
@@ -219,7 +223,7 @@ ol, ul { list-style: none; }
 .report-stepper strong {
     margin-top: 0.7rem;
     color: var(--text-light);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 800;
 }
 
@@ -236,7 +240,7 @@ ol, ul { list-style: none; }
 
 .report-form {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: 1fr;
     gap: 1.25rem;
     margin-top: 1.5rem;
 }
@@ -247,7 +251,7 @@ ol, ul { list-style: none; }
 
 .form-card {
     height: 100%;
-    padding: 1.5rem;
+    padding: 1.15rem;
     border: 1px solid var(--border-color);
     border-radius: 14px;
     background: var(--white);
@@ -288,17 +292,17 @@ ol, ul { list-style: none; }
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
     margin-top: 0.85rem;
 }
 
 .category-option {
-    min-height: 104px;
+    min-height: 88px;
     display: grid;
     place-items: center;
     gap: 0.55rem;
-    padding: 0.85rem;
+    padding: 0.55rem;
     border: 1px solid var(--border-strong);
     border-radius: 10px;
     background: var(--page-bg);
@@ -325,8 +329,8 @@ ol, ul { list-style: none; }
 }
 
 .icon {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     display: grid;
     place-items: center;
     border-radius: 12px;
@@ -399,7 +403,7 @@ ol, ul { list-style: none; }
 
 .severity-options {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 0.65rem;
     margin-top: 0.85rem;
 }
@@ -423,6 +427,75 @@ ol, ul { list-style: none; }
     border-color: var(--primary-green);
     background: var(--primary-green-soft);
     color: var(--primary-green-dark);
+}
+
+/* Dropdowns de Categoria e Severidade (colapsados por padrao) */
+.dropdown-toggle {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--white);
+    text-align: left;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+    border-color: var(--primary-green);
+}
+
+.dropdown-toggle:focus-visible,
+.is-open .dropdown-toggle {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(26, 150, 81, 0.10);
+}
+
+.dropdown-toggle-label {
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.dropdown-toggle-label .icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+}
+
+.dropdown-toggle-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-arrow {
+    flex-shrink: 0;
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    transition: transform 0.2s ease;
+}
+
+.is-open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-panel {
+    margin-top: 0.85rem;
+}
+
+.dropdown-panel[hidden] {
+    display: none;
 }
 
 .upload-zone label {
@@ -568,7 +641,7 @@ ol, ul { list-style: none; }
 
 .location-fields {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0.9rem;
 }
 
@@ -641,15 +714,18 @@ ol, ul { list-style: none; }
     background: var(--primary-green-dark);
 }
 
+/* Rodapé (base: celular — empilhado) */
 .main-footer {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.5rem 4.5rem;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
     background: var(--footer-bg);
     color: #9ca3af;
     font-size: 0.85rem;
+    text-align: center;
 }
 
 .footer-brand {
@@ -665,7 +741,9 @@ ol, ul { list-style: none; }
 
 .footer-nav {
     display: flex;
-    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
 }
 
 @keyframes pin-pulse {
@@ -673,41 +751,31 @@ ol, ul { list-style: none; }
     100% { transform: scale(1.35); opacity: 0; }
 }
 
-@media (max-width: 980px) {
-    .main-header,
-    .main-footer {
-        padding: 1.25rem;
-        flex-direction: column;
-    }
+/* =========================================================
+   Progressão para telas maiores (mobile-first, min-width)
+   ========================================================= */
 
-    .main-nav,
-    .footer-nav {
-        gap: 1.25rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .report-form {
-        grid-template-columns: 1fr;
-    }
+/* Celulares maiores / celulares em paisagem */
+@media (min-width: 600px) {
+    .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .category-option { min-height: 104px; padding: 0.85rem; }
+    .category-option .icon { width: 42px; height: 42px; }
 }
 
-@media (max-width: 700px) {
-    .category-grid,
-    .severity-options,
-    .location-fields {
-        grid-template-columns: 1fr;
-    }
+/* Tablets */
+@media (min-width: 700px) {
+    .severity-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .location-fields { grid-template-columns: 1fr 1fr; }
+    .report-stepper { padding: 1.15rem 1.5rem; }
+    .report-stepper strong { font-size: 0.75rem; }
+    .form-card { padding: 1.5rem; }
+}
 
-    .report-stepper {
-        padding: 1rem;
-    }
-
-    .report-stepper strong {
-        font-size: 0.65rem;
-    }
-
-    .form-card {
-        padding: 1.15rem;
-    }
+/* Desktops */
+@media (min-width: 980px) {
+    .main-header { flex-direction: row; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 0 4.5rem; }
+    .main-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 4.5rem; }
+    .report-form { grid-template-columns: minmax(0, 1fr) 380px; }
+    .main-footer { flex-direction: row; justify-content: space-between; gap: 1.5rem; padding: 1.5rem 4.5rem; text-align: left; }
+    .footer-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 2rem; }
 }

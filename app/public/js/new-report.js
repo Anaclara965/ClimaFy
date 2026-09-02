@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const descriptionInput = document.getElementById("report-description");
     const titleCount = document.getElementById("title-count");
     const descriptionCount = document.getElementById("description-count");
-    const categoryOptions = Array.from(document.querySelectorAll(".category-option"));
-    const severityOptions = Array.from(document.querySelectorAll(".severity-options label"));
     const uploadZone = document.getElementById("upload-zone");
     const uploadInput = document.getElementById("photo-upload");
     const uploadFeedback = document.getElementById("upload-feedback");
@@ -30,12 +28,73 @@ document.addEventListener("DOMContentLoaded", () => {
     titleInput.addEventListener("input", () => updateCounter(titleInput, titleCount));
     descriptionInput.addEventListener("input", () => updateCounter(descriptionInput, descriptionCount));
 
-    categoryOptions.forEach((option) => {
-        option.addEventListener("click", () => selectOption(categoryOptions, option));
+    const dropdownFields = Array.from(document.querySelectorAll("[data-dropdown]"));
+
+    function setDropdownOpen(field, open) {
+        const toggle = field.querySelector(".dropdown-toggle");
+        const panel = field.querySelector(".dropdown-panel");
+        panel.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+        field.classList.toggle("is-open", open);
+    }
+
+    function syncDropdownLabel(field) {
+        const label = field.querySelector(".dropdown-toggle-label");
+        const options = Array.from(
+            field.querySelectorAll(".category-option, .severity-options label")
+        );
+        const selected =
+            options.find((option) => option.querySelector("input").checked) ||
+            options[0];
+        const icon = selected.querySelector(".icon");
+        const textEl =
+            selected.querySelector("strong") ||
+            selected.querySelector("span:not(.icon)");
+
+        label.innerHTML = "";
+        if (icon) {
+            label.appendChild(icon.cloneNode(true));
+        }
+        const text = document.createElement("span");
+        text.className = "dropdown-toggle-text";
+        text.textContent = textEl ? textEl.textContent : "";
+        label.appendChild(text);
+    }
+
+    dropdownFields.forEach((field) => {
+        const toggle = field.querySelector(".dropdown-toggle");
+        const panel = field.querySelector(".dropdown-panel");
+        const options = Array.from(
+            field.querySelectorAll(".category-option, .severity-options label")
+        );
+
+        toggle.addEventListener("click", () => {
+            setDropdownOpen(field, panel.hidden);
+        });
+
+        options.forEach((option) => {
+            option.addEventListener("click", () => {
+                selectOption(options, option);
+                syncDropdownLabel(field);
+                setDropdownOpen(field, false);
+            });
+        });
+
+        syncDropdownLabel(field);
     });
 
-    severityOptions.forEach((option) => {
-        option.addEventListener("click", () => selectOption(severityOptions, option));
+    document.addEventListener("click", (event) => {
+        dropdownFields.forEach((field) => {
+            if (!field.contains(event.target)) {
+                setDropdownOpen(field, false);
+            }
+        });
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            dropdownFields.forEach((field) => setDropdownOpen(field, false));
+        }
     });
 
     ["dragenter", "dragover"].forEach((eventName) => {

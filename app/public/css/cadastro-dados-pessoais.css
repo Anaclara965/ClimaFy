@@ -35,17 +35,21 @@ button { cursor: pointer; border: none; font-family: inherit; }
 fieldset { border: none; }
 abbr { text-decoration: none; color: var(--error-red); }
 
-/* === Header (Igual aos demais) === */
+/* === Header (base: celular — empilhado) === */
 .main-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 4rem; background: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-white);
     border-bottom: 2px solid #3b82f6; /* Fio azul do topo */
 }
-.brand-logo { display: flex; align-items: center; gap: 0.5rem; color: var(--primary-green); font-weight: 700; font-size: 1.25rem; }
-.main-nav { display: flex; gap: 2.5rem; }
-.main-nav a { color: var(--text-gray); font-weight: 500; font-size: 0.95rem; }
-.auth-actions { display: flex; align-items: center; gap: 1.5rem; }
-.login-link { color: var(--text-gray); font-weight: 600; font-size: 0.95rem; }
+.brand-logo { display: flex; align-items: center; gap: 0.5rem; color: var(--primary-green); font-weight: 700; font-size: 1.15rem; }
+.main-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.main-nav a { color: var(--text-gray); font-weight: 500; font-size: 0.9rem; }
+.auth-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+.login-link { color: var(--text-gray); font-weight: 600; font-size: 0.9rem; }
 .btn-primary { background: var(--primary-green); color: #fff; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; }
 
 /* === Layout Central === */
@@ -143,8 +147,8 @@ abbr { text-decoration: none; color: var(--error-red); }
     width: 100%;
     max-width: 650px;
     border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    padding: 3rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
 }
 
 .card-header {
@@ -203,7 +207,7 @@ abbr { text-decoration: none; color: var(--error-red); }
 /* === Formulário (Grid) === */
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 1.2rem;
     margin-bottom: 1rem;
 }
@@ -342,31 +346,85 @@ abbr { text-decoration: none; color: var(--error-red); }
     margin-left: 0.3rem;
 }
 
-/* === Footer Principal === */
+/* === Footer Principal (base: celular — empilhado) === */
 .main-footer {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--footer-bg); padding: 1.5rem 4rem; color: #9ca3af; font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: var(--footer-bg);
+    padding: 1rem;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    text-align: center;
 }
 .footer-brand { display: flex; flex-direction: column; gap: 0.2rem; }
 .footer-logo { color: var(--primary-green); font-size: 1.1rem; }
-.footer-nav { display: flex; gap: 2rem; }
+.footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 .footer-nav a { color: var(--text-light); }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .registration-card { padding: 2rem; }
-    .main-header, .main-footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
-    .stepper-nav { display: none; /* Simplificação em mobile extrema */ }
+/* =========================================================
+   Mobile-first: layout empilhado e stepper compacto
+   Breakpoints: 600 / 768 / 900 / 1024 (min-width)
+   ========================================================= */
+
+/* Mobile-first: selo de etapa compacto (abaixo de 768px) */
+.stepper-nav { display: block; margin-bottom: 2rem; }
+.stepper-list { display: none; }
+.stepper-nav::after {
+    content: 'Etapa 1 de 4';
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--text-light, #667085);
+    font-size: 0.75rem;
+    font-weight: 700;
 }
 
-.brand-icon {
-    display: grid;
-    width: 24px;
-    height: 24px;
-    place-items: center;
-    border-radius: 50%;
-    color: inherit;
-    font-size: 1.1rem;
-    font-weight: 900;
+/* Celulares maiores / celulares em paisagem */
+@media (min-width: 600px) {
+    .brand-logo { font-size: 1.25rem; }
+    .main-nav { gap: 1.5rem; }
+    .main-nav a { font-size: 0.95rem; }
+    .auth-actions { gap: 1rem; }
+    .registration-card { padding: 1.75rem; }
+    .stepper-nav::after { display: none; }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+    .main-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+    }
+    .main-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 2.5rem; }
+    .auth-actions { justify-content: flex-end; }
+    .main-footer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        text-align: left;
+    }
+    .footer-nav { flex-wrap: nowrap; gap: 2rem; }
+    .form-grid { grid-template-columns: 1fr 1fr; }
+    .registration-card { padding: 2rem; }
+    .stepper-list { display: flex; }
+    .page-wrapper { padding: 2rem 1.5rem 4rem; }
+}
+
+/* Tablets grandes / telas médias */
+@media (min-width: 900px) {
+    .registration-card { max-width: 680px; padding: 2.25rem; }
+    .page-wrapper { padding: 2.5rem 2rem 4rem; }
+}
+
+/* Desktops */
+@media (min-width: 1024px) {
+    .main-header { padding: 1rem 4rem; }
+    .main-nav { gap: 2.5rem; }
+    .main-footer { padding: 1.5rem 4rem; }
+    .registration-card { padding: 3rem; }
+    .page-wrapper { padding: 2rem 1rem 4rem; }
 }

@@ -12,6 +12,7 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+      <link rel="stylesheet" href="/css/header.css?v=2" />
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -38,7 +39,7 @@
           </p>
           <menu class="hero-buttons">
             <li>
-              <a href="/new-report.ejs" class="btn-primary large"
+              <a href="/new-report" class="btn-primary large"
                 >+ Registrar um Evento</a
               >
             </li>
@@ -210,6 +211,13 @@
 
       <!-- Faixa de Estatísticas -->
       <section class="stats-banner" aria-label="Estatísticas da Plataforma">
+        <header class="stats-intro">
+          <h2>A força dos dados colaborativos</h2>
+          <p>
+            Cada relato vira indicador em tempo real para priorizar ações e
+            acompanhar o investimento público.
+          </p>
+        </header>
         <dl class="stats-grid">
           <article class="stat-item">
             <dt>1.247</dt>
@@ -293,7 +301,7 @@
             Relatos da comunidade cruzados com dados públicos de investimento
             geram um score de risco por bairro.
           </p>
-          <a class="btn-primary" href="/ranking.ejs"
+          <a class="btn-primary" href="/ranking"
             >Ver ranking completo &rarr;</a
           >
         </article>
@@ -405,7 +413,7 @@
             <span class="category-badge">ÚLTIMOS RELATOS</span>
             <h2>Registrados agora pela comunidade</h2>
           </article>
-          <a class="btn-outline" href="/relatos.ejs"
+          <a class="btn-outline" href="/relatos"
             >Ver todos os relatos &rarr;</a
           >
         </header>
@@ -563,7 +571,7 @@
       </header>
       <menu class="cta-actions">
         <li>
-          <a href="/new-report.ejs" class="btn-outline-white"
+          <a href="/new-report" class="btn-outline-white"
             ><i class="ph ph-plus"></i> Registrar um Evento</a
           >
         </li>
@@ -583,9 +591,9 @@
       </section>
       <nav class="footer-nav" aria-label="Navegação de rodapé">
         <a href="#Início">Início</a>
-        <a href="/ranking.ejs">Ranking</a>
-        <a href="/relatos.ejs">Relatos</a>
-        <a href="/sobre.ejs">Sobre</a>
+        <a href="/ranking">Ranking</a>
+        <a href="/relatos">Relatos</a>
+        <a href="/sobre">Sobre</a>
       </nav>
       <section class="footer-copy">&copy; ClimaFy 2026</section>
     </footer>
