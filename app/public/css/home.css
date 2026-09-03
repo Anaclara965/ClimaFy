@@ -1,12 +1,3 @@
-/* =========================================================
-   ClimaFy — Home
-   Abordagem MOBILE-FIRST:
-   - Estilos base escritos para a menor tela (celular)
-   - Progressão para telas maiores via media queries min-width
-   Breakpoints: 600px → 768px → 1024px → 1180px
-   ========================================================= */
-
-/* Variáveis de Cor, Tipografia e Layout */
 :root {
     --primary-green: #147a43;
     --primary-green-hover: #0f6235;
@@ -214,7 +205,7 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
 .legend-color { display: inline-block; width: 16px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 0.4rem; }
 .legend-color.gray { background: #7b8794; }
 .legend-color.green { background: var(--primary-green); }
-.bar-chart { display: flex; justify-content: flex-start; align-items: flex-end; height: 250px; gap: 0.6rem; overflow-x: auto; padding-top: 2rem; padding-bottom: 0.5rem; }
+.bar-chart { display: flex; justify-content: flex-start; align-items: flex-end; min-height: 250px; gap: 0.6rem; overflow-x: auto; padding-top: 2rem; padding-bottom: 0.5rem; }
 .bar-chart li { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 100%; min-width: 3.25rem; }
 .bar-chart .value { font-size: 0.75rem; font-weight: 700; color: var(--text-gray); }
 .bar-chart .bar { width: 40px; height: 100px; background: #e5e7eb; border-radius: 4px 4px 0 0; position: relative; display: flex; align-items: flex-end; }
@@ -292,7 +283,7 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .steps-grid, .reports-grid { grid-template-columns: repeat(2, 1fr); }
     .reports-header .btn-outline { width: auto; }
     .activity-section { overflow-x: visible; }
-    .bar-chart { justify-content: space-between; gap: 0; overflow-x: visible; padding-bottom: 0; }
+    .bar-chart { justify-content: space-between; gap: 0; overflow-x: visible; }
     .bar-chart li { min-width: 0; }
     .cta-actions { flex-direction: row; justify-content: center; align-items: center; }
     .cta-actions button { width: auto; }
