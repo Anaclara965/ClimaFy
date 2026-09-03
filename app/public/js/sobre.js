@@ -24,17 +24,17 @@ const tech = [
 ];
 
 const team = [
-    ['Lu', 'Laura Uchôa', 'Frontend + Mapa', 'Frontend'],
-    ['S', 'Sophia Ribeiro', 'Frontend + Mapa', 'Frontend'],
-    ['G', 'Guilherme Brito', 'Backend + Banco', 'Backend'],
+    ['Lu', 'Laura Uchôa', 'Frontend', 'Frontend'],
+    ['S', 'Sophia Ribeiro', 'Frontend + Design', 'Frontend'],
+    ['G', 'Guilherme Brito', 'Backend + Mapa', 'Backend'],
     ['A', 'Ana Clara', 'Backend + Banco', 'Backend'],
-    ['B', 'Beatriz Siqueira', 'Negocios + Docs', 'Negocios'],
-    ['Lu', 'Lucas Moraes', 'Negocios + Docs', 'Negocios'],
+    ['B', 'Beatriz Siqueira', 'Docs + Banco', 'Negocios'],
+    ['Lu', 'Lucas Moraes', 'Docs + Design', 'Negocios'],
 ];
 
 document.querySelector('#purpose-grid').innerHTML = purposeCards.map(([title, text, tag, color, type], index) => `
     <article class="purpose-card ${type === 'mission' ? 'mission' : ''} ${type === 'value' ? 'value' : ''}">
-        ${type === 'mission' ? '' : `<span class="number">#${Math.min(index, 3)}</span><span class="tag">${tag}</span>`}
+        ${type === 'mission' ? '' : `<span class="number">#${type === 'value' ? index - 3 : index}</span><span class="tag">${tag}</span>`}
         <h3>${title}</h3>
         <p>${text}</p>
     </article>

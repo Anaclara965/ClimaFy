@@ -1,4 +1,4 @@
-@import url("./bairro.css?v=2");
+@import url("./bairro.css?v=4");
 
 .hero-meta span,
 .score-circle,
@@ -13,7 +13,7 @@
 }
 
 .score-circle small {
-    color: #b7e0c4;
+    color: var(--orange);
 }
 
 .pinheiros-tone {

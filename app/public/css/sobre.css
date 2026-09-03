@@ -292,9 +292,9 @@ menu, ul, ol { list-style: none; }
 .about-cta h2, .about-cta p, .about-cta menu { position: relative; z-index: 1; }
 .about-cta h2 { font-size: 26px; }
 .about-cta p { margin-top: 12px; color: #c7ead1; font-size: 14px; }
-.about-cta menu { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 28px; }
-.cta-primary, .cta-secondary { display: grid; width: 100%; max-width: 320px; height: 48px; place-items: center; border-radius: 12px; font-size: 14px; font-weight: 800; }
-.cta-primary { border: 2px solid #63a83b; background: var(--green); color: #fff; }
+.about-cta menu { display: flex; flex-direction: column; align-items: stretch; gap: 14px; margin-top: 28px; }
+.cta-primary, .cta-secondary { display: grid; width: 100%; max-width: 420px; height: 55px; place-items: center; border-radius: 50px; font-size: 14px; font-weight: 800; padding: 0.8rem 1.5rem;}
+.cta-primary { border: 2px solid rgba(255, 255, 255, 0.4); background: transparent; color: #fff; }
 .cta-secondary { background: #fff; color: var(--green-dark); }
 
 /* === Rodapé (base: celular — empilhado) === */

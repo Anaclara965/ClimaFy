@@ -1,11 +1,3 @@
-/* =========================================================
-   ClimaFy — Ranking
-   Abordagem MOBILE-FIRST:
-   - Estilos base escritos para a menor tela (celular)
-   - Progressão para telas maiores via media queries min-width
-   Breakpoints: 600px → 760px → 900px → 1180px
-   ========================================================= */
-
 :root {
     --green: #147a43;
     --green-dark: #116b38;
@@ -266,21 +258,22 @@ caption,
     min-height: 56px;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: 14px;
-    padding: 14px 20px;
+    gap: 25px;
+    padding: 18px 20px;
 }
 
 .control-group {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     border: 0;
 }
 
 .control-group legend {
     width: 100%;
     margin-right: 0;
+    margin-bottom: 8px;
     color: var(--muted);
     font-size: 13px;
     font-weight: 600;
@@ -298,7 +291,7 @@ caption,
 
 .chip {
     min-width: 128px;
-    padding: 0 14px;
+    padding: 0 16px;
 }
 
 .chip.active {
