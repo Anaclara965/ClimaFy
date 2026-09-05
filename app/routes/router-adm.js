@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router(); 
-const {body, validationResult} = require("express-validator")
+const express = require("express");
+
+const router = express.Router();
 
 router.get("/adm", function (req, res) {
     res.render("pages/adm-dashboard")

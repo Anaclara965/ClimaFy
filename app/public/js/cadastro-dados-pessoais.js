@@ -28,8 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const nomeUsuario = document.getElementById("nome").value;
             console.log(`Cadastro realizado com sucesso para: ${nomeUsuario}`);
 
-            // Simulação de redirecionamento ou próxima etapa
-            // window.location.href = "../index.html";
+            // A proxima etapa ainda e apenas visual; o cadastro real sera ligado ao backend.
         }
     });
 });

@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         window.location.href = "/cadastro-preferenciais";
+        window.location.href = "/cadastro-preferencias";
     });
 
     startCountdown();

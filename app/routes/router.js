@@ -1,8 +1,6 @@
-var express = require('express');
-var router = express.Router(); 
-const {body, validationResult} = require("express-validator")
-// const {validarTelefone, validarDoacao} = require("../helpers/validacoes");
-const { render, name } = require('ejs');
+const express = require("express");
+
+const router = express.Router();
 
 router.get("/", function (req, res) {
     res.render("pages/index")
@@ -37,8 +35,13 @@ router.get("/cadastro-dados-pessoais", function (req, res) {
     res.render("pages/cadastro-dados-pessoais")
 });
 
-router.get("/cadastro-preferenciais", function (req, res) {
+router.get("/cadastro-preferencias", function (req, res) {
     res.render("pages/cadastro-preferencias")
+});
+
+// Mantem compatibilidade com o endereço antigo que tinha um erro de nome.
+router.get("/cadastro-preferenciais", function (req, res) {
+    res.redirect(301, "/cadastro-preferencias")
 });
 
 router.get("/cadastro-verificacao", function (req, res) {

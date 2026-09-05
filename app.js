@@ -1,7 +1,5 @@
-const express = require("express")
-const app = express()
-const port = 3000
-const dotenv = require("dotenv").config();
+const path = require("node:path");
+const express = require("express");
 
 app.use(express.static('app/public', {
   setHeaders: (res, filePath) => {
@@ -11,20 +9,43 @@ app.use(express.static('app/public', {
     }
   }
 }));
+require("dotenv").config();
 
-app.set('view engine', 'ejs');
-app.set('views', './app/views');
+const app = express();
+const port = Number(process.env.PORT) || 3000;
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}));
+app.disable("x-powered-by");
+app.use(express.static(path.join(__dirname, "app", "public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const rotaPrincipal = require("./app/routes/router")
-app.use("/", rotaPrincipal)
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "app", "views"));
 
-const rotaADM = require("./app/routes/router-adm")
-app.use("/", rotaADM)
-
-app.listen(port, () => {
-  console.log(`Servidor ouvindo na porta ${port}
-    \nhttp://localhost:${port}`);
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", application: "ClimaFy" });
 });
+
+const rotaPrincipal = require("./app/routes/router");
+const rotaADM = require("./app/routes/router-adm");
+
+app.use("/", rotaPrincipal);
+app.use("/", rotaADM);
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Rota nao encontrada" });
+});
+
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).json({ error: "Erro interno do servidor" });
+});
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Servidor ouvindo na porta ${port}`);
+    console.log(`http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
