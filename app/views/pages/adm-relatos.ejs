@@ -14,19 +14,26 @@
   </head>
   <body data-admin-page="relatos">
     <section class="admin-shell">
-      <aside class="sidebar" aria-label="Menu administrativo">
-        <header class="sidebar-brand">
-          <span class="brand-mark" aria-hidden="true">+</span>
-          <strong>ClimaFy</strong>
-          <span class="admin-badge">ADMIN</span>
-        </header>
-        <%- include('../partials/header-adm') %>
-        <footer class="sidebar-user">
-          <strong>Administrador</strong>
-          <span>admin@climafy.br</span>
-          <a href="/login">← Sair do painel</a>
-        </footer>
-      </aside>
+        <aside class="sidebar" aria-label="Menu administrativo">
+            <header class="sidebar-brand">
+                <span class="brand-mark" aria-hidden="true">+</span>
+                <strong>ClimaFy</strong>
+                <span class="admin-badge">ADMIN</span>
+            </header>
+            <nav class="sidebar-nav" aria-label="Navegação do painel">
+                <a href="/adm"><span>Dashboard</span></a>
+                <a href="/adm/moderacao"><span>Moderação</span></a>
+                <a class="active" href="/adm/relatos" aria-current="page"><span>Todos os Relatos</span></a>
+                <a href="/adm/usuarios"><span>Usuários</span></a>
+                <a href="/adm/investimentos"><span>Investimentos</span></a>
+                <a href="/adm/relatorios"><span>Relatórios</span></a>
+            </nav>
+            <footer class="sidebar-user">
+                <strong>Administrador</strong>
+                <span>admin@climafy.br</span>
+                <a href="/login">← Sair do painel</a>
+            </footer>
+        </aside>
 
       <main class="admin-main">
         <header class="admin-header">

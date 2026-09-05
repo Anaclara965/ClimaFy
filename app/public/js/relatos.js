@@ -10,15 +10,6 @@ const reports = [
     { id: 9, category: 'Queimada', neighborhood: 'Lapa', title: 'Área verde no Córrego Sapateiro queimando', description: 'Vegetação em chamas ao lado de residências. Vento espalhando faíscas.', status: 'Resolvido', time: 'Há 5 dias', votes: 76, tone: '#d62727', period: '30 dias' },
 ];
 
-const categoryDistribution = [
-    ['Alagamento', 40, '#2469d6'],
-    ['Calor Extremo', 24, '#f35c22'],
-    ['Queimada', 18, '#d62727'],
-    ['Lixo Irregular', 11, '#8b6328'],
-    ['Arvore Caida', 7, '#63a93a'],
-    ['Poluicao Agua', 2, '#16a3a3'],
-];
-
 const neighborhoodRanking = [
     ['Bras', 147, 'CRITICA', '#d62727'],
     ['Vila Madalena', 118, 'CRITICA', '#d62727'],
@@ -111,16 +102,6 @@ function renderFeatured() {
     `).join('');
 }
 
-function renderCategoryBars() {
-    document.querySelector('#category-bars').innerHTML = categoryDistribution.map(([name, percent, color]) => `
-        <section class="category-row" style="--accent:${color}">
-            <span>${name}</span>
-            <span class="bar"><span style="width:${percent}%"></span></span>
-            <strong>${percent}%</strong>
-        </section>
-    `).join('');
-}
-
 function renderNeighborhoods() {
     const max = Math.max(...neighborhoodRanking.map((item) => item[1]));
     document.querySelector('#neighborhood-ranking').innerHTML = neighborhoodRanking.map(([name, count, risk, color], index) => `
@@ -157,5 +138,4 @@ fillSelects();
 bindEvents();
 renderCards();
 renderFeatured();
-renderCategoryBars();
 renderNeighborhoods();

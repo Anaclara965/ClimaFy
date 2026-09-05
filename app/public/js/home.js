@@ -190,6 +190,8 @@ function renderizarRankingDaHome(ranking) {
     });
 }
 
+/* vai ser substituido pela biblioteca*/
+
 function converterCoordenadasParaMapa(ponto) {
     const esquerda = 6 + ((ponto.longitude + 46.84) / 0.48) * 78;
     const topo = 6 + ((-23.35 - ponto.latitude) / 0.67) * 86;

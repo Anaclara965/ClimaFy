@@ -11,6 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
       rel="stylesheet"
     />
+      <link rel="stylesheet" href="/css/header.css?v=2" />
+      <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -103,9 +105,9 @@
         </section>
 
         <nav class="quick-actions" aria-label="Atalhos rapidos">
-          <a href="#">Ver Ranking</a>
-          <a href="#">Ver Relatos</a>
-          <a href="#">Novo Relato</a>
+          <a href="/ranking">Ver Ranking</a>
+          <a href="/relatos">Ver Relatos</a>
+          <a href="/new-report">Novo Relato</a>
         </nav>
 
         <a class="map-cta" href="/#mapa">Explorar o Mapa</a>
@@ -135,9 +137,9 @@
 
       <nav class="footer-nav" aria-label="Navegacao de rodape">
         <a href="/">Inicio</a>
-        <a href="#">Ranking</a>
-        <a href="#">Relatos</a>
-        <a href="#">Sobre</a>
+        <a href="/ranking">Ranking</a>
+        <a href="/relatos">Relatos</a>
+        <a href="/sobre">Sobre</a>
       </nav>
 
       <p class="footer-copy">&copy; ClimaFy 2026</p>

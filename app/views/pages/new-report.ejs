@@ -11,6 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
       rel="stylesheet"
     />
+      <link rel="stylesheet" href="/css/header.css?v=2" />
+      <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -20,7 +22,7 @@
         <ol>
           <li><a href="/">Inicio</a></li>
           <li><span aria-hidden="true">/</span></li>
-          <li><a href="#">Relatos</a></li>
+          <li><a href="/relatos">Relatos</a></li>
           <li><span aria-hidden="true">/</span></li>
           <li aria-current="page">Novo relato</li>
         </ol>
@@ -55,9 +57,22 @@
               <p>Escolha a categoria e descreva a situação com clareza.</p>
             </header>
 
-            <fieldset class="category-section">
+            <fieldset class="category-section" data-dropdown>
               <legend>Categoria</legend>
-              <ul class="category-grid">
+              <button
+                type="button"
+                class="dropdown-toggle"
+                aria-expanded="false"
+                aria-controls="category-panel"
+              >
+                <span class="dropdown-toggle-label">
+                  <span class="icon flood">A</span>
+                  <span class="dropdown-toggle-text">Alagamento</span>
+                </span>
+                <span class="dropdown-arrow" aria-hidden="true">&#9662;</span>
+              </button>
+              <section class="dropdown-panel" id="category-panel" hidden>
+                <ul class="category-grid">
                 <li>
                   <label class="category-option is-selected"
                     ><input
@@ -117,7 +132,8 @@
                     ><strong>Poluição Água</strong></label
                   >
                 </li>
-              </ul>
+                </ul>
+              </section>
             </fieldset>
 
             <fieldset class="field-group">
@@ -148,9 +164,21 @@
               >
             </fieldset>
 
-            <fieldset class="severity-section">
+            <fieldset class="severity-section" data-dropdown>
               <legend>Severidade</legend>
-              <section class="severity-options">
+              <button
+                type="button"
+                class="dropdown-toggle"
+                aria-expanded="false"
+                aria-controls="severity-panel"
+              >
+                <span class="dropdown-toggle-label">
+                  <span class="dropdown-toggle-text">Moderada</span>
+                </span>
+                <span class="dropdown-arrow" aria-hidden="true">&#9662;</span>
+              </button>
+              <section class="dropdown-panel" id="severity-panel" hidden>
+                <section class="severity-options">
                 <label
                   ><input type="radio" name="severidade" value="Leve" /><span
                     >Leve</span
@@ -174,6 +202,7 @@
                     >Critica</span
                   ></label
                 >
+                </section>
               </section>
             </fieldset>
 
@@ -286,9 +315,9 @@
 
       <nav class="footer-nav" aria-label="Navegacao de rodape">
         <a href="/">Inicio</a>
-        <a href="#">Ranking</a>
-        <a href="#">Relatos</a>
-        <a href="#">Sobre</a>
+        <a href="/ranking">Ranking</a>
+        <a href="/relatos">Relatos</a>
+        <a href="/sobre">Sobre</a>
       </nav>
 
       <p class="footer-copy">&copy; ClimaFy 2026</p>

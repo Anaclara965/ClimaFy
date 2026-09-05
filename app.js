@@ -1,6 +1,14 @@
 const path = require("node:path");
 const express = require("express");
 
+app.use(express.static('app/public', {
+  setHeaders: (res, filePath) => {
+    // Durante o desenvolvimento, CSS/JS nunca ficam presos no cache do navegador
+    if (filePath.endsWith('.css') || filePath.endsWith('.js')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 require("dotenv").config();
 
 const app = express();

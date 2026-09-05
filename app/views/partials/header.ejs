@@ -1,13 +1,16 @@
 <header class="main-header">
   <a href="/" class="brand-logo">
-    <span class="brand-icon" aria-hidden="true">+</span>
-    <span>ClimaFy</span>
+    <img
+      src="/images/HYDRIA%20-%20OPENGRAPH%20(1).png"
+      alt="ClimaFy"
+      class="brand-logo-img"
+    />
   </a>
   <nav class="main-nav" aria-label="Navegação principal">
-    <a href="/">Início</a>
-    <a href="/ranking">Ranking</a>
-    <a href="/relatos">Relatos</a>
-    <a href="/sobre">Sobre</a>
+    <a href="/" data-nav="inicio">Início</a>
+    <a href="/ranking" data-nav="ranking">Ranking</a>
+    <a href="/relatos" data-nav="relatos">Relatos</a>
+    <a href="/sobre" data-nav="sobre">Sobre</a>
   </nav>
   <menu class="auth-actions">
     <li><a href="/login" class="login-link">Entrar</a></li>
@@ -18,3 +21,124 @@
     </li>
   </menu>
 </header>
+
+<nav class="bottom-nav" aria-label="Navegação inferior">
+  <menu class="bottom-nav-list">
+    <li>
+      <a href="/" class="bottom-nav-item" data-nav="inicio">
+        <span class="bn-bubble" aria-hidden="true"
+          ><i class="ph ph-house"></i></span
+        >
+        <span class="bn-label">Início</span>
+        <span class="bn-notch" aria-hidden="true"></span>
+      </a>
+    </li>
+    <li>
+      <a href="/ranking" class="bottom-nav-item" data-nav="ranking">
+        <span class="bn-bubble" aria-hidden="true"
+          ><i class="ph ph-chart-bar"></i></span
+        >
+        <span class="bn-label">Ranking</span>
+        <span class="bn-notch" aria-hidden="true"></span>
+      </a>
+    </li>
+    <li>
+      <a href="/relatos" class="bottom-nav-item" data-nav="relatos">
+        <span class="bn-bubble" aria-hidden="true"
+          ><i class="ph ph-clipboard-text"></i></span
+        >
+        <span class="bn-label">Relatos</span>
+        <span class="bn-notch" aria-hidden="true"></span>
+      </a>
+    </li>
+    <li>
+      <a href="/sobre" class="bottom-nav-item" data-nav="sobre">
+        <span class="bn-bubble" aria-hidden="true"
+          ><i class="ph ph-info"></i></span
+        >
+        <span class="bn-label">Sobre</span>
+        <span class="bn-notch" aria-hidden="true"></span>
+      </a>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="bottom-nav-item bn-menu-btn"
+        aria-expanded="false"
+        aria-controls="bn-panel"
+        aria-label="Abrir menu com as outras páginas"
+      >
+        <span class="bn-bubble" aria-hidden="true"
+          ><i class="ph ph-list"></i></span
+        >
+        <span class="bn-label">Menu</span>
+        <span class="bn-notch" aria-hidden="true"></span>
+      </button>
+    </li>
+  </menu>
+  <section class="bn-panel" id="bn-panel" hidden>
+    <a href="/new-report"
+      ><i class="ph ph-plus-circle" aria-hidden="true"></i> Registrar um
+      Evento</a
+    >
+    <a href="/login"><i class="ph ph-sign-in" aria-hidden="true"></i> Entrar</a>
+    <a href="/cadastro-dados-pessoais"
+      ><i class="ph ph-user-plus" aria-hidden="true"></i> Criar conta</a
+    >
+    <a href="/bairro-bras"
+      ><i class="ph ph-map-pin" aria-hidden="true"></i> Bairro Bras</a
+    >
+    <a href="/bairro-pinheiros"
+      ><i class="ph ph-map-pin" aria-hidden="true"></i> Bairro Pinheiros</a
+    >
+  </section>
+</nav>
+
+<script>
+  (function () {
+    var route = location.pathname.replace(/\/+$/, "") || "/";
+    var map = {
+      "/": "inicio",
+      "/ranking": "ranking",
+      "/relatos": "relatos",
+      "/sobre": "sobre",
+    };
+    var key = map[route];
+    document.querySelectorAll("[data-nav]").forEach(function (el) {
+      if (key && el.getAttribute("data-nav") === key) {
+        el.classList.add("is-active");
+        el.setAttribute("aria-current", "page");
+      }
+    });
+
+    var btn = document.querySelector(".bn-menu-btn");
+    var panel = document.getElementById("bn-panel");
+    if (!btn || !panel) return;
+
+    function closePanel() {
+      panel.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      btn.classList.remove("is-open");
+    }
+
+    btn.addEventListener("click", function (event) {
+      event.stopPropagation();
+      var willOpen = panel.hidden;
+      panel.hidden = !willOpen;
+      btn.setAttribute("aria-expanded", String(willOpen));
+      btn.classList.toggle("is-open", willOpen);
+    });
+    document.addEventListener("click", function (event) {
+      if (
+        !panel.hidden &&
+        !panel.contains(event.target) &&
+        !btn.contains(event.target)
+      ) {
+        closePanel();
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closePanel();
+    });
+  })();
+</script>
