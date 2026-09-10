@@ -66,7 +66,16 @@
         </section>
 
         <!-- Formulário com validação HTML5 -->
-        <form id="registration-form" action="#" method="POST">
+        <form id="registration-form" action="/cadastro-dados-pessoais" method="POST">
+
+          <% if (erros.length > 0) { %>
+            <ul role="alert">
+              <% erros.forEach((mensagem) => { %>
+                <li class="error-message"><%= mensagem %></li>
+              <% }); %>
+            </ul>
+          <% } %>
+
           <fieldset class="form-grid">
             <section class="input-group">
               <label for="nome">Nome <abbr title="Obrigatório">*</abbr></label>
@@ -74,6 +83,7 @@
                 type="text"
                 id="nome"
                 name="nome"
+                value="<%= valores.nome %>"
                 placeholder="Nome"
                 required
                 pattern="[a-zA-ZÀ-ÿ\s]+"
@@ -89,6 +99,7 @@
                 type="text"
                 id="sobrenome"
                 name="sobrenome"
+                value="<%= valores.sobrenome %>"
                 placeholder="Sobrenome"
                 required
                 pattern="[a-zA-ZÀ-ÿ\s]+"
@@ -104,6 +115,7 @@
                 type="email"
                 id="email"
                 name="email"
+                value="<%= valores.email %>"
                 placeholder="seu@email.com"
                 required
               />
@@ -154,6 +166,7 @@
                 type="text"
                 id="cidade"
                 name="cidade"
+                value="<%= valores.cidade %>"
                 placeholder="Cidade"
                 required
               />
@@ -167,6 +180,7 @@
                 type="text"
                 id="bairro"
                 name="bairro"
+                value="<%= valores.bairro %>"
                 placeholder="Bairro"
                 required
               />
@@ -175,7 +189,7 @@
 
           <fieldset class="terms-group full-width">
             <label class="checkbox-label">
-              <input type="checkbox" required checked />
+              <input type="checkbox" name="termos" value="aceito" required />
               <span
                 >Li e aceito os <a href="#">Termos de Uso</a> e a
                 <a href="#">Política de Privacidade</a></span

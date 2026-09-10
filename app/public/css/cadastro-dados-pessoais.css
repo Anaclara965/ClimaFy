@@ -363,6 +363,13 @@ abbr { text-decoration: none; color: var(--error-red); }
 .footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 .footer-nav a { color: var(--text-light); }
 
+
+.error-message {
+    color: var(--error-red);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
 /* =========================================================
    Mobile-first: layout empilhado e stepper compacto
    Breakpoints: 600 / 768 / 900 / 1024 (min-width)
