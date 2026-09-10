@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("registration-form");
     const senha = document.getElementById("senha");
     const confirmaSenha = document.getElementById("confirma-senha");
 
@@ -17,18 +16,4 @@ document.addEventListener("DOMContentLoaded", () => {
     senha.addEventListener("input", validarSenha);
     confirmaSenha.addEventListener("input", validarSenha);
 
-    // Evita o recarregamento na prototipagem e simula o sucesso do formulário nativo
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        // Se a validação nativa do HTML passar, este bloco será executado.
-        if (form.checkValidity()) {
-            window.location.href = "/cadastro-verificacao";
-            return;
-            const nomeUsuario = document.getElementById("nome").value;
-            console.log(`Cadastro realizado com sucesso para: ${nomeUsuario}`);
-
-            // A proxima etapa ainda e apenas visual; o cadastro real sera ligado ao backend.
-        }
-    });
 });

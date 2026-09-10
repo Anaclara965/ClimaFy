@@ -1,5 +1,23 @@
 const express = require("express");
 
+const { validationResult} = require("express-validator");
+
+const {
+    mostrarCadastro,
+    processarCadastro
+} = require("../controllers/controllers");
+
+const { 
+    validarNome,
+    validarSobrenome,
+    validarEmail,
+    validarCidade,
+    validarBairro,
+    validarSenha,
+    validarConfirmacaoSenha,
+    validarTermos
+} = require("../helpers/validacoesCadastro");
+
 const router = express.Router();
 
 router.get("/", function (req, res) {
@@ -31,9 +49,7 @@ router.get("/login", function (req, res) {
     res.render("pages/login")
 });
 
-router.get("/cadastro-dados-pessoais", function (req, res) {
-    res.render("pages/cadastro-dados-pessoais")
-});
+router.get("/cadastro-dados-pessoais", mostrarCadastro);
 
 router.get("/cadastro-preferencias", function (req, res) {
     res.render("pages/cadastro-preferencias")
@@ -56,5 +72,17 @@ router.get("/bairro-pinheiros", function (req, res) {
     res.render("pages/bairro-pinheiros")
 });
 
+
+router.post("/cadastro-dados-pessoais",
+    validarNome, 
+    validarSobrenome, 
+    validarEmail,
+    validarCidade,
+    validarBairro,
+    validarSenha,
+    validarConfirmacaoSenha,
+    validarTermos,
+    processarCadastro
+);
 
 module.exports = router;
