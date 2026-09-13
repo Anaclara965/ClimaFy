@@ -1,23 +1,25 @@
+@import url("./tokens.css");
+
 :root {
-    --green: #147a43;
-    --green-dark: #116b38;
-    --green-soft: #e0f5e9;
-    --hero: #051c0e;
-    --text: #15191e;
-    --muted: #48525f;
-    --soft: #667085;
-    --line: #e3e8ec;
-    --page: #f8fafb;
-    --red: #d62727;
-    --red-soft: #ffe0e0;
-    --orange: #f37d22;
-    --orange-soft: #ffede0;
-    --yellow: #f4b60d;
-    --blue: #2469d6;
-    --blue-soft: #e0efff;
-    --brown: #8b6328;
-    --shadow: 0 2px 12px rgba(0, 0, 0, .08);
-    font-family: "Inter", Arial, sans-serif;
+    --green: var(--color-primary);
+    --green-dark: var(--color-primary-dark);
+    --green-soft: var(--color-primary-soft);
+    --hero: var(--color-hero-green);
+    --text: var(--color-text-dark);
+    --muted: var(--color-text-medium);
+    --soft: var(--color-text-light);
+    --line: var(--color-border-soft);
+    --page: var(--color-bg-page);
+    --red: var(--color-red);
+    --red-soft: var(--color-error-soft);
+    --orange: var(--color-orange);
+    --orange-soft: var(--color-warning-soft);
+    --yellow: var(--color-yellow);
+    --blue: var(--color-info);
+    --blue-soft: var(--color-info-soft);
+    --brown: var(--color-brown);
+    --shadow: var(--color-shadow);
+    --font-family: var(--font-family);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

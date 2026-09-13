@@ -1,24 +1,26 @@
+@import url("./tokens.css");
+
 :root {
-    --page: #f8fafb;
-    --dark: #15191e;
+    --page: var(--color-bg-page);
+    --dark: var(--color-text-dark);
     --dark-line: #262d36;
-    --green-dark: #116b38;
-    --green: #147a43;
-    --green-soft: #e0f5e9;
-    --text: #15191e;
-    --muted: #48525f;
-    --soft: #667085;
-    --line: #e3e8ec;
-    --line-soft: #eff3f5;
-    --red: #d62727;
-    --red-soft: #ffe0e0;
-    --yellow: #f4b60d;
-    --yellow-soft: #fff6d6;
-    --blue: #2469d6;
-    --blue-soft: #e0efff;
-    --orange: #f37d22;
-    --shadow: 0 3px 12px rgba(0, 0, 0, .08);
-    font-family: "Inter", Arial, sans-serif;
+    --green-dark: var(--color-primary-dark);
+    --green: var(--color-primary);
+    --green-soft: var(--color-primary-soft);
+    --text: var(--color-text-dark);
+    --muted: var(--color-text-medium);
+    --soft: var(--color-text-light);
+    --line: var(--color-border-soft);
+    --line-soft: var(--color-border-strong);
+    --red: var(--color-red);
+    --red-soft: var(--color-error-soft);
+    --yellow: var(--color-yellow);
+    --yellow-soft: var(--color-warning-soft);
+    --blue: var(--color-info);
+    --blue-soft: var(--color-info-soft);
+    --orange: var(--color-orange);
+    --shadow: var(--color-shadow);
+    --font-family: var(--font-family);
 }
 
 * {

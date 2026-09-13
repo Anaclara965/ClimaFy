@@ -1,0 +1,134 @@
+/* ===========================================================================
+   ClimaFy — Sistema de Design (Design Tokens Centralizados)
+   Fonte única de verdade para cores, spacing, tipografia e bordas.
+   Todos os arquivos CSS devem importar este arquivo via @import ou referenciá-lo.
+   =========================================================================== */
+
+:root {
+  /* --- Cores primárias (verde climático) --- */
+  --color-primary:      #147a43;
+  --color-primary-hover:#158045;
+  --color-primary-dark: #116b38;
+  --color-primary-soft: #e0f5e9;
+
+  /* --- Cores de status / ação --- */
+  --color-success:      #10b981;
+  --color-success-soft: #dcfce7;
+  --color-error:        #ef4444;
+  --color-error-soft:   #fee2e2;
+  --color-warning:      #f59e0b;
+  --color-warning-soft: #fef3c7;
+  --color-info:         #2469d6;
+  --color-info-soft:    #e0efff;
+
+  /* --- Cores de texto --- */
+  --color-text:         #111827;
+  --color-text-dark:    #15191e;
+  --color-text-medium:  #48525f;
+  --color-text-muted:   #6b7280;
+  --color-text-light:   #667085;
+  --color-text-inverse: #ffffff;
+
+  /* --- Cores de superfície / fundo --- */
+  --color-bg:           #ffffff;
+  --color-bg-light:     #f3f4f6;
+  --color-bg-page:      #f8fafb;
+  --color-footer-bg:    #111827;
+  --color-footer-text:  #9ca3af;
+
+  /* --- Cores de borda --- */
+  --color-border:       #d1d5db;
+  --color-border-light: #e5e7eb;
+  --color-border-strong:#dbe3e8;
+  --color-border-soft:  #e3e8ec;
+
+  /* --- Cores específicas por página (mantidas para compatibilidade) --- */
+  --color-hero-green:  #051c0e;
+  --color-red:         #d62727;
+  --color-orange:      #f37d22;
+  --color-yellow:      #f4b60d;
+  --color-brown:       #8b6328;
+  --color-blue:        #2469d6;
+  --color-dark-green:  #114227;
+  --color-shadow:      0 2px 12px rgba(0,0,0,.08);
+
+  /* --- Tipografia --- */
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --font-size-xs:   0.7rem;
+  --font-size-sm:   0.85rem;
+  --font-size-base: 0.9rem;
+  --font-size-md:   1rem;
+  --font-size-lg:   1.15rem;
+  --font-size-xl:   1.25rem;
+  --font-size-xxl:  1.5rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold:600;
+  --font-weight-bold:   700;
+  --font-weight-extrabold:800;
+
+  /* --- Border radius --- */
+  --radius-sm:    4px;
+  --radius-md:    6px;
+  --radius-lg:    8px;
+  --radius-xl:    12px;
+  --radius-full:  999px;
+
+  /* --- Spacing scale (multiplo de 0.25rem = 4px) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10:2.5rem;
+  --space-12:3rem;
+  --space-16:4rem;
+
+  /* --- Breakpoints --- */
+  --breakpoint-sm:  600px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  900px;
+  --breakpoint-xl:  1024px;
+  --breakpoint-xxl: 1180px;
+}
+
+/* Estado padrão de botões desativados */
+:disabled,
+.btn:disabled,
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão primário base (sobrescrito pelos CSS específicos quando necessário) */
+.btn-primary,
+.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover,
+.button-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-primary:disabled,
+.btn-primary:disabled:hover {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

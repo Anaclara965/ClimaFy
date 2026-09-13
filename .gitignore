@@ -2,3 +2,6 @@ Thumbs.db
 package-lock.json
 node_modules/
 .env
+database/fontes/
+
+
