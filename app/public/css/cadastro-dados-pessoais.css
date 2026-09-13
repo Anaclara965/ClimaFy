@@ -1,18 +1,21 @@
-/* Variáveis de Cor e Tipografia */
+/* Variáveis de Cor e Tipografia (centralizadas em tokens.css) */
+@import url("./tokens.css");
+
 :root {
-    --primary-green: #147a43;
-    --primary-green-hover: #158045;
-    --bg-light: #f3f4f6;
-    --bg-white: #ffffff;
-    --text-dark: #111827;
-    --text-gray: #6b7280;
-    --text-light: #667085;
-    --border-color: #d1d5db;
-    --border-light: #e5e7eb;
-    --footer-bg: #111827;
-    --error-red: #ef4444;
-    --success-green: #10b981;
-    --font-family: 'Inter', sans-serif;
+    /* Variáveis herdadas de tokens.css, mantidas aqui apenas por segurança de escopo local */
+    --primary-green: var(--color-primary);
+    --primary-green-hover: var(--color-primary-hover);
+    --bg-light: var(--color-bg-light);
+    --bg-white: var(--color-bg);
+    --text-dark: var(--color-text);
+    --text-gray: var(--color-text-muted);
+    --text-light: var(--color-text-light);
+    --border-color: var(--color-border);
+    --border-light: var(--color-border-light);
+    --footer-bg: var(--color-footer-bg);
+    --error-red: var(--color-error);
+    --success-green: var(--color-success);
+    --font-family: var(--font-family);
 }
 
 * {
@@ -255,12 +258,12 @@ abbr { text-decoration: none; color: var(--error-red); }
 /* Indicador de Força da Senha */
 .password-strength {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.3rem;
     margin-top: 0.2rem;
 }
 
-.password-strength small {
+.password-strength small:first-child {
     font-size: 0.7rem;
     color: var(--text-gray);
 }
@@ -274,10 +277,49 @@ abbr { text-decoration: none; color: var(--error-red); }
     width: 25px;
     height: 4px;
     border-radius: 2px;
+    background-color: var(--border-light);
+    transition: background-color 0.3s ease;
 }
 
 .strength-bars .bar.red { background-color: var(--error-red); }
+.strength-bars .bar.orange { background-color: #f59e0b; }
+.strength-bars .bar.medium { background-color: #eab308; }
+.strength-bars .bar.strong { background-color: var(--success-green); }
+
+.strength-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.strength-text.red-text { color: var(--error-red); }
+.strength-text.orange-text { color: #f59e0b; }
+.strength-text.medium-text { color: #eab308; }
+.strength-text.strong-text { color: var(--success-green); }
+
+/* Checklist de requisitos de senha */
+.strength-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 0.3rem;
+    font-size: 0.7rem;
+    color: var(--text-gray);
+    list-style: none;
+}
+
+.strength-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.strength-checklist li.pending { color: var(--text-gray); }
+.strength-checklist li.done { color: var(--success-green); font-weight: 600; }
+
+.strength-bars .bar { border-radius: 2px; }
 .strength-bars .bar.gray { background-color: var(--border-light); }
+.strength-bars .bar.red { background-color: var(--error-red); }
 .red-text { color: var(--error-red) !important; font-weight: 600; }
 
 /* === Termos e Segurança === */

@@ -1,5 +1,9 @@
 const {validationResult} = require("express-validator");
 
+// COMENTÁRIO PRO CARINHA DO BACK: este controller apenas valida e devolve JSON.
+// Para o fluxo de cadastro multi-step (dados -> verificação -> preferências -> welcome),
+// o backend precisa: criar usuário com senha hash, gerar código de verificação com expiração,
+// e redirecionar para /cadastro-verificacao. Validação de senha deve refletir o front (complexidade).
 function mostrarCadastro(req, res) {
     res.render("pages/cadastro-dados-pessoais", {
         erros: [],

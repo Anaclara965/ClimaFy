@@ -1,24 +1,26 @@
+@import url("./tokens.css");
+
 :root {
-    --green: #147a43;
-    --green-dark: #116b38;
-    --green-soft: #e0f5e9;
-    --text: #15191e;
-    --muted: #48525f;
-    --soft: #667085;
-    --line: #e3e8ec;
-    --line-dark: #d1d8de;
-    --page: #f8fafb;
-    --panel: #ffffff;
+    --green: var(--color-primary);
+    --green-dark: var(--color-primary-dark);
+    --green-soft: var(--color-primary-soft);
+    --text: var(--color-text-dark);
+    --muted: var(--color-text-medium);
+    --soft: var(--color-text-light);
+    --line: var(--color-border-soft);
+    --line-dark: var(--color-border-strong);
+    --page: var(--color-bg-page);
+    --panel: var(--color-bg);
     --panel-alt: #eff3f5;
-    --blue: #2469d6;
-    --blue-soft: #e0efff;
-    --red: #d62727;
-    --orange: #f35c22;
-    --yellow: #f4b60d;
-    --brown: #8b6328;
+    --blue: var(--color-info);
+    --blue-soft: var(--color-info-soft);
+    --red: var(--color-red);
+    --orange: var(--color-orange);
+    --yellow: var(--color-yellow);
+    --brown: var(--color-brown);
     --leaf: #63a93a;
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-    font-family: "Inter", Arial, sans-serif;
+    --font-family: var(--font-family);
 }
 
 * {

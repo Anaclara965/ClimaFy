@@ -1,14 +1,16 @@
-/* Variáveis de Cor e Tipografia */
+/* Variáveis de Cor e Tipografia (centralizadas em tokens.css) */
+@import url("./tokens.css");
+
 :root {
-    --primary-green: #147a43;
-    --dark-green-bg: #114227;
+    --primary-green: var(--color-primary);
+    --dark-green-bg: var(--color-hero-green);
     --dark-green-list: rgba(255, 255, 255, 0.08);
-    --text-dark: #1f2937;
-    --text-gray: #6b7280;
-    --border-color: #e5e7eb;
-    --bg-light: #f9fafb;
-    --footer-bg: #1c2024;
-    --font-family: 'Inter', sans-serif;
+    --text-dark: var(--color-text-dark);
+    --text-gray: var(--color-text-muted);
+    --border-color: var(--color-border-light);
+    --bg-light: var(--color-bg-page);
+    --footer-bg: var(--color-footer-bg);
+    --font-family: var(--font-family);
 }
 
 /* Reset Básico */

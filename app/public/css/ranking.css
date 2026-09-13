@@ -1,27 +1,29 @@
+@import url("./tokens.css");
+
 :root {
-    --green: #147a43;
-    --green-dark: #116b38;
+    --green: var(--color-primary);
+    --green-dark: var(--color-primary-dark);
     --green-deep: #0a4624;
-    --green-soft: #e0f5e9;
-    --text: #15191e;
-    --muted: #48525f;
-    --soft: #667085;
-    --line: #e3e8ec;
-    --line-dark: #d1d8de;
-    --page: #f8fafb;
-    --panel: #ffffff;
+    --green-soft: var(--color-primary-soft);
+    --text: var(--color-text-dark);
+    --muted: var(--color-text-medium);
+    --soft: var(--color-text-light);
+    --line: var(--color-border-soft);
+    --line-dark: var(--color-border-strong);
+    --page: var(--color-bg-page);
+    --panel: var(--color-bg);
     --panel-alt: #eff3f5;
-    --red: #d62727;
-    --red-soft: #ffe0e0;
-    --orange: #f37d22;
-    --orange-soft: #ffede0;
+    --red: var(--color-red);
+    --red-soft: var(--color-error-soft);
+    --orange: var(--color-orange);
+    --orange-soft: var(--color-warning-soft);
     --yellow: #f2c94c;
     --yellow-soft: #fff4cc;
-    --blue: #2469d6;
-    --brown: #8b6328;
+    --blue: var(--color-info);
+    --brown: var(--color-brown);
     --leaf: #63a93a;
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    font-family: "Inter", Arial, sans-serif;
+    --font-family: var(--font-family);
 }
 
 * {

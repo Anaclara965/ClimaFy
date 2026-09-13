@@ -1,20 +1,22 @@
 
+@import url("./tokens.css");
+
 :root {
-    --green: #147a43;
-    --green-dark: #116b38;
-    --green-soft: #e1f6e8;
-    --tech-bg: #eaf7ee;
-    --text: #1a2635;
-    --muted: #48525f;
-    --soft: #87919b;
-    --line: #e3e8ec;
-    --page: #f8fafb;
-    --dark: #15191e;
-    --yellow: #f4b60d;
-    --blue: #3894d6;
-    --red: #d63b3b;
-    --shadow: 0 4px 16px rgba(0, 0, 0, .08);
-    font-family: "Inter", Arial, sans-serif;
+    --green: var(--color-primary);
+    --green-dark: var(--color-primary-dark);
+    --green-soft: var(--color-primary-soft);
+    --tech-bg: var(--color-primary-soft);
+    --text: var(--color-text-dark);
+    --muted: var(--color-text-medium);
+    --soft: var(--color-text-light);
+    --line: var(--color-border-soft);
+    --page: var(--color-bg-page);
+    --dark: var(--color-text-dark);
+    --yellow: var(--color-yellow);
+    --blue: var(--color-info);
+    --red: var(--color-red);
+    --shadow: var(--color-shadow);
+    --font-family: var(--font-family);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

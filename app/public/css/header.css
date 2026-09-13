@@ -1,12 +1,14 @@
 
+@import url("./tokens.css");
+
 :root {
-  --hd-green: #1a9651;
-  --hd-green-dark: #0f7a40;
-  --hd-green-light: #e7f6ee;
-  --hd-ink: #152019;
-  --hd-gray: #5f6f66;
-  --hd-muted: #8b96a3;
-  --hd-border: #e5ece7;
+  --hd-green: var(--color-primary);
+  --hd-green-dark: var(--color-primary-dark);
+  --hd-green-light: var(--color-primary-soft);
+  --hd-ink: var(--color-text-dark);
+  --hd-gray: var(--color-text-medium);
+  --hd-muted: var(--color-text-muted);
+  --hd-border: var(--color-border-light);
 }
 
 /* ---------- Reset local de <menu> ---------- */

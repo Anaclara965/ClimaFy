@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node --test"
+    "test": "node --test",
+    "db:schema": "node database/apply-schema.js"
   },
   "keywords": [
     "node",
@@ -18,6 +19,11 @@
     "ejs": "^6.0.1",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
+    "mysql2": "^3.24.4",
     "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1"
   }
 }

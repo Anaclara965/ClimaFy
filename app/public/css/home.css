@@ -1,22 +1,24 @@
-:root {
-    --primary-green: #147a43;
-    --primary-green-hover: #0f6235;
-    --light-green: #e6f4ea;
-    --dark-green: #115e3b;
-    --bg-white: #ffffff;
-    --bg-light: #f8fafc;
-    --text-dark: #111827;
-    --text-gray: #4b5563;
-    --text-light: #667085;
-    --border-color: #e5e7eb;
-    --footer-bg: #111827;
+@import url("./tokens.css");
 
-    /* Cores de status */
-    --red: #ef4444;
-    --orange: #f97316;
-    --yellow: #f59e0b;
-    --blue: #3b82f6;
-    --font-family: 'Inter', sans-serif;
+:root {
+    --primary-green: var(--color-primary);
+    --primary-green-hover: #0f6235;
+    --light-green: var(--color-primary-soft);
+    --dark-green: var(--color-primary-dark);
+    --bg-white: var(--color-bg);
+    --bg-light: #f8fafc;
+    --text-dark: var(--color-text-dark);
+    --text-gray: #4b5563;
+    --text-light: var(--color-text-light);
+    --border-color: var(--color-border-light);
+    --footer-bg: var(--color-footer-bg);
+
+    /* Cores de status (migradas de tokens.css) */
+    --red: var(--color-error);
+    --orange: var(--color-warning);
+    --yellow: var(--color-yellow);
+    --blue: var(--color-info);
+    --font-family: var(--font-family);
 }
 
 * {

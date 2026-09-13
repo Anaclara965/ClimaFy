@@ -1,25 +1,27 @@
+@import url("./tokens.css");
+
 :root {
-    --primary-green: #147a43;
-    --primary-green-dark: #116b38;
-    --primary-green-soft: #e0f5e9;
-    --page-bg: #f8fafb;
-    --white: #ffffff;
-    --text-dark: #15191e;
-    --text-medium: #48525f;
-    --text-muted: #66717f;
-    --text-light: #667085;
-    --border-color: #e3e8ec;
-    --border-strong: #dbe3e8;
-    --blue-line: #2297f3;
-    --footer-bg: #111827;
+    --primary-green: var(--color-primary);
+    --primary-green-dark: var(--color-primary-dark);
+    --primary-green-soft: var(--color-primary-soft);
+    --page-bg: var(--color-bg-page);
+    --white: var(--color-bg);
+    --text-dark: var(--color-text-dark);
+    --text-medium: var(--color-text-medium);
+    --text-muted: var(--color-text-light);
+    --text-light: var(--color-text-light);
+    --border-color: var(--color-border-soft);
+    --border-strong: var(--color-border-strong);
+    --blue-line: var(--color-blue);
+    --footer-bg: var(--color-footer-bg);
     --shadow-card: 0 18px 48px rgba(21, 25, 30, 0.10);
     --shadow-soft: 0 12px 38px rgba(17, 107, 56, 0.08);
-    --blue: #2469d6;
-    --red: #d62727;
-    --orange: #f37d22;
-    --yellow: #f0c21d;
-    --brown: #8b6328;
-    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --blue: var(--color-info);
+    --red: var(--color-red);
+    --orange: var(--color-orange);
+    --yellow: var(--color-yellow);
+    --brown: var(--color-brown);
+    --font-family: var(--font-family);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
