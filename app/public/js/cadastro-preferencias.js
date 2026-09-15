@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
     const neighborhoods = ["Brás", "Pinheiros", "Vila Madalena", "Jardim Helena", "Itaquera", "Mooca", "Santo Amaro", "Capão Redondo"];
     const input = document.getElementById("neighborhood-input");
     const results = document.getElementById("neighborhood-results");
