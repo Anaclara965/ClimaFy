@@ -2,6 +2,7 @@ const express = require("express");
 
 const { validationResult} = require("express-validator");
 
+const { listarBairros} = require("../controllers/bairroControllers");
 const {
     mostrarCadastro,
     processarCadastro
@@ -71,6 +72,8 @@ router.get("/bairro-bras", function (req, res) {
 router.get("/bairro-pinheiros", function (req, res) {
     res.render("pages/bairro-pinheiros")
 });
+
+router.get("/api/bairros",listarBairros);
 
 
 router.post("/cadastro-dados-pessoais",
