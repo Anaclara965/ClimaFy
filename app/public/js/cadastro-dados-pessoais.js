@@ -71,11 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
         atualizarChecklist(valor);
 
         // Validação de confirmação reforçada
-        if (confirmaSenha && senha.value !== confirmaSenha.value) {
+        if (senha && confirmaSenha && senha.value !== confirmaSenha.value) {
             confirmaSenha.setCustomValidity("As senhas não coincidem.");
-        } else {
+        } else if (confirmaSenha) {
             confirmaSenha.setCustomValidity("");
         }
+
+        // A confirmação também reage quando a senha principal muda
+        atualizarErroConfirmacao();
     }
 
     if (senha) {
@@ -87,34 +90,65 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmaSenha.addEventListener("blur", validarSenha);
     }
 
-    /* ---------- Feedback inline na confirmação de senha ---------- */
-    let erroConfirmacao = null;
+    /* ---------- Toggle de visibilidade de senha (olhinho) ---------- */
+    // Reutilizável: funciona para qualquer campo de senha dentro de .password-field
+    function configurarToggleSenha(input) {
+        if (!input || !input.parentElement) return;
+        const botao = input.parentElement.querySelector(".password-toggle");
+        if (!botao) return;
+        const icone = botao.querySelector("i");
+
+        botao.addEventListener("click", () => {
+            const visivel = input.type === "password";
+            input.type = visivel ? "text" : "password";
+            if (icone) {
+                icone.className = visivel ? "ph ph-eye-slash" : "ph ph-eye";
+            }
+            botao.setAttribute("aria-label", visivel ? "Ocultar senha" : "Mostrar senha");
+            botao.setAttribute("aria-pressed", String(visivel));
+            input.focus({ preventScroll: true });
+        });
+    }
+
+    configurarToggleSenha(senha);
+    configurarToggleSenha(confirmaSenha);
+
+    /* ---------- Feedback em tempo real na confirmação de senha ---------- */
+    let feedbackConfirmacao = null;
     if (confirmaSenha && confirmaSenha.parentElement) {
-        erroConfirmacao = document.createElement("small");
-        erroConfirmacao.className = "error-message";
-        erroConfirmacao.id = "confirma-senha-error";
-        erroConfirmacao.setAttribute("role", "alert");
-        erroConfirmacao.setAttribute("aria-live", "polite");
-        erroConfirmacao.textContent = "";
-        confirmaSenha.parentElement.appendChild(erroConfirmacao);
+        feedbackConfirmacao =
+            confirmaSenha.parentElement.parentElement.querySelector("#confirma-senha-feedback") ||
+            document.getElementById("confirma-senha-feedback");
     }
 
     function atualizarErroConfirmacao() {
-        if (!confirmaSenha || !erroConfirmacao) return;
-        if (senha.value !== confirmaSenha.value && confirmaSenha.value !== "") {
-            erroConfirmacao.textContent = "As senhas não coincidem. Tente novamente.";
-            erroConfirmacao.style.display = "block";
+        if (!confirmaSenha) return;
+
+        const vazio = confirmaSenha.value === "";
+        const coincide = senha && senha.value === confirmaSenha.value;
+
+        confirmaSenha.classList.remove("input-error", "input-success");
+
+        if (!vazio && !coincide) {
+            confirmaSenha.classList.add("input-error");
+            if (feedbackConfirmacao) {
+                feedbackConfirmacao.className = "field-feedback is-error";
+                feedbackConfirmacao.textContent = "As senhas não coincidem.";
+            }
             confirmaSenha.setCustomValidity("As senhas não coincidem.");
         } else {
-            erroConfirmacao.textContent = "";
-            erroConfirmacao.style.display = "none";
+            if (feedbackConfirmacao) {
+                if (vazio) {
+                    feedbackConfirmacao.className = "field-feedback";
+                    feedbackConfirmacao.textContent = "";
+                } else {
+                    confirmaSenha.classList.add("input-success");
+                    feedbackConfirmacao.className = "field-feedback is-success";
+                    feedbackConfirmacao.textContent = "✓ As senhas coincidem";
+                }
+            }
             confirmaSenha.setCustomValidity("");
         }
-    }
-
-    if (confirmaSenha) {
-        confirmaSenha.addEventListener("input", atualizarErroConfirmacao);
-        confirmaSenha.addEventListener("blur", atualizarErroConfirmacao);
     }
 
     /* ---------- Foco no primeiro campo inválido após submit ---------- */
@@ -123,6 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // Validação visual antes do submit real
             validarSenha();
             atualizarErroConfirmacao();
+
+            // Bloqueia o envio enquanto as senhas não coincidirem
+            if (senha && confirmaSenha && senha.value !== confirmaSenha.value) {
+                event.preventDefault();
+                confirmaSenha.focus({ preventScroll: false });
+                confirmaSenha.reportValidity();
+                return;
+            }
 
             const campos = form.querySelectorAll("input, select, textarea");
             for (const campo of campos) {

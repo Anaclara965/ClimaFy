@@ -473,35 +473,7 @@ fieldset { border: 0; }
     color: var(--text-dark);
 }
 
-.main-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.25rem;
-    background: var(--footer-bg);
-    color: #9ca3af;
-    font-size: 0.8rem;
-    text-align: center;
-}
-
-.footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.footer-logo {
-    color: var(--primary-green);
-    font-size: 1.1rem;
-}
-
-.footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
+/* Estilos do rodapé agora centralizados em /css/footer.css */
 
 .brand-icon {
     display: grid;
@@ -546,14 +518,6 @@ fieldset { border: 0; }
     }
     .main-nav { justify-content: flex-start; flex-wrap: nowrap; gap: 3.5rem; }
     .auth-actions { justify-content: flex-end; }
-    .main-footer {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem;
-        text-align: left;
-    }
-    .footer-nav { flex-wrap: nowrap; gap: 2rem; }
     .stepper-list { display: grid; }
     .categories-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .frequency-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

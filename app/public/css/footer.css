@@ -1,0 +1,68 @@
+@import url("./tokens.css");
+
+/* ===========================================================================
+   ClimaFy — Rodapé compartilhado por todas as páginas públicas.
+   Fonte única de estilo do .main-footer (não duplicar nos CSS por página).
+   =========================================================================== */
+
+.main-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-footer-bg);
+    padding: 1.5rem 1.25rem;
+    color: var(--color-footer-text);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.footer-logo {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+.footer-sub {
+    font-size: 0.75rem;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footer-nav a {
+    color: var(--color-footer-text);
+    transition: color 0.2s ease;
+}
+
+.footer-nav a:hover {
+    color: #ffffff;
+}
+
+.footer-copy {
+    font-size: 0.75rem;
+}
+
+/* Tablets e desktops: linha única com espaço entre os blocos */
+@media (min-width: 768px) {
+    .main-footer {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        padding: 1.5rem 4rem;
+    }
+
+    .footer-nav {
+        flex-wrap: nowrap;
+        gap: 2rem;
+    }
+}

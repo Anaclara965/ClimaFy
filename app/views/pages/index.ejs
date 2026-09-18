@@ -13,6 +13,7 @@
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
       <link rel="stylesheet" href="/css/header.css?v=2" />
+    <link rel="stylesheet" href="/css/footer.css?v=1" />
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -43,7 +44,6 @@
                 >+ Registrar um Evento</a
               >
             </li>
-            <li><a href="#mapa" class="btn-outline large">Ver o Mapa →</a></li>
           </menu>
         </article>
 
@@ -583,21 +583,7 @@
     </aside>
 
     <!-- Rodapé -->
-    <footer class="main-footer">
-      <section class="footer-brand">
-        <strong class="footer-logo">ClimaFy</strong>
-        <span class="footer-sub"
-          >Plataforma de Monitoramento Climático Comunitário</span
-        >
-      </section>
-      <nav class="footer-nav" aria-label="Navegação de rodapé">
-        <a href="/">Início</a>
-        <a href="/ranking">Ranking</a>
-        <a href="/relatos">Relatos</a>
-        <a href="/sobre">Sobre</a>
-      </nav>
-      <section class="footer-copy">&copy; ClimaFy 2026</section>
-    </footer>
+    <%- include('../partials/footer') %>
     <script src="/js/dados-publicos.js"></script>
     <script src="/js/home.js"></script>
   </body>

@@ -13,6 +13,7 @@
     />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
       <link rel="stylesheet" href="/css/header.css?v=2" />
+    <link rel="stylesheet" href="/css/footer.css?v=1" />
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -125,14 +126,24 @@
               <label for="senha"
                 >Senha <abbr title="Obrigatório">*</abbr></label
               >
-              <input
-                type="password"
-                id="senha"
-                name="senha"
-                placeholder="Mínimo 8 caracteres"
-                required
-                minlength="8"
-              />
+              <section class="password-field">
+                <input
+                  type="password"
+                  id="senha"
+                  name="senha"
+                  placeholder="Mínimo 8 caracteres"
+                  required
+                  minlength="8"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  aria-label="Mostrar senha"
+                  aria-pressed="false"
+                >
+                  <i class="ph ph-eye" aria-hidden="true"></i>
+                </button>
+              </section>
               <article class="password-strength">
                 <small>Força da senha:</small>
                 <span class="strength-bars">
@@ -148,14 +159,30 @@
               <label for="confirma-senha"
                 >Confirmar Senha <abbr title="Obrigatório">*</abbr></label
               >
-              <input
-                type="password"
-                id="confirma-senha"
-                name="confirma-senha"
-                placeholder="Repita a senha"
-                required
-                minlength="8"
-              />
+              <section class="password-field">
+                <input
+                  type="password"
+                  id="confirma-senha"
+                  name="confirma-senha"
+                  placeholder="Repita a senha"
+                  required
+                  minlength="8"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  aria-label="Mostrar senha"
+                  aria-pressed="false"
+                >
+                  <i class="ph ph-eye" aria-hidden="true"></i>
+                </button>
+              </section>
+              <small
+                class="field-feedback"
+                id="confirma-senha-feedback"
+                role="alert"
+                aria-live="polite"
+              ></small>
             </section>
 
             <section class="input-group">
@@ -217,21 +244,7 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="main-footer">
-      <section class="footer-brand">
-        <strong class="footer-logo">ClimaFy</strong>
-        <span class="footer-sub"
-          >Plataforma de Monitoramento Climático Comunitário</span
-        >
-      </section>
-      <nav class="footer-nav" aria-label="Navegação de rodapé">
-        <a href="/">Início</a>
-        <a href="/ranking">Ranking</a>
-        <a href="/relatos">Relatos</a>
-        <a href="/sobre">Sobre</a>
-      </nav>
-      <section class="footer-copy">&copy; ClimaFy 2026</section>
-    </footer>
+    <%- include('../partials/footer') %>
     <script src="/js/cadastro-dados-pessoais.js"></script>
   </body>
 </html>

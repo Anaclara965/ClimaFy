@@ -8,22 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const heroSection = document.querySelector(".hero-section");
-    const mapButton = document.querySelector('.hero-buttons a[href="#mapa"]');
 
     if (heroSection) {
         heroSection.dataset.reports = heroMockData.reports;
         heroSection.dataset.neighborhoods = heroMockData.neighborhoods;
         heroSection.dataset.cities = heroMockData.cities;
-    }
-
-    if (mapButton) {
-        mapButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            document.querySelector("#mapa")?.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-        });
     }
 
     const mapMarkers = document.querySelectorAll(".map-marker");

@@ -160,11 +160,8 @@ menu, ul, ol { list-style: none; }
 .related-card .mini span { display: block; height: 100%; border-radius: 4px; background: var(--color); }
 .related-card footer { display: flex; justify-content: space-between; margin-top: 8px; color: var(--color); font-size: 11px; font-weight: 800; }
 
-/* === Rodapé (base: celular — empilhado) === */
-.site-footer { display: grid; grid-template-columns: 1fr; align-items: start; gap: 18px; padding: 18px 24px; background: var(--text); color: var(--soft); font-size: 12px; }
-.site-footer h2 { color: var(--green); font-size: 16px; }
-.site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; }
-.site-footer > p { text-align: left; font-size: 11px; }
+/* === Rodapé === */
+/* Estilos do rodapé agora centralizados em /css/footer.css */
 
 .brand-icon {
     display: grid;
@@ -203,9 +200,6 @@ menu, ul, ol { list-style: none; }
     .kpi-strip section:nth-child(3n) { border-right: 0; }
     .content-grid { grid-template-columns: minmax(0, 1fr) 400px; width: min(1296px, calc(100% - 96px)); }
     .related-section { width: min(1296px, calc(100% - 96px)); }
-    .site-footer { grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; padding: 16px 48px; }
-    .site-footer nav { flex-wrap: nowrap; gap: 60px; }
-    .site-footer > p { text-align: right; }
 }
 
 /* Desktops grandes */

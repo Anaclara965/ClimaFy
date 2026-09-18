@@ -1136,32 +1136,7 @@ caption,
 }
 
 /* === Rodapé (base: celular — empilhado) === */
-.site-footer {
-    display: grid;
-    min-height: 68px;
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 18px;
-    padding: 18px 20px;
-    background: var(--text);
-    color: var(--soft);
-    font-size: 11px;
-}
-
-.site-footer h2 {
-    color: var(--green);
-    font-size: 14px;
-}
-
-.site-footer nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-}
-
-.site-footer > p {
-    text-align: left;
-}
+/* Estilos do rodapé agora centralizados em /css/footer.css */
 
 .brand-icon {
     display: grid;
@@ -1187,9 +1162,6 @@ caption,
     .source-list, .category-grid, .factor-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .ranking-cta menu { flex-direction: row; justify-content: center; }
     .cta-primary, .cta-secondary { width: 220px; }
-    .site-footer { grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; padding: 14px 32px; }
-    .site-footer nav { flex-wrap: nowrap; gap: 60px; }
-    .site-footer > p { text-align: right; }
 }
 
 /* Tablets — mapa de calor volta ao posicionamento absoluto */
@@ -1223,7 +1195,6 @@ caption,
     .history-section { grid-template-columns: 330px 1fr; }
     .category-section { grid-template-columns: 300px 1fr; }
     .data-section { padding: 36px 48px 40px; }
-    .site-footer { padding: 14px 48px; }
 }
 
 /* Desktops grandes */
@@ -1236,5 +1207,4 @@ caption,
     .factor-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .source-list, .category-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .data-section { padding: 36px 72px 40px; }
-    .site-footer { padding: 14px 72px; }
 }
