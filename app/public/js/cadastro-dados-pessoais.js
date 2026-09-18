@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registration-form");
 
     /* ---------- Força da senha ---------- */
-    const forcaEl = senha && senha.parentElement.querySelector(".password-strength");
+    const grupoSenha = senha && senha.closest(".input-group");
+    const forcaEl = grupoSenha && grupoSenha.querySelector(".password-strength");
     const bars = forcaEl && forcaEl.querySelectorAll(".bar");
     const strengthText = forcaEl && forcaEl.querySelector(".strength-text");
 
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmaSenha.addEventListener("blur", validarSenha);
     }
 
-    /* ---------- Toggle de visibilidade de senha (olhinho) ---------- */
+    /* ---------- Toggle de visibilidade de senha  ---------- */
     // Reutilizável: funciona para qualquer campo de senha dentro de .password-field
     function configurarToggleSenha(input) {
         if (!input || !input.parentElement) return;
