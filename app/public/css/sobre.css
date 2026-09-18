@@ -299,20 +299,8 @@ menu, ul, ol { list-style: none; }
 .cta-primary { border: 2px solid rgba(255, 255, 255, 0.4); background: transparent; color: #fff; }
 .cta-secondary { background: #fff; color: var(--green-dark); }
 
-/* === Rodapé (base: celular — empilhado) === */
-.site-footer {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 18px;
-    padding: 18px 24px;
-    background: var(--dark);
-    color: var(--soft);
-    font-size: 12px;
-}
-.site-footer h2 { color: var(--green); font-size: 16px; }
-.site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; }
-.site-footer > p { text-align: left; font-size: 11px; }
+/* === Rodapé === */
+/* Estilos do rodapé agora centralizados em /css/footer.css */
 
 .brand-icon {
     display: grid;
@@ -337,9 +325,6 @@ menu, ul, ol { list-style: none; }
     .purpose-grid, .steps-grid, .tech-grid, .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .about-cta menu { flex-direction: row; justify-content: center; }
     .cta-primary, .cta-secondary { width: 224px; }
-    .site-footer { grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; padding: 16px 48px; }
-    .site-footer nav { flex-wrap: nowrap; gap: 60px; }
-    .site-footer > p { text-align: right; }
 }
 
 /* Tablets */

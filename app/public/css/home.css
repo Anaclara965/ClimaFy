@@ -225,14 +225,6 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
 .btn-outline-white { background: transparent; border: 2px solid rgba(255,255,255,0.4); color: #fff; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; }
 .btn-outline-white:hover { border-color: #fff; }
 
-/* === Footer Principal (base: celular — empilhado) === */
-.main-footer { display: flex; flex-direction: column; align-items: flex-start; background: var(--footer-bg); padding: 2rem 1.25rem; color: #9ca3af; font-size: 0.85rem; }
-.footer-brand { display: flex; flex-direction: column; gap: 0.2rem; }
-.footer-logo { color: var(--primary-green); font-size: 1.1rem; display: flex; align-items: center; gap: 0.4rem; }
-.footer-nav { display: flex; gap: 1rem; flex-wrap: wrap; }
-.footer-nav a { color: #9ca3af; }
-.footer-nav a:hover { color: #fff; }
-
 .brand-icon {
     display: grid;
     width: 24px;
@@ -289,8 +281,6 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .bar-chart li { min-width: 0; }
     .cta-actions { flex-direction: row; justify-content: center; align-items: center; }
     .cta-actions button { width: auto; }
-    .main-footer { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 2rem 2rem; }
-    .footer-nav { gap: 2rem; }
 }
 
 /* Desktops */
@@ -301,7 +291,6 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .hero-map { width: auto; }
     .ranking-cards { grid-template-columns: repeat(3, 1fr); }
     .reports-header { flex-direction: row; align-items: flex-end; }
-    .main-footer { flex-wrap: nowrap; }
 }
 
 /* Desktops grandes */
@@ -320,5 +309,4 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .reports-section { padding: 5rem 4rem; }
     .reports-grid, .steps-grid { grid-template-columns: repeat(4, 1fr); }
     .cta-banner { padding: 4rem; }
-    .main-footer { padding: 2rem 4rem; flex-wrap: nowrap; }
 }

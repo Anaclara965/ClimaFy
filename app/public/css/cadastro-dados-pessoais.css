@@ -317,6 +317,63 @@ abbr { text-decoration: none; color: var(--error-red); }
 .strength-checklist li.pending { color: var(--text-gray); }
 .strength-checklist li.done { color: var(--success-green); font-weight: 600; }
 
+/* Toggle de visibilidade de senha (olhinho) */
+.password-field {
+    position: relative;
+}
+
+.password-field input[type="password"],
+.password-field input[type="text"] {
+    padding-right: 2.9rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.6rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem;
+    background: transparent;
+    border: 0;
+    color: var(--text-gray);
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: var(--text-dark);
+}
+
+/* Feedback em tempo real (erro/sucesso) da confirmação de senha */
+.field-feedback {
+    display: none;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.field-feedback.is-error {
+    display: block;
+    color: var(--error-red);
+}
+
+.field-feedback.is-success {
+    display: block;
+    color: var(--success-green);
+}
+
+.input-group input.input-error {
+    border-color: var(--error-red);
+}
+
+.input-group input.input-success {
+    border-color: var(--success-green);
+}
+
+
 .strength-bars .bar { border-radius: 2px; }
 .strength-bars .bar.gray { background-color: var(--border-light); }
 .strength-bars .bar.red { background-color: var(--error-red); }
@@ -388,23 +445,7 @@ abbr { text-decoration: none; color: var(--error-red); }
     margin-left: 0.3rem;
 }
 
-/* === Footer Principal (base: celular — empilhado) === */
-.main-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    background: var(--footer-bg);
-    padding: 1rem;
-    color: #9ca3af;
-    font-size: 0.8rem;
-    text-align: center;
-}
-.footer-brand { display: flex; flex-direction: column; gap: 0.2rem; }
-.footer-logo { color: var(--primary-green); font-size: 1.1rem; }
-.footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-.footer-nav a { color: var(--text-light); }
-
+/* Estilos do rodapé agora centralizados em /css/footer.css */
 
 .error-message {
     color: var(--error-red);
