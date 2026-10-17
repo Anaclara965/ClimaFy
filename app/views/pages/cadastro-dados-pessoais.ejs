@@ -186,31 +186,60 @@
             </section>
 
             <section class="input-group">
-              <label for="cidade"
-                >Cidade <abbr title="Obrigatório">*</abbr></label
-              >
+              <label for="cidade">Cidade</label>
               <input
                 type="text"
                 id="cidade"
-                name="cidade"
-                value="<%= valores.cidade %>"
-                placeholder="Cidade"
-                required
+                value="São Paulo"
+                readonly
+                tabindex="-1"
+                aria-readonly="true"
               />
+              <small class="field-feedback"
+                >A cidade é definida pelo bairro escolhido.</small
+              >
             </section>
 
-            <section class="input-group">
-              <label for="bairro"
+            <section class="input-group bairro-field">
+              <label for="bairro-busca"
                 >Bairro <abbr title="Obrigatório">*</abbr></label
               >
               <input
                 type="text"
-                id="bairro"
-                name="bairro"
-                value="<%= valores.bairro %>"
-                placeholder="Bairro"
+                id="bairro-busca"
+                placeholder="Digite para buscar seu bairro"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="bairro-resultados"
+                aria-autocomplete="list"
+                value="<%= valores.bairroNome || '' %>"
                 required
               />
+              <!-- name="bairro" guarda o ID (contrato: ID válido de /api/bairros) -->
+              <input
+                type="hidden"
+                id="bairro"
+                name="bairro"
+                value="<%= valores.bairro || '' %>"
+              />
+              <input
+                type="hidden"
+                id="bairro-nome"
+                name="bairro-nome"
+                value="<%= valores.bairroNome || '' %>"
+              />
+              <ul
+                class="dropdown-results"
+                id="bairro-resultados"
+                role="listbox"
+                hidden
+              ></ul>
+              <small
+                class="field-feedback"
+                id="bairro-feedback"
+                aria-live="polite"
+              ></small>
             </section>
           </fieldset>
 
@@ -245,6 +274,7 @@
 
     <!-- Rodapé -->
     <%- include('../partials/footer') %>
+    <script src="/js/bairro-autocomplete.js"></script>
     <script src="/js/cadastro-dados-pessoais.js"></script>
   </body>
 </html>

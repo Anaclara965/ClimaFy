@@ -13,12 +13,32 @@
     <a href="/sobre" data-nav="sobre">Sobre</a>
   </nav>
   <menu class="auth-actions">
+    <% if (typeof usuario !== 'undefined' && usuario) { %>
+    <li>
+      <a
+        href="/cadastro-preferencias"
+        class="login-link"
+        ><i class="ph ph-shield-check"></i> <%= usuario.nome %></a
+      >
+    </li>
+    <li>
+      <a href="/new-report" class="btn-primary"
+        ><i class="ph ph-plus"></i> Relatar</a
+      >
+    </li>
+    <li><a href="/meus-relatos" class="login-link">Meus relatos</a></li>
+    <% if (['moderador', 'administrador'].includes(usuario.papel)) { %>
+    <li><a href="/adm/moderacao" class="login-link">Moderação</a></li>
+    <% } %>
+    <li><a href="/logout" class="login-link">Sair</a></li>
+    <% } else { %>
     <li><a href="/login" class="login-link">Entrar</a></li>
     <li>
       <a href="/new-report" class="btn-primary"
         ><i class="ph ph-plus"></i> Relatar</a
       >
     </li>
+    <% } %>
   </menu>
 </header>
 

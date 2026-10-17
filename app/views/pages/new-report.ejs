@@ -3,7 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClimaFy - Novo Relato</title>
+    <% const editando = typeof edicao !== 'undefined' && edicao; %>
+    <title>ClimaFy - <%= editando ? 'Editar Relato' : 'Novo Relato' %></title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
     <link rel="stylesheet" href="/css/new-report.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,9 +18,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
       rel="stylesheet"
     />
-      <link rel="stylesheet" href="/css/header.css?v=2" />
+    <link rel="stylesheet" href="/css/header.css?v=2" />
     <link rel="stylesheet" href="/css/footer.css?v=1" />
-      <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
   <body>
     <%- include('../partials/header') %>
@@ -25,16 +32,20 @@
           <li><span aria-hidden="true">/</span></li>
           <li><a href="/relatos">Relatos</a></li>
           <li><span aria-hidden="true">/</span></li>
-          <li aria-current="page">Novo relato</li>
+          <li aria-current="page"><%= editando ? 'Editar relato' : 'Novo relato' %></li>
         </ol>
       </nav>
 
       <header class="page-heading">
         <p class="eyebrow">Relato colaborativo</p>
-        <h1>Registrar novo evento</h1>
+        <h1><%= editando ? 'Editar meu relato' : 'Registrar novo evento' %></h1>
         <p>
+          <% if (editando) { %>
+          Alterar o conteúdo envia uma nova versão para moderação. A situação do problema e o histórico são preservados.
+          <% } else { %>
           Compartilhe o que está acontecendo na sua região para ajudar a
           comunidade a mapear riscos climáticos.
+          <% } %>
         </p>
       </header>
 
@@ -47,7 +58,8 @@
         </ol>
       </nav>
 
-      <form class="report-form" id="new-report-form" action="#" method="POST">
+      <form class="report-form" id="new-report-form" action="#" method="POST"
+        data-inicial="<%= editando ? JSON.stringify(edicao) : '' %>">
         <section
           class="form-column primary-column"
           aria-labelledby="details-title"
@@ -74,65 +86,65 @@
               </button>
               <section class="dropdown-panel" id="category-panel" hidden>
                 <ul class="category-grid">
-                <li>
-                  <label class="category-option is-selected"
-                    ><input
-                      type="radio"
-                      name="categoria"
-                      value="Alagamento"
-                      checked
-                    /><span class="icon flood">A</span
-                    ><strong>Alagamento</strong></label
-                  >
-                </li>
-                <li>
-                  <label class="category-option"
-                    ><input
-                      type="radio"
-                      name="categoria"
-                      value="Queimada"
-                    /><span class="icon fire">Q</span
-                    ><strong>Queimada</strong></label
-                  >
-                </li>
-                <li>
-                  <label class="category-option"
-                    ><input
-                      type="radio"
-                      name="categoria"
-                      value="Calor Extremo"
-                    /><span class="icon heat">C</span
-                    ><strong>Calor Extremo</strong></label
-                  >
-                </li>
-                <li>
-                  <label class="category-option"
-                    ><input
-                      type="radio"
-                      name="categoria"
-                      value="Arvore Caida"
-                    /><span class="icon tree">V</span
-                    ><strong>Árvore Caída</strong></label
-                  >
-                </li>
-                <li>
-                  <label class="category-option"
-                    ><input type="radio" name="categoria" value="Lixo" /><span
-                      class="icon waste"
-                      >L</span
-                    ><strong>Lixo</strong></label
-                  >
-                </li>
-                <li>
-                  <label class="category-option"
-                    ><input
-                      type="radio"
-                      name="categoria"
-                      value="Poluicao Agua"
-                    /><span class="icon water">P</span
-                    ><strong>Poluição Água</strong></label
-                  >
-                </li>
+                  <li>
+                    <label class="category-option is-selected"
+                      ><input
+                        type="radio"
+                        name="categoria"
+                        value="alagamento"
+                        checked
+                      /><span class="icon flood">A</span
+                      ><strong>Alagamento</strong></label
+                    >
+                  </li>
+                  <li>
+                    <label class="category-option"
+                      ><input
+                        type="radio"
+                        name="categoria"
+                        value="queimada"
+                      /><span class="icon fire">Q</span
+                      ><strong>Queimada</strong></label
+                    >
+                  </li>
+                  <li>
+                    <label class="category-option"
+                      ><input
+                        type="radio"
+                        name="categoria"
+                        value="calor-extremo"
+                      /><span class="icon heat">C</span
+                      ><strong>Calor Extremo</strong></label
+                    >
+                  </li>
+                  <li>
+                    <label class="category-option"
+                      ><input
+                        type="radio"
+                        name="categoria"
+                        value="arvore-caida"
+                      /><span class="icon tree">V</span
+                      ><strong>Árvore Caída</strong></label
+                    >
+                  </li>
+                  <li>
+                    <label class="category-option"
+                      ><input type="radio" name="categoria" value="lixo" /><span
+                        class="icon waste"
+                        >L</span
+                      ><strong>Lixo</strong></label
+                    >
+                  </li>
+                  <li>
+                    <label class="category-option"
+                      ><input
+                        type="radio"
+                        name="categoria"
+                        value="poluicao-agua"
+                      /><span class="icon water">P</span
+                      ><strong>Poluição Água</strong></label
+                    >
+                  </li>
                 </ul>
               </section>
             </fieldset>
@@ -180,47 +192,53 @@
               </button>
               <section class="dropdown-panel" id="severity-panel" hidden>
                 <section class="severity-options">
-                <label
-                  ><input type="radio" name="severidade" value="Leve" /><span
-                    >Leve</span
-                  ></label
-                >
-                <label class="is-selected"
-                  ><input
-                    type="radio"
-                    name="severidade"
-                    value="Moderada"
-                    checked
-                  /><span>Moderada</span></label
-                >
-                <label
-                  ><input type="radio" name="severidade" value="Grave" /><span
-                    >Grave</span
-                  ></label
-                >
-                <label
-                  ><input type="radio" name="severidade" value="Critica" /><span
-                    >Critica</span
-                  ></label
-                >
+                  <label
+                    ><input type="radio" name="severidade" value="Leve" /><span
+                      >Leve</span
+                    ></label
+                  >
+                  <label class="is-selected"
+                    ><input
+                      type="radio"
+                      name="severidade"
+                      value="Moderada"
+                      checked
+                    /><span>Moderada</span></label
+                  >
+                  <label
+                    ><input type="radio" name="severidade" value="Grave" /><span
+                      >Grave</span
+                    ></label
+                  >
+                  <label
+                    ><input
+                      type="radio"
+                      name="severidade"
+                      value="Critica"
+                    /><span>Critica</span></label
+                  >
                 </section>
               </section>
             </fieldset>
 
             <fieldset class="upload-zone" id="upload-zone">
-              <legend>Foto do local</legend>
+              <legend>Foto ou vídeo do local (opcional)</legend>
               <label for="photo-upload">
                 <span class="upload-icon" aria-hidden="true">+</span>
-                <strong>Arraste uma foto ou clique para enviar</strong>
-                <small>PNG ou JPG ate 5MB</small>
+                <strong id="upload-title">Verificando disponibilidade dos anexos…</strong>
+                <small id="upload-help">JPEG/PNG ou MP4/WebM, até 5 MB. Vídeo de até 30 segundos.</small>
               </label>
               <input
                 id="photo-upload"
                 name="foto"
                 type="file"
-                accept="image/png,image/jpeg"
+                accept="image/png,image/jpeg,video/mp4,video/webm"
+                aria-describedby="upload-help upload-feedback"
+                disabled
               />
               <p id="upload-feedback" aria-live="polite"></p>
+              <figure id="upload-preview" hidden aria-label="Prévia da foto selecionada"></figure>
+              <button type="button" id="remove-upload" hidden>Remover arquivo selecionado</button>
             </fieldset>
           </article>
         </section>
@@ -234,45 +252,77 @@
 
             <section class="mini-map-section" aria-labelledby="map-title">
               <h3 id="map-title">Mini-mapa</h3>
-              <button
+              <p id="map-help">
+                Busque um endereço, clique no local do evento ou use sua localização atual.
+                Pelo teclado, mova o mapa com as setas e pressione Enter
+                para selecionar o centro. Confira se o ponto indica o problema.
+              </p>
+
+              <fieldset class="field-group address-search">
+                <label for="address-search">Endereço do problema</label>
+                <input id="address-search" type="search" maxlength="200"
+                  placeholder="Rua, número e cidade" autocomplete="off"
+                  role="combobox" aria-expanded="false" aria-autocomplete="list"
+                  aria-controls="address-results" aria-describedby="address-help address-feedback" />
+                <button type="button" id="search-address">Buscar endereço</button>
+                <ul id="address-results" role="listbox" aria-label="Endereços encontrados" hidden></ul>
+                <p id="address-feedback" class="location-feedback" role="status" aria-atomic="true"></p>
+                <p id="address-help" class="location-feedback">
+                  Informe também a cidade e escolha uma sugestão. Consultas de endereço
+                  e do ponto selecionado usam o <a href="https://photon.komoot.io/">Photon</a>,
+                  com dados do OpenStreetMap.
+                </p>
+              </fieldset>
+
+              <section class="location-actions" aria-label="Opções de localização">
+                <button type="button" id="use-location" aria-describedby="location-feedback">
+                  Usar minha localização
+                </button>
+              </section>
+              <p id="location-feedback" class="location-feedback" role="status" aria-atomic="true"></p>
+
+              <section
                 class="mini-map"
                 id="mini-map"
-                type="button"
-                aria-label="Selecionar ponto no mapa"
-              >
-                <span class="map-grid" aria-hidden="true"></span>
-                <span class="map-river" aria-hidden="true"></span>
-                <span class="map-area area-one" aria-hidden="true"></span>
-                <span class="map-area area-two" aria-hidden="true"></span>
-                <span class="map-pin" id="map-pin" aria-hidden="true"></span>
-              </button>
-              <p class="coordinates">
+                tabindex="0"
+                aria-label="Mapa para selecionar o local do relato"
+                aria-describedby="map-help"
+              ></section>
+
+              <input type="hidden" id="latitude" name="latitude" />
+              <input type="hidden" id="longitude" name="longitude" />
+
+              <p class="coordinates" aria-live="polite">
                 Coordenadas:
-                <strong id="coordinates">-23.5461, -46.6172</strong>
+                <strong id="coordinates">Selecione um ponto no mapa.</strong>
               </p>
             </section>
 
             <section class="location-fields">
               <fieldset class="field-group">
                 <label for="city">Cidade</label>
-                <input
-                  id="city"
-                  name="cidade"
-                  type="text"
-                  value="Sao Paulo"
-                  required
-                />
+                <input id="city" readonly type="text" value="" required />
+                <small>Preenchida pelo ponto encontrado ou pelo bairro escolhido.</small>
               </fieldset>
 
               <fieldset class="field-group">
                 <label for="neighborhood">Bairro</label>
+
                 <input
                   id="neighborhood"
-                  name="bairro"
                   type="text"
-                  value="Bras"
+                  placeholder="Digite para buscar um bairro"
+                  autocomplete="off"
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-controls="bairro-resultados"
+                  aria-autocomplete="list"
                   required
                 />
+
+                <input id="bairro-id" name="bairro" type="hidden" />
+
+                <ul id="bairro-resultados" role="listbox" hidden></ul>
               </fieldset>
 
               <fieldset class="field-group full">
@@ -281,6 +331,7 @@
                   id="reference"
                   name="referencia"
                   type="text"
+                  maxlength="255"
                   placeholder="Ex: próximo a estação, escola ou praça"
                 />
               </fieldset>
@@ -300,14 +351,24 @@
         </aside>
 
         <footer class="form-footer">
-          <p id="form-feedback" aria-live="polite"></p>
-          <button type="submit">Enviar relato para revisão</button>
+          <p><a href="/meus-relatos">Acompanhar meus relatos</a></p>
+          <section id="form-feedback" class="report-feedback" aria-label="Resultado do envio"
+            aria-live="polite" aria-atomic="true" tabindex="-1"></section>
+          <button type="submit"><%= editando ? 'Salvar alterações para revisão' : 'Enviar relato para revisão' %></button>
         </footer>
       </form>
     </main>
 
     <%- include('../partials/footer') %>
 
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="/js/bairro-autocomplete.js"></script>
+    <script src="/js/endereco-autocomplete.js"></script>
+    <script src="/js/relato-midias.js"></script>
     <script src="/js/new-report.js"></script>
   </body>
 </html>

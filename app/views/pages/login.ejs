@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClimaFy - Login</title>
+    <% const etapaRecuperacao = typeof recuperacao !== 'undefined' ? recuperacao : null; %>
+    <title>ClimaFy - <%= etapaRecuperacao ? 'Recuperar senha' : 'Login' %></title>
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -74,13 +75,19 @@
             >
           </header>
           <section class="form-header">
+            <% if (etapaRecuperacao) { %>
+            <h2><%= etapaRecuperacao === 'email' ? 'Recuperar senha' : 'Definir nova senha' %></h2>
+            <p><%= etapaRecuperacao === 'email' ? 'Informe o e-mail da sua conta para receber um código.' : 'Use o código recebido por e-mail para escolher uma nova senha.' %></p>
+            <% } else { %>
             <h2>Bem-vindo de volta</h2>
             <p>
               Entre para registrar relatos e acompanhar<br />os eventos
               climáticos da sua região.
             </p>
+            <% } %>
           </section>
 
+          <% if (!etapaRecuperacao) { %>
           <button class="btn-google">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -95,14 +102,65 @@
             <span class="text">ou</span>
             <span class="line"></span>
           </section>
+          <% } %>
 
-          <form id="login-form">
+          <% if (aviso) { %>
+          <p class="login-alert is-success" role="status"><%= aviso %></p>
+          <% } %>
+
+          <% if (erros && erros.length) { %>
+          <ul class="login-erros" role="alert">
+            <% erros.forEach((mensagem) => { %>
+            <li><%= mensagem %></li>
+            <% }); %>
+          </ul>
+          <% } %>
+
+          <% if (etapaRecuperacao) { %>
+          <form id="recovery-form" action="<%= etapaRecuperacao === 'email' ? '/recuperar-senha' : '/resetar-senha' %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfRecuperacao %>" />
+            <fieldset class="input-group">
+              <label for="recovery-email">E-mail da conta</label>
+              <input type="email" id="recovery-email" name="email" value="<%= email %>" autocomplete="email" maxlength="190" required <%= etapaRecuperacao === 'senha' ? 'readonly' : '' %> />
+            </fieldset>
+            <% if (etapaRecuperacao === 'senha') { %>
+            <fieldset class="input-group">
+              <label for="recovery-code">Código de 6 dígitos</label>
+              <input type="text" id="recovery-code" name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required />
+            </fieldset>
+            <fieldset class="input-group">
+              <label for="recovery-password">Nova senha</label>
+              <input type="password" id="recovery-password" name="senha" autocomplete="new-password" minlength="8" required aria-describedby="recovery-password-help" />
+              <small id="recovery-password-help">Mínimo de 8 caracteres, com maiúscula, minúscula, número e símbolo. Máximo de 72 bytes.</small>
+            </fieldset>
+            <fieldset class="input-group">
+              <label for="recovery-confirm">Confirmar nova senha</label>
+              <input type="password" id="recovery-confirm" name="confirma-senha" autocomplete="new-password" minlength="8" required />
+            </fieldset>
+            <% } %>
+            <button type="submit" class="btn-submit"><%= etapaRecuperacao === 'email' ? 'Enviar código' : 'Salvar nova senha' %></button>
+          </form>
+          <% if (etapaRecuperacao === 'senha') { %>
+          <form action="/recuperar-senha" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfRecuperacao %>" />
+            <input type="hidden" name="email" value="<%= email %>" />
+            <button type="submit" class="forgot-password">Reenviar código</button>
+          </form>
+          <a href="/recuperar-senha" class="forgot-password">Informar outro e-mail</a>
+          <% } %>
+          <p class="login-footer"><a href="/login">Voltar para o login</a></p>
+          <% } else { %>
+          <form id="login-form" action="/login" method="POST">
+            <input type="hidden" name="proximo" value="<%= proximo || '' %>" />
             <fieldset class="input-group">
               <label for="email">E-mail</label>
               <input
                 type="email"
                 id="email"
+                name="email"
+                value="<%= email || '' %>"
                 placeholder="sergio.silva@gmail.com"
+                autocomplete="email"
                 required
               />
             </fieldset>
@@ -112,12 +170,13 @@
                           <input type="password" id="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required />
             </fieldset>
 
-            <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+            <a href="/recuperar-senha" class="forgot-password">Esqueceu sua senha?</a>
 
             <button type="submit" class="btn-submit">
               Entrar na plataforma
             </button>
           </form>
+          <% } %>
 
           <section class="security-badge">
             <i class="ph-fill ph-lock-key"></i>

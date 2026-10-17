@@ -1,0 +1,10 @@
+.report-detail { max-width: 960px; margin: 2rem auto; padding: 1.5rem; }
+.report-detail h1 { overflow-wrap: anywhere; margin: 1rem 0; }
+.detail-description { white-space: pre-wrap; overflow-wrap: anywhere; }
+.report-detail dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.report-detail dt { font-weight: 700; }
+.report-detail dd { margin: .3rem 0; }
+#detail-map { height: 360px; border-radius: 16px; margin: 1rem 0; }
+#situation-form { display: grid; gap: .75rem; margin: 1rem 0; }
+#situation-form select, #situation-form textarea, #situation-form button { padding: .75rem; font: inherit; }
+.report-detail nav { margin: 2rem 0; }

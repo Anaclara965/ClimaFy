@@ -55,7 +55,7 @@
         <form
           class="preferences-form"
           id="preferences-form"
-          action="#"
+          action="/api/preferencias"
           method="POST"
         >
           <fieldset class="form-section">
@@ -229,6 +229,14 @@
 
     <%- include('../partials/footer') %>
 
+    <!-- Estado inicial vindo do banco (bairros salvos, categorias, frequência) -->
+    <script>
+      window.CLIMAFY_PREFERENCIAS = <%- JSON.stringify(preferenciasIniciais) %>;
+    </script>
+    <!-- Notificações (simple-notify) — fallback automático sem CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.5/dist/simple-notify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.5/dist/simple-notify.min.js"></script>
+    <script src="/js/bairro-autocomplete.js"></script>
     <script src="/js/cadastro-preferencias.js"></script>
   </body>
 </html>

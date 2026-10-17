@@ -518,3 +518,57 @@ abbr { text-decoration: none; color: var(--error-red); }
     .registration-card { padding: 3rem; }
     .page-wrapper { padding: 2rem 1rem 4rem; }
 }
+
+/* ---------------------------------------------------------------------------
+   Autocomplete de bairro (lista vinda de /api/bairros)
+   --------------------------------------------------------------------------- */
+.bairro-field {
+    position: relative;
+}
+
+.bairro-field .dropdown-results {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% - 4px);
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.25rem;
+    list-style: none;
+    background: #fff;
+    border: 1px solid rgba(31, 41, 51, 0.14);
+    border-radius: 10px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+.bairro-field .dropdown-results li {
+    list-style: none;
+}
+
+.bairro-field .dropdown-results button {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    color: var(--text, #1f2933);
+    cursor: pointer;
+}
+
+.bairro-field .dropdown-results button:hover,
+.bairro-field .dropdown-results button:focus-visible {
+    background: rgba(26, 150, 81, 0.1);
+    outline: none;
+}
+
+.bairro-field .dropdown-results .empty-result {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    color: var(--soft, #6b7280);
+}
+

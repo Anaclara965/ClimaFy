@@ -48,11 +48,13 @@ SET time_zone = '+00:00';
 
 -- 0.1 Limpeza idempotente (ordem irrelevante com FK checks desligadas)
 SET FOREIGN_KEY_CHECKS = 0;
+-- VIEWs antes das tabelas: uma view nao pode sobreviver ao DROP das tabelas que usa.
+DROP VIEW IF EXISTS vw_relatos_publicos;
 DROP TABLE IF EXISTS
     logs_auditoria, snapshot_resultados, snapshot_lotes, snapshots_prioridade,
     execucoes_orcamentarias, ocorrencias_oficiais, lotes_importacao, fontes_dados,
     notificacoes, preferencias_bairros, preferencias_categorias, preferencias_notificacao,
-    moderacoes_relato, motivos_moderacao, historico_status_relato, relato_votos,
+    relato_revisoes, moderacoes_relato, motivos_moderacao, historico_status_relato, relato_votos,
     relato_midias, relatos, categorias_ocorrencia, bairros, distritos,
     subprefeituras, cidades, consentimentos_usuario, documentos_legais,
     codigos_verificacao_email, usuarios, papeis;
@@ -321,6 +323,7 @@ CREATE TABLE categorias_ocorrencia (
 -- ---------------------------------------------------------------------
 CREATE TABLE relatos (
     id                     BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    versao_conteudo         INT UNSIGNED NOT NULL DEFAULT 1,
     public_id              CHAR(36)        NOT NULL DEFAULT (UUID()),
     usuario_id             BIGINT UNSIGNED NOT NULL,
     categoria_id           BIGINT UNSIGNED NOT NULL,
@@ -330,8 +333,9 @@ CREATE TABLE relatos (
     titulo                 VARCHAR(80)     NOT NULL,
     descricao              VARCHAR(280)    NOT NULL,
     gravidade              ENUM('leve','moderada','grave','critica') NOT NULL DEFAULT 'moderada',
-    status                 ENUM('pendente','em_analise','resolvido','rejeitado')
-                                           NOT NULL DEFAULT 'pendente',
+    status                 ENUM('aberto','em_andamento','resolvido')
+                                           NOT NULL DEFAULT 'aberto'
+        COMMENT 'Situacao do problema no mundo real (README secao 7). Publicacao NAO e status: vem da ultima decisao em moderacoes_relato.',
     latitude               DECIMAL(10,7)   NOT NULL,
     longitude              DECIMAL(10,7)   NOT NULL,
     endereco_referencia    VARCHAR(255)    NULL,
@@ -419,10 +423,10 @@ CREATE TABLE relato_votos (
 CREATE TABLE historico_status_relato (
     id                         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     relato_id                  BIGINT UNSIGNED NOT NULL,
-    status_anterior            ENUM('pendente','em_analise','resolvido','rejeitado') NULL,
-    status_novo                ENUM('pendente','em_analise','resolvido','rejeitado') NOT NULL,
+    status_anterior            ENUM('aberto','em_andamento','resolvido') NULL,
+    status_novo                ENUM('aberto','em_andamento','resolvido') NOT NULL,
     alterado_por_usuario_id    BIGINT UNSIGNED NULL
-        COMMENT 'Moderador/administrador responsavel pela mudanca de status.',
+        COMMENT 'Autor da mudanca de situacao (moderador/administrador; o proprio autor do relato quando o fluxo permitir).',
     observacao                 VARCHAR(255)    NULL,
     created_at                 DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
@@ -460,6 +464,7 @@ CREATE TABLE motivos_moderacao (
 CREATE TABLE moderacoes_relato (
     id             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     relato_id      BIGINT UNSIGNED NOT NULL,
+    versao_conteudo INT UNSIGNED NOT NULL DEFAULT 1,
     moderador_id   BIGINT UNSIGNED NOT NULL,
     decisao        ENUM('aprovado','rejeitado','solicitado_ajuste') NOT NULL,
     motivo_id      BIGINT UNSIGNED NULL,
@@ -481,6 +486,67 @@ CREATE TABLE moderacoes_relato (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci
   COMMENT = 'Decisoes e observacoes de moderacao. Um relato pode ter mais de uma revisao ao longo do fluxo.';
+
+-- Versões anteriores do conteúdo, preservadas antes de cada edição pelo autor.
+CREATE TABLE relato_revisoes (
+    relato_id BIGINT UNSIGNED NOT NULL,
+    versao_conteudo INT UNSIGNED NOT NULL,
+    conteudo JSON NOT NULL,
+    editado_por_usuario_id BIGINT UNSIGNED NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (relato_id, versao_conteudo),
+    CONSTRAINT fk_revisoes_relato FOREIGN KEY (relato_id) REFERENCES relatos (id)
+      ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_revisoes_editor FOREIGN KEY (editado_por_usuario_id) REFERENCES usuarios (id)
+      ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+-- ---------------------------------------------------------------------
+-- 3.8 vw_relatos_publicos  (regra de publicacao — README secao 7)
+-- ---------------------------------------------------------------------
+-- Regra oficial: um relato aparece publicamente se e somente se a ULTIMA
+-- decisao da VERSAO ATUAL em moderacoes_relato for 'aprovado' e nao estiver excluido.
+-- "Aprovado" NUNCA significa "resolvido": a situacao segue em relatos.status.
+-- Toda consulta publica (mapa, listagens, contadores) deve usar esta view.
+CREATE OR REPLACE VIEW vw_relatos_publicos AS
+SELECT
+    r.id,
+    r.public_id,
+    r.versao_conteudo,
+    r.usuario_id,
+    r.categoria_id,
+    r.cidade_id,
+    r.bairro_id,
+    r.titulo,
+    r.descricao,
+    r.gravidade,
+    r.status,
+    r.latitude,
+    r.longitude,
+    r.endereco_referencia,
+    r.resolvido_em,
+    r.created_at,
+    r.updated_at
+FROM relatos r
+JOIN (
+    SELECT relato_id, versao_conteudo, decisao
+    FROM (
+        SELECT
+            m.relato_id,
+            m.versao_conteudo,
+            m.decisao,
+            ROW_NUMBER() OVER (
+                PARTITION BY m.relato_id, m.versao_conteudo
+                ORDER BY m.created_at DESC, m.id DESC
+            ) AS ordem
+        FROM moderacoes_relato m
+    ) ultima
+    WHERE ultima.ordem = 1
+) decisao_final
+    ON decisao_final.relato_id = r.id
+   AND decisao_final.versao_conteudo = r.versao_conteudo
+   AND decisao_final.decisao = 'aprovado'
+WHERE r.deleted_at IS NULL;
 
 -- =====================================================================
 -- 4. PREFERENCIAS DO USUARIO

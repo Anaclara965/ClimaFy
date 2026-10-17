@@ -1,0 +1,51 @@
+.error-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 96px 24px 120px;
+  text-align: center;
+  color: var(--text, #1f2933);
+}
+
+.error-code {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  color: var(--primary, #1a9651);
+}
+
+.error-page h1 {
+  margin: 12px 0 8px;
+  font-size: 28px;
+}
+
+.error-message {
+  margin: 0 0 32px;
+  color: var(--soft, #48525f);
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.error-primary,
+.error-secondary {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.error-primary {
+  background: var(--primary, #1a9651);
+  color: #fff;
+}
+
+.error-secondary {
+  border: 1px solid rgba(31, 41, 51, 0.16);
+  color: var(--text, #1f2933);
+}

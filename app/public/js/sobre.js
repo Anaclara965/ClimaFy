@@ -2,7 +2,7 @@ const purposeCards = [
     ['Nossa Missão', 'Nossa missão e preencher a lacuna dos dados climáticos oficiais, transformando cidadãos comuns em coletores ativos de informações ambientais no nível de suas ruas e bairros.', 'MISSÃO', '#1a9651', 'mission'],
     ['Monitoramento Hiperlocal', 'Registrar e visualizar eventos climáticos e impactos ambientais no nível do bairro e da rua.', 'OBJETIVO', '#f4b60d', 'goal'],
     ['Engajamento Comunitário', 'Transformar moradores em agentes ativos de mudança, criando uma rede colaborativa de monitoramento.', 'OBJETIVO', '#f4b60d', 'goal'],
-    ['Transparência ública', 'Cruzar relatos da população com portais de transparência para gerar rankings públicos.', 'OBJETIVO', '#f4b60d', 'goal'],
+    ['Transparência Pública', 'Cruzar relatos da população com portais de transparência para gerar rankings públicos.', 'OBJETIVO', '#f4b60d', 'goal'],
     ['Colaboração', 'A união de relatos individuais constrói uma rede de proteção coletiva.', 'VALORES', '#116b38', 'value'],
     ['Confiabilidade e Rigor', 'Todos os dados passam por moderação para garantir qualidade das informações.', 'VALORES', '#116b38', 'value'],
     ['Justiça Social', 'Direcionar atenção e investimento para comunidades onde o risco climático é crítico.', 'VALORES', '#116b38', 'value'],

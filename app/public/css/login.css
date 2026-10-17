@@ -428,3 +428,32 @@ fieldset { border: none; }
     font-size: 1.1rem;
     font-weight: 900;
 }
+
+/* ---------------------------------------------------------------------------
+   Mensagens de erro/aviso vindas do servidor (renderizado com status 401/403)
+   --------------------------------------------------------------------------- */
+.login-erros {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem 0.75rem 1.75rem;
+    border: 1px solid #f3b6b6;
+    border-radius: 10px;
+    background: #fff0f0;
+    color: #a01f1f;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.login-alert {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.login-alert.is-success {
+    border: 1px solid #b9dfc7;
+    background: #e9f7ee;
+    color: #147a43;
+}
+
