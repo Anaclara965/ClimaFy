@@ -1,109 +1,145 @@
- document.addEventListener("DOMContentLoaded", () => {
-    const neighborhoods = ["Brás", "Pinheiros", "Vila Madalena", "Jardim Helena", "Itaquera", "Mooca", "Santo Amaro", "Capão Redondo"];
+// Preferências do usuário.
+// Substitui a lista hardcoded de 8 bairros e a mensagem de sucesso falsa:
+// tudo agora vem de /api/bairros e é gravado por POST /api/preferencias.
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("preferences-form");
     const input = document.getElementById("neighborhood-input");
     const results = document.getElementById("neighborhood-results");
     const selectedList = document.getElementById("selected-neighborhoods");
-    const form = document.getElementById("preferences-form");
     const feedback = document.getElementById("preferences-feedback");
     const frequencyOptions = Array.from(document.querySelectorAll(".frequency-option"));
-    const selectedNeighborhoods = new Set(["Jardim Helena"]);
+    const categorias = Array.from(document.querySelectorAll('input[name="categorias"]'));
+    const frequencias = Array.from(document.querySelectorAll('input[name="frequencia"]'));
+
+    if (!form) return;
+
+    // O servidor manda o que já está salvo (Map: id do bairro -> nome).
+    const iniciais = window.CLIMAFY_PREFERENCIAS ?? { bairros: [], categorias: [], frequencia: "diario" };
+    const selecionados = new Map(
+        (iniciais.bairros ?? []).map((bairro) => [Number(bairro.id), bairro.nome])
+    );
+
+    function setFeedback(mensagem, tipo = "error") {
+        feedback.textContent = mensagem;
+        feedback.classList.toggle("is-success", tipo === "success");
+    }
+
+    function notificar(mensagem, tipo = "success") {
+        if (window.SimpleNotify) {
+            new window.SimpleNotify({
+                title: tipo === "success" ? "Preferências" : "Atenção",
+                text: mensagem,
+                type: tipo === "success" ? "success" : "error",
+                position: "top-right",
+                autoclose: true,
+                autocloseTimeout: 4000,
+            });
+            return;
+        }
+        setFeedback(mensagem, tipo);
+    }
 
     function renderSelectedNeighborhoods() {
         selectedList.innerHTML = "";
 
-        selectedNeighborhoods.forEach((neighborhood) => {
+        selecionados.forEach((nome, id) => {
             const chip = document.createElement("li");
             chip.className = "neighborhood-chip";
-            chip.textContent = neighborhood;
+            chip.dataset.id = String(id);
 
-            const removeButton = document.createElement("button");
-            removeButton.type = "button";
-            removeButton.setAttribute("aria-label", `Remover ${neighborhood}`);
-            removeButton.textContent = "×";
-            removeButton.addEventListener("click", () => {
-                selectedNeighborhoods.delete(neighborhood);
+            const texto = document.createElement("span");
+            texto.textContent = nome;
+
+            const remover = document.createElement("button");
+            remover.type = "button";
+            remover.setAttribute("aria-label", `Remover ${nome}`);
+            remover.textContent = "×";
+            remover.addEventListener("click", () => {
+                selecionados.delete(id);
                 renderSelectedNeighborhoods();
-                renderResults(input.value);
             });
 
-            chip.appendChild(removeButton);
+            chip.append(texto, remover);
             selectedList.appendChild(chip);
         });
     }
 
-    function hideResults() {
-        results.hidden = true;
-        input.setAttribute("aria-expanded", "false");
+    function sincronizarFrequencia() {
+        frequencyOptions.forEach((option) => {
+            const radio = option.querySelector("input");
+            option.classList.toggle("is-selected", radio.checked);
+        });
     }
 
-    function renderResults(query) {
-        const normalizedQuery = query.trim().toLowerCase();
-        results.innerHTML = "";
-
-        if (!normalizedQuery) {
-            hideResults();
-            return;
-        }
-
-        const filteredNeighborhoods = neighborhoods.filter((neighborhood) => {
-            return neighborhood.toLowerCase().includes(normalizedQuery) && !selectedNeighborhoods.has(neighborhood);
-        });
-
-        if (!filteredNeighborhoods.length) {
-            const item = document.createElement("li");
-            item.className = "empty-result";
-            item.textContent = "Nenhum bairro encontrado";
-            results.appendChild(item);
-        }
-
-        filteredNeighborhoods.forEach((neighborhood) => {
-            const item = document.createElement("li");
-            const button = document.createElement("button");
-            button.type = "button";
-            button.setAttribute("role", "option");
-            button.textContent = neighborhood;
-            button.addEventListener("click", () => {
-                selectedNeighborhoods.add(neighborhood);
-                input.value = "";
-                renderSelectedNeighborhoods();
-                hideResults();
-            });
-
-            item.appendChild(button);
-            results.appendChild(item);
-        });
-
-        results.hidden = false;
-        input.setAttribute("aria-expanded", "true");
-    }
-
-    input.addEventListener("input", () => {
-        renderResults(input.value);
+    // Estado inicial vindo do banco.
+    categorias.forEach((checkbox) => {
+        checkbox.checked = (iniciais.categorias ?? []).includes(checkbox.value);
     });
-
-    document.addEventListener("click", (event) => {
-        if (!event.target.closest(".neighborhood-search")) {
-            hideResults();
-        }
+    frequencias.forEach((radio) => {
+        radio.checked = radio.value === (iniciais.frequencia ?? "diario");
     });
 
     frequencyOptions.forEach((option) => {
-        const radio = option.querySelector("input");
-
         option.addEventListener("click", () => {
-            frequencyOptions.forEach((item) => item.classList.remove("is-selected"));
-            option.classList.add("is-selected");
+            const radio = option.querySelector("input");
             radio.checked = true;
+            sincronizarFrequencia();
         });
     });
 
-    form.addEventListener("submit", (event) => {
+    if (input && results && window.ClimaFyBairros) {
+        window.ClimaFyBairros.criarAutocompleteBairros({
+            input,
+            lista: results,
+            aoEscolher: (bairro) => {
+                selecionados.set(Number(bairro.id), bairro.nome);
+                input.value = "";
+                renderSelectedNeighborhoods();
+            },
+        });
+    }
+
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        feedback.textContent = "Preferências salvas com sucesso.";
-        window.setTimeout(() => {
-            window.location.href = "/welcome";
-        }, 650);
+
+        const botao = form.querySelector(".btn-save");
+        if (botao) botao.disabled = true;
+        setFeedback("Salvando preferências...");
+
+        const payload = {
+            bairros: [...selecionados.keys()],
+            categorias: categorias.filter((c) => c.checked).map((c) => c.value),
+            frequencia: frequencias.find((radio) => radio.checked)?.value ?? "diario",
+        };
+
+        try {
+            const resposta = await fetch("/api/preferencias", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const corpo = await resposta.json();
+
+            // Regra do README 6: só mostra sucesso DEPOIS do 2xx do servidor.
+            if (!resposta.ok) {
+                const mensagem = corpo.erros?.join(" ") ?? corpo.erro ?? "Não foi possível salvar.";
+                setFeedback(mensagem);
+                notificar(mensagem, "error");
+                return;
+            }
+
+            setFeedback(corpo.mensagem ?? "Preferências salvas com sucesso.", "success");
+            notificar(corpo.mensagem ?? "Preferências salvas com sucesso.");
+            window.location.assign(corpo.redirecionar ?? "/welcome");
+        } catch (erro) {
+            const mensagem = "Falha de conexão. Tente novamente.";
+            setFeedback(mensagem);
+            notificar(mensagem, "error");
+        } finally {
+            if (botao) botao.disabled = false;
+        }
     });
 
     renderSelectedNeighborhoods();
+    sincronizarFrequencia();
 });

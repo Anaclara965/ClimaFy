@@ -29,9 +29,9 @@
                 <a href="/adm/relatorios"><span>Relatórios</span></a>
             </nav>
             <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login">← Sair do painel</a>
+                <strong><%= usuario.nome %></strong>
+                <span><%= usuario.email %></span>
+                <a href="/logout">← Sair do painel</a>
             </footer>
         </aside>
 
@@ -47,6 +47,7 @@
                 class="icon-button"
                 type="button"
                 aria-label="Notificações"
+                disabled title="Notificações ainda não disponíveis"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -57,7 +58,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path></svg
-                ><span>3</span>
+                ><span>—</span>
               </button>
             </li>
             <li>
@@ -65,30 +66,32 @@
                 class="avatar-button"
                 type="button"
                 aria-label="Perfil administrador"
+                disabled title="Gerenciamento de perfil em alinhamento com o frontend"
               >
-                A
+                <%= (usuario.nome || 'A').charAt(0).toUpperCase() %>
               </button>
             </li>
           </menu>
         </header>
 
         <section class="admin-area-content">
+          <p id="users-feedback" role="status" aria-live="polite"></p>
           <section class="area-summary" aria-label="Resumo dos usuários">
             <article class="summary-card">
-              <span>Usuários cadastrados</span><strong>8.542</strong
-              ><small>+126 neste mês</small>
+              <span>Usuários cadastrados</span><strong id="users-total">—</strong
+              ><small id="users-month">Carregando…</small>
             </article>
             <article class="summary-card" style="--card-color: #147a43">
-              <span>Usuários ativos</span><strong>7.918</strong
-              ><small>92,7% da base</small>
+              <span>Usuários ativos</span><strong id="users-active">—</strong
+              ><small id="users-active-share">Carregando…</small>
             </article>
             <article class="summary-card" style="--card-color: #2469d6">
-              <span>Novos esta semana</span><strong>38</strong
-              ><small>↑ 12% vs. semana anterior</small>
+              <span>Novos esta semana</span><strong id="users-week">—</strong
+              ><small id="users-previous-week">Carregando…</small>
             </article>
             <article class="summary-card" style="--card-color: #d62727">
-              <span>Bloqueados</span><strong>17</strong
-              ><small>0,2% da base</small>
+              <span>Bloqueados</span><strong id="users-blocked">—</strong
+              ><small id="users-blocked-share">Carregando…</small>
             </article>
           </section>
 
@@ -98,6 +101,7 @@
                 class="area-search"
                 id="area-search"
                 type="search"
+                maxlength="100"
                 placeholder="Buscar por nome, e-mail ou perfil..."
                 aria-label="Buscar usuários"
               />
@@ -110,11 +114,12 @@
                 <option>Ativo</option>
                 <option>Pendente</option>
                 <option>Bloqueado</option>
+                <option>Inativo</option>
               </select>
               <button
                 class="primary-action"
                 type="button"
-                data-message="Formulário de convite iniciado."
+                disabled title="Convites não estão implementados; use o cadastro público por enquanto"
               >
                 Convidar usuário
               </button>
@@ -141,12 +146,12 @@
             </p>
             <footer class="area-footer">
               <span id="area-count"></span
-              ><span>Dados demonstrativos do painel administrativo</span>
+              ><nav id="users-pagination" aria-label="Páginas de usuários"></nav>
             </footer>
           </section>
         </section>
       </main>
     </section>
-    <script src="/js/adm-areas.js"></script>
+    <script src="/js/adm-usuarios.js"></script>
   </body>
 </html>

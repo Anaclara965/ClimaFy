@@ -1,19 +1,26 @@
+// GET /api/bairros?busca=termo
+// Fonte unica dos bairros: autocomplete do cadastro e busca das preferencias.
 const { buscarBairros } = require("../models/bairroModel");
 
-function listarBairros(req, res) {
-    const busca = req.query.busca ?? "";
+const TAMANHO_MAXIMO_TERMO = 100;
+const LIMITE_RESULTADOS = 20;
 
-    if(typeof busca !== 'string' || busca.length > 100) {
-        return res.status(400).json({ 
-            error: 'A busca deve ser um texto de até 100 caracteres.' 
-        });
+async function listarBairros(req, res, next) {
+  const busca = req.query.busca ?? "";
 
-    }
+  if (typeof busca !== "string" || busca.length > TAMANHO_MAXIMO_TERMO) {
+    return res.status(400).json({
+      erro: "A busca deve ser um texto de até 100 caracteres.",
+    });
+  }
 
-    const termo = busca.trim().toLowerCase();
-    const encontrados = buscarBairros(termo)
-
+  try {
+    const encontrados = await buscarBairros(busca.trim(), LIMITE_RESULTADOS);
     return res.status(200).json(encontrados);
+  } catch (erro) {
+    return next(erro);
+  }
 }
 
-module.exports = { listarBairros };
+module.exports = { listarBairros, TAMANHO_MAXIMO_TERMO, LIMITE_RESULTADOS };
+

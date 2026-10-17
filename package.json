@@ -5,8 +5,15 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "dev": "node --watch app.js",
     "test": "node --test",
-    "db:schema": "node database/apply-schema.js"
+    "db:schema": "node database/apply-schema.js",
+    "db:reset": "node database/apply-schema.js",
+    "criar-usuario": "node database/criar-usuario.js",
+    "db:migrate:relatos": "node database/migrate-relatos.js",
+    "db:migrate:edicao-relatos": "node database/migrate-edicao-relatos.js",
+    "dados:validar": "node database/importar-ranking.js",
+    "dados:importar": "node database/importar-ranking.js"
   },
   "keywords": [
     "node",
@@ -15,11 +22,16 @@
   "author": "Grupo ClimaFy",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "express-validator": "^7.3.2",
+    "multer": "^2.4.0",
     "mysql2": "^3.24.4",
+    "nodemailer": "^10.0.10",
     "readline-sync": "^1.4.10"
   },
   "devDependencies": {

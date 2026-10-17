@@ -556,17 +556,86 @@ ol, ul { list-style: none; }
 .mini-map {
     position: relative;
     width: 100%;
-    height: 238px;
     overflow: hidden;
     margin-top: 0.85rem;
     border: 1px solid var(--border-strong);
     border-radius: 12px;
-    background:
-        linear-gradient(#f4f4f2 2px, transparent 2px),
-        linear-gradient(90deg, #f4f4f2 2px, transparent 2px),
-        #d4dfd6;
-    background-size: 54px 54px;
+    background: #e8eee9;
+    height: 300px;
+    z-index: 0;
 }
+
+.location-actions {
+    margin-top: 0.85rem;
+}
+
+.location-actions button {
+    min-height: 44px;
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--primary-green);
+    border-radius: 8px;
+    background: var(--primary-green-soft);
+    color: var(--primary-green-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.location-actions button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.location-actions button:focus-visible,
+.mini-map:focus-visible {
+    outline: 3px solid var(--primary-green);
+    outline-offset: 3px;
+}
+
+.location-feedback {
+    margin-top: 0.65rem;
+    color: var(--text-medium);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+.location-feedback a { text-decoration: underline; }
+
+.address-search > button,
+#address-results button,
+#bairro-resultados button {
+    min-height: 44px;
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text-dark);
+    text-align: left;
+}
+
+.address-search > button {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-green-dark);
+}
+
+#address-results,
+#bairro-resultados {
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--white);
+}
+
+#address-results button:hover,
+#address-results button:focus-visible,
+#bairro-resultados button:hover,
+#bairro-resultados button:focus-visible { background: var(--primary-green-soft); }
+
+.address-search > button:disabled { opacity: 0.65; cursor: wait; }
 
 .map-grid,
 .map-river,
@@ -715,6 +784,29 @@ ol, ul { list-style: none; }
 .form-footer button:hover {
     background: var(--primary-green-dark);
 }
+
+.form-footer button:disabled { opacity: 0.65; cursor: default; }
+
+.report-feedback:not(:empty) {
+    padding: 1rem;
+    border: 1px solid var(--primary-green);
+    border-radius: 8px;
+    background: var(--primary-green-soft);
+    color: var(--primary-green-dark);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.report-feedback[data-tipo="erro"] {
+    border-color: var(--red);
+    background: #fff4f4;
+    color: var(--red);
+}
+
+.report-feedback a { display: inline-block; margin-top: 0.5rem; text-decoration: underline; }
+.report-feedback li + li { margin-top: 0.35rem; }
+.report-feedback:focus-visible { outline: 3px solid var(--primary-green); outline-offset: 3px; }
+.upload-zone:has(input:disabled) label { cursor: default; opacity: 0.65; }
 
 @keyframes pin-pulse {
     0% { transform: scale(0.45); opacity: 0.9; }

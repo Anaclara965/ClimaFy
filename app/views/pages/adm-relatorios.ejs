@@ -18,7 +18,7 @@
             <header class="sidebar-brand">
                 <span class="brand-mark" aria-hidden="true">+</span>
                 <strong>ClimaFy</strong>
-                <span class="admin-badge">ADMIN</span>
+                <span class="admin-badge"><%= usuario.papel === 'administrador' ? 'ADMIN' : 'MODERADOR' %></span>
             </header>
             <nav class="sidebar-nav" aria-label="Navegação do painel">
                 <a href="/adm"><span>Dashboard</span></a>
@@ -29,9 +29,9 @@
                 <a class="active" href="/adm/relatorios" aria-current="page"><span>Relatórios</span></a>
             </nav>
             <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login">← Sair do painel</a>
+                <strong><%= usuario.nome %></strong>
+                <span><%= usuario.email %></span>
+                <a href="/logout">← Sair do painel</a>
             </footer>
         </aside>
 
@@ -50,6 +50,7 @@
                 class="icon-button"
                 type="button"
                 aria-label="Notificações"
+                disabled title="Notificações ainda não conectadas neste painel"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -60,7 +61,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path></svg
-                ><span>3</span>
+                ><span>—</span>
               </button>
             </li>
             <li>
@@ -68,8 +69,9 @@
                 class="avatar-button"
                 type="button"
                 aria-label="Perfil administrador"
+                disabled title="Gerenciamento de perfil em alinhamento com o frontend"
               >
-                A
+                <%= (usuario.nome || 'A').charAt(0).toUpperCase() %>
               </button>
             </li>
           </menu>
@@ -78,20 +80,20 @@
         <section class="admin-area-content">
           <section class="area-summary" aria-label="Resumo dos relatórios">
             <article class="summary-card">
-              <span>Relatórios disponíveis</span><strong>6</strong
-              ><small>Atualizados automaticamente</small>
+              <span>Relatórios disponíveis</span><strong>1</strong
+              ><small>Relatos por região em CSV</small>
             </article>
             <article class="summary-card" style="--card-color: #147a43">
-              <span>Última atualização</span><strong>Hoje</strong
-              ><small>29/07/2026 às 09:30</small>
+              <span>Última geração nesta página</span><strong>CSV</strong
+              ><small id="export-last-time">Nenhum arquivo solicitado</small>
             </article>
             <article class="summary-card" style="--card-color: #2469d6">
               <span>Período padrão</span><strong>30 dias</strong
               ><small>Personalizável na exportação</small>
             </article>
             <article class="summary-card" style="--card-color: #f4b60d">
-              <span>Exportações no mês</span><strong>18</strong
-              ><small>PDF e CSV</small>
+              <span>Limite por arquivo</span><strong>5.000</strong
+              ><small>Use filtros para consultas maiores</small>
             </article>
           </section>
 
@@ -105,17 +107,47 @@
                 >
                 <h2>Relatos por região</h2>
                 <p>
-                  Volume, categorias e evolução dos relatos organizados por
-                  bairro e subprefeitura.
+                  Uma linha por relato, com região, categoria, situação e moderação atual.
+                  Sem dados cadastrais do autor, textos livres ou localização exata.
                 </p>
+                <form id="report-export-form" action="/api/adm/relatorios/relatos.csv" method="GET" aria-describedby="export-feedback">
+                  <section>
+                    <label for="export-period">Período de criação</label>
+                    <select id="export-period" name="dias" class="area-select" disabled>
+                      <option value="7">Últimos 7 dias</option>
+                      <option value="30" selected>Últimos 30 dias</option>
+                      <option value="90">Últimos 90 dias</option>
+                      <option value="365">Últimos 365 dias</option>
+                      <option value="todos">Todo o histórico</option>
+                    </select>
+                  </section>
+                  <section>
+                    <label for="export-category">Categoria</label>
+                    <select id="export-category" name="categoria" class="area-select" disabled><option value="">Todas as categorias</option></select>
+                  </section>
+                  <section>
+                    <label for="export-neighborhood">Bairro e cidade</label>
+                    <select id="export-neighborhood" name="bairro" class="area-select" disabled><option value="">Todos os bairros</option></select>
+                  </section>
+                  <section>
+                    <label for="export-status">Situação do problema</label>
+                    <select id="export-status" name="status" class="area-select" disabled>
+                      <option value="">Todas as situações</option>
+                      <option value="aberto">Aberto</option>
+                      <option value="em_andamento">Em andamento</option>
+                      <option value="resolvido">Resolvido</option>
+                    </select>
+                  </section>
+                </form>
+                <p id="export-feedback" role="status" aria-live="polite"></p>
+                <noscript><p>Ative o JavaScript para carregar os filtros e solicitar o CSV.</p></noscript>
               </section>
               <footer>
-                <span>Atualizado hoje</span
+                <span>Consulta no momento da geração</span
                 ><button
-                  type="button"
-                  data-message="Relatório de relatos por região preparado."
+                  type="submit" form="report-export-form" id="export-reports" disabled
                 >
-                  Gerar relatório
+                  Baixar CSV
                 </button>
               </footer>
             </article>
@@ -133,10 +165,10 @@
                 </p>
               </section>
               <footer>
-                <span>Atualizado hoje</span
+                <span>Ainda não implementado</span
                 ><button
                   type="button"
-                  data-message="Relatório de moderação preparado."
+                  disabled title="Este relatório será conectado em outra etapa"
                 >
                   Gerar relatório
                 </button>
@@ -156,10 +188,10 @@
                 </p>
               </section>
               <footer>
-                <span>Atualizado ontem</span
+                <span>Ainda não implementado</span
                 ><button
                   type="button"
-                  data-message="Relatório de investimentos preparado."
+                  disabled title="Depende da integração de investimentos"
                 >
                   Gerar relatório
                 </button>
@@ -179,10 +211,10 @@
                 </p>
               </section>
               <footer>
-                <span>Atualizado hoje</span
+                <span>Ainda não implementado</span
                 ><button
                   type="button"
-                  data-message="Relatório de usuários preparado."
+                  disabled title="Este relatório será conectado em outra etapa"
                 >
                   Gerar relatório
                 </button>
@@ -202,10 +234,10 @@
                 </p>
               </section>
               <footer>
-                <span>Atualizado há 2 dias</span
+                <span>Ainda não implementado</span
                 ><button
                   type="button"
-                  data-message="Relatório de eventos climáticos preparado."
+                  disabled title="Este relatório será conectado em outra etapa"
                 >
                   Gerar relatório
                 </button>
@@ -225,10 +257,10 @@
                 </p>
               </section>
               <footer>
-                <span>Atualizado ontem</span
+                <span>Ainda não implementado</span
                 ><button
                   type="button"
-                  data-message="Relatório de áreas de risco preparado."
+                  disabled title="Depende das integrações de ocorrências e investimentos"
                 >
                   Gerar relatório
                 </button>
@@ -238,6 +270,6 @@
         </section>
       </main>
     </section>
-    <script src="/js/adm-areas.js"></script>
+    <script src="/js/adm-relatorios.js"></script>
   </body>
 </html>

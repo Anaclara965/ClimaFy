@@ -181,6 +181,47 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* ---------- Bairro: autocomplete com fonte única (/api/bairros) ---------- */
+    const bairroBusca = document.getElementById("bairro-busca");
+    const bairroId = document.getElementById("bairro");
+    const bairroNome = document.getElementById("bairro-nome");
+    const bairroLista = document.getElementById("bairro-resultados");
+    const bairroFeedback = document.getElementById("bairro-feedback");
+
+    if (form && bairroBusca && bairroLista && window.ClimaFyBairros) {
+        function limparBairroEscolhido() {
+            bairroId.value = "";
+            bairroNome.value = "";
+            bairroBusca.setCustomValidity("");
+            if (bairroFeedback) {
+                bairroFeedback.textContent = "";
+                bairroFeedback.className = "field-feedback";
+            }
+        }
+
+        window.ClimaFyBairros.criarAutocompleteBairros({
+            input: bairroBusca,
+            lista: bairroLista,
+            aoLimpar: limparBairroEscolhido,
+            aoEscolher: (bairro) => {
+                bairroId.value = String(bairro.id);
+                bairroNome.value = bairro.nome;
+                bairroBusca.setCustomValidity("");
+                if (bairroFeedback) {
+                    bairroFeedback.textContent = `Bairro selecionado: ${bairro.nome}`;
+                    bairroFeedback.className = "field-feedback is-success";
+                }
+            },
+        });
+
+        // O servidor exige o ID: sem escolha, o próprio navegador bloqueia o envio.
+        bairroBusca.addEventListener("blur", () => {
+            if (bairroBusca.value.trim() && !bairroId.value) {
+                bairroBusca.setCustomValidity("Escolha um bairro da lista sugerida.");
+            }
+        });
+    }
+
     // Inicializa estado visual
     validarSenha();
 });

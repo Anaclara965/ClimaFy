@@ -15,15 +15,6 @@
 <body>
     <%- include('../partials/header') %>
 
-    <section class="auth-actions" aria-label="Ações da conta">
-            <a href="/login" class="login-link">Entrar</a>
-            <a href="#" class="btn-primary">
-                <i class="ph ph-plus" aria-hidden="true"></i>
-                Relatar
-            </a>
-        </section>
-    </header>
-
     <main class="verify-page">
         <nav class="stepper-card" aria-label="Progresso do cadastro">
             <ol class="stepper-list">
@@ -53,13 +44,33 @@
                 </span>
                 <h1 id="verify-title">Verifique seu e-mail</h1>
                 <p>
-                    Enviamos um código de 6 dígitos para
-                    <strong>se***@gmail.com</strong>.
+                    Confirme o endereço de e-mail
+                    <strong><%= emailMascarado %></strong>.
                     Digite o código abaixo para continuar seu cadastro.
                 </p>
             </header>
 
-            <form class="otp-form" id="otp-form" action="#" method="POST" novalidate>
+            <% if (typeof aviso !== 'undefined' && aviso) { %>
+            <p class="otp-feedback <%= typeof avisoTipo !== 'undefined' && avisoTipo === 'error' ? 'is-error' : 'is-success' %>" role="status"><%= aviso %></p>
+            <% } %>
+
+            <% if (erros && erros.length) { %>
+            <ul class="otp-erros" role="alert">
+                <% erros.forEach((mensagem) => { %>
+                <li><%= mensagem %></li>
+                <% }); %>
+            </ul>
+            <% } %>
+
+            <form
+                class="otp-form"
+                id="otp-form"
+                action="/api/verificacao"
+                method="POST"
+                novalidate
+                data-segundos="<%= segundosRestantes %>"
+                data-cooldown="<%= cooldownReenvio %>"
+            >
                 <fieldset class="otp-fieldset">
                     <legend class="otp-legend">Código de verificação</legend>
 
@@ -69,15 +80,26 @@
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 3" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 4" required>
                         <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 5" required>
-                        <input class="otp-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="0" aria-label="Dígito 6" required>
+                        <input
+                    class="otp-input"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    placeholder="0"
+                    aria-label="Dígito 6"
+                    required
+                />
                     </section>
+                    <!-- name="codigo" é o único campo enviado ao servidor -->
+                    <input type="hidden" id="codigo" name="codigo" value="" />
                 </fieldset>
 
                 <p class="otp-feedback" id="otp-feedback" aria-live="polite"></p>
 
                 <aside class="timer-badge" aria-live="polite">
                     <i class="ph ph-clock" aria-hidden="true"></i>
-                    <span id="countdown">Código expira em 1:00</span>
+                    <span id="countdown">Código expira em --:--</span>
                 </aside>
 
                 <button class="btn-confirm" id="confirm-code" type="submit" disabled>
@@ -99,6 +121,9 @@
 
     <%- include('../partials/footer') %>
 
+    <!-- Notificações (simple-notify) — com fallback para o texto da página -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.5/dist/simple-notify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.5/dist/simple-notify.min.js"></script>
     <script src="/js/cadastro-verificacao.js"></script>
 </body>
 </html>
