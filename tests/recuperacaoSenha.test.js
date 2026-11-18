@@ -72,7 +72,7 @@ test("recuperação via formulário existente com e-mail e banco simulados", asy
   }
   let cookie, csrf, cookieLogado;
   const nova = { email: usuario.email, senha: "NovaSenha123!", "confirma-senha": "NovaSenha123!" };
-  await t.test("login contém link real; recuperação usa login.ejs com CSRF e sem cache", async () => {
+  await t.test("login contém link real; recuperação usa página própria com CSRF e sem cache", async () => {
     assert.match((await pedir("/login")).texto, /href="\/recuperar-senha"/);
     const inicio = await pedir("/recuperar-senha");
     assert.equal(inicio.status, 200); assert.equal(inicio.cache, "no-store");

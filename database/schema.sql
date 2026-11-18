@@ -94,6 +94,11 @@ CREATE TABLE usuarios (
     nome                  VARCHAR(120)    NOT NULL,
     sobrenome             VARCHAR(80)     NOT NULL,
     email                 VARCHAR(190)    NOT NULL,
+    email_pendente        VARCHAR(190)    NULL,
+    telefone              VARCHAR(25)     NULL,
+    foto_perfil_chave     VARCHAR(80)     NULL,
+    foto_perfil_mime_type VARCHAR(30)     NULL,
+    foto_perfil_tamanho_bytes INT UNSIGNED NULL,
     senha_hash            VARCHAR(255)    NOT NULL,
     status                ENUM('ativo','inativo','bloqueado')
                                           NOT NULL DEFAULT 'ativo',

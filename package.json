@@ -12,6 +12,7 @@
     "criar-usuario": "node database/criar-usuario.js",
     "db:migrate:relatos": "node database/migrate-relatos.js",
     "db:migrate:edicao-relatos": "node database/migrate-edicao-relatos.js",
+    "db:migrate:perfil": "node database/migrate-perfil.js",
     "dados:validar": "node database/importar-ranking.js",
     "dados:importar": "node database/importar-ranking.js"
   },

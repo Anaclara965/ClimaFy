@@ -45,7 +45,9 @@ router.use("/adm", exigirAutenticacao, exigirEmailVerificado);
 // Moderação aceita moderador e administrador.
 router.get("/adm/moderacao", exigirPapel("moderador"), (req, res) => {
   res.set("Cache-Control", "no-store");
-  res.render("pages/adm-moderacao");
+  res.render("pages/adm-moderacao", {
+    paginaAtiva: req.query.decisao === "todos" ? "relatos" : "moderacao",
+  });
 });
 router.get("/adm/moderacao/:publicId", exigirPapel("moderador"), detalheModeracao);
 

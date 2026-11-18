@@ -124,3 +124,54 @@ test("criacao trava a mesma conta antes de invalidar e inserir codigos", async (
   assert.equal(pool.chamadas[2].sql.trim().startsWith("UPDATE"), true);
   assert.equal(pool.chamadas[3].sql.trim().startsWith("INSERT"), true);
 });
+
+test("solicitação de alteração de e-mail guarda pendente e código na mesma transação", async () => {
+  const { pool, model } = preparar([
+    [{ ...usuario, email: "atual@example.com", email_verificado_em: new Date() }],
+    [],
+    [{ hora: 0, minuto: 0 }],
+    alterado,
+    alterado,
+    { insertId: 11 },
+  ]);
+  assert.deepEqual(await model.solicitarAlteracaoEmail({
+    usuarioId: 1, email: "novo@example.com", codigoHash: hashCodigo("042917"), expiraEm: new Date(),
+  }), { ok: true, email: "novo@example.com" });
+  assert.deepEqual(pool.chamadas.map(({ sql }) => sql.split(/\s+/)[0]), [
+    "BEGIN", "SELECT", "SELECT", "SELECT", "UPDATE", "UPDATE", "INSERT", "COMMIT", "RELEASE",
+  ]);
+  assert.match(pool.chamadas[4].sql, /email_pendente/);
+  assert.match(pool.chamadas[5].sql, /finalidade = 'alteracao_email'/);
+  assert.match(pool.chamadas[6].sql, /'alteracao_email'/);
+});
+
+test("confirmação de alteração troca o e-mail somente depois do código válido", async () => {
+  const { pool, model } = preparar([
+    [{ ...usuario, email_pendente: "novo@example.com" }],
+    [],
+    [codigo],
+    alterado,
+    alterado,
+  ]);
+  assert.deepEqual(await model.confirmarAlteracaoEmail({ usuarioId: 1, codigo: "042917" }), {
+    ok: true, email: "novo@example.com",
+  });
+  assert.match(pool.chamadas[3].sql, /consumido_em/);
+  assert.match(pool.chamadas[5].sql, /SET email = email_pendente, email_pendente = NULL/);
+  assert.match(pool.chamadas[5].sql, /email_verificado_em = UTC_TIMESTAMP/);
+  assert.equal(pool.chamadas.at(-2).sql, "COMMIT");
+});
+
+test("código incorreto de alteração de e-mail não muda endereço e soma tentativa", async () => {
+  const { pool, model } = preparar([
+    [{ ...usuario, email_pendente: "novo@example.com" }],
+    [],
+    [codigo],
+    alterado,
+  ]);
+  assert.deepEqual(await model.confirmarAlteracaoEmail({ usuarioId: 1, codigo: "000000" }), {
+    ok: false, motivo: "incorreto", restantes: 4,
+  });
+  assert.match(pool.chamadas[4].sql, /tentativas = tentativas \+ 1/);
+  assert.equal(pool.chamadas.some(({ sql }) => /SET email = email_pendente/.test(sql)), false);
+});

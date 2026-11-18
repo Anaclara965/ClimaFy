@@ -29,6 +29,9 @@
                 <a class="active" href="/adm/relatorios" aria-current="page"><span>Relatórios</span></a>
             </nav>
             <footer class="sidebar-user">
+                <a class="sidebar-user-avatar" href="/alterar-perfil" aria-label="Abrir perfil">
+                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                </a>
                 <strong><%= usuario.nome %></strong>
                 <span><%= usuario.email %></span>
                 <a href="/logout">← Sair do painel</a>
@@ -65,14 +68,9 @@
               </button>
             </li>
             <li>
-              <button
-                class="avatar-button"
-                type="button"
-                aria-label="Perfil administrador"
-                disabled title="Gerenciamento de perfil em alinhamento com o frontend"
-              >
-                <%= (usuario.nome || 'A').charAt(0).toUpperCase() %>
-              </button>
+              <a class="avatar-button" href="/alterar-perfil" aria-label="Abrir perfil">
+                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+              </a>
             </li>
           </menu>
         </header>

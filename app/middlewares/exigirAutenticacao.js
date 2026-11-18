@@ -38,6 +38,7 @@ function guardarUsuarioNaSessao(req, usuario) {
     email: usuario.email,
     papel: usuario.papel,
     emailVerificado: Boolean(usuario.email_verificado_em),
+    temFotoPerfil: Boolean(usuario.temFotoPerfil || usuario.tem_foto_perfil || usuario.foto_perfil_chave),
   };
   return req.session.usuario;
 }
@@ -111,7 +112,13 @@ function criarExigirAutenticacao(model = usuarioModel) {
       }
 
       // Uma mudanca de papel vale ja nesta requisicao, antes de exigirPapel.
-      res.locals.usuario = guardarUsuarioNaSessao(req, usuario);
+      const usuarioComFoto = {
+        ...usuario,
+        temFotoPerfil: Boolean(
+          usuario.temFotoPerfil ?? usuario.tem_foto_perfil ?? identidade.temFotoPerfil
+        ),
+      };
+      res.locals.usuario = guardarUsuarioNaSessao(req, usuarioComFoto);
       return next();
     } catch (erro) {
       // Falha no banco nao autoriza usando a permissao antiga da sessao.

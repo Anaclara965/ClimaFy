@@ -173,11 +173,11 @@ caption,
 /* === Hero do Ranking (base: celular — coluna única) === */
 .ranking-hero {
     display: grid;
-    min-height: 120px;
+    min-height: 128px;
     grid-template-columns: 1fr;
     align-items: start;
-    gap: 24px;
-    padding: 22px 20px 18px;
+    gap: 28px;
+    padding: 26px 20px 22px;
     background: var(--green-deep);
     color: #fff;
 }
@@ -190,17 +190,17 @@ caption,
 
 .hero-copy p {
     max-width: 720px;
-    margin-top: 10px;
+    margin-top: 12px;
     color: #c7ead1;
     font-size: 15px;
-    line-height: 1.35;
+    line-height: 1.45;
 }
 
 .hero-metrics {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px 20px;
-    padding-top: 2px;
+    gap: 20px 24px;
+    padding-top: 4px;
 }
 
 .hero-metrics article {
@@ -211,26 +211,26 @@ caption,
 
 .hero-metrics dd {
     color: #fff;
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 800;
     line-height: 1;
     order: 1;
 }
 
 .hero-metrics dt {
-    margin-top: 8px;
+    margin-top: 9px;
     color: #c7ead1;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.25;
     order: 2;
 }
 
 .data-message {
     width: calc(100% - 28px);
-    margin: 18px auto 0;
-    padding: 12px 16px;
+    margin: 20px auto 0;
+    padding: 14px 18px;
     border: 1px solid #c9d8e8;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #edf5ff;
     color: #24558f;
     font-size: 12px;
@@ -238,6 +238,7 @@ caption,
 }
 
 .data-message.success {
+    display: none;
     border-color: #b9dfc7;
     background: #e9f7ee;
     color: #116b38;
@@ -251,7 +252,7 @@ caption,
 
 /* === Controles (base: celular — empilhados) === */
 .ranking-controls {
-    border: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
     background: #fff;
 }
 
@@ -260,8 +261,8 @@ caption,
     min-height: 56px;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: 25px;
-    padding: 18px 20px;
+    gap: 28px;
+    padding: 20px;
 }
 
 .control-group {
@@ -275,7 +276,7 @@ caption,
 .control-group legend {
     width: 100%;
     margin-right: 0;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: var(--muted);
     font-size: 13px;
     font-weight: 600;
@@ -283,11 +284,12 @@ caption,
 
 .chip,
 .period {
-    min-height: 32px;
-    border-radius: 8px;
+    min-height: 36px;
+    border-radius: 9px;
     background: var(--panel-alt);
     color: var(--muted);
     font-size: 12px;
+    padding: 0 12px;
     transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -324,10 +326,10 @@ caption,
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 32px;
-    padding: 0 14px;
-    border: 1px solid var(--line-dark);
-    border-radius: 8px;
+    height: 36px;
+    padding: 0 15px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
     background: var(--page);
     color: rgba(21, 25, 30, 0.45);
 }
@@ -338,7 +340,7 @@ caption,
     outline: 0;
     background: transparent;
     color: var(--text);
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .search-field input::placeholder {
@@ -725,7 +727,7 @@ caption,
 
 .factor-card {
     min-height: 0;
-    padding: 18px;
+    padding: 16px;
     border-top: 3px solid currentColor;
 }
 
@@ -735,12 +737,12 @@ caption,
 }
 
 .factor-card h3 {
-    margin-top: 10px;
+    margin-top: 8px;
     font-size: 14px;
 }
 
 .factor-card p {
-    margin-top: 9px;
+    margin-top: 7px;
     color: var(--green);
     font-size: 12px;
     font-weight: 700;
@@ -748,7 +750,7 @@ caption,
 
 .factor-card small {
     display: block;
-    margin-top: 8px;
+    margin-top: 6px;
     color: var(--soft);
     font-size: 11px;
     line-height: 1.35;
@@ -1043,17 +1045,19 @@ caption,
 .source-list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
-    margin-top: 28px;
+    width: min(680px, 100%);
+    gap: 12px;
+    margin: 24px auto 0;
 }
 
 .source-list li {
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 60px;
-    padding: 0 16px;
-    border-radius: 10px;
+    min-height: 56px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.06);
     color: #c7ead1;
     font-size: 13px;
@@ -1061,8 +1065,15 @@ caption,
 }
 
 .source-list i {
+    flex: 0 0 auto;
     color: #fff;
-    font-size: 24px;
+    font-size: 22px;
+}
+
+.source-list span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
 }
 
 /* === CTA (base: celular — botões empilhados) === */
@@ -1175,19 +1186,18 @@ caption,
     .zone-south { left: 282px; top: 185px; width: 250px; height: 150px; }
     .zone-southeast { right: 65px; bottom: 25px; width: 180px; height: 115px; }
     .heat-legend { position: absolute; right: 20px; bottom: 14px; flex-wrap: nowrap; margin-top: 0; }
-    .factor-card { min-height: 164px; }
     .category-card { min-height: 268px; }
 }
 
 /* Desktops */
 @media (min-width: 900px) {
     .main-header { padding: 0 48px; }
-    .ranking-hero { grid-template-columns: 1fr 548px; gap: 48px; padding: 22px 48px 18px; }
+    .ranking-hero { grid-template-columns: 1fr 548px; gap: 56px; padding: 28px 48px 24px; }
     .hero-copy h1, .ranking-cta h2 { font-size: 28px; }
     .hero-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .controls-form { grid-template-columns: auto 1fr 267px; gap: 44px; padding: 11px 48px; }
+    .controls-form { grid-template-columns: auto 1fr 267px; gap: 44px; padding: 14px 48px; }
     .control-group { flex-wrap: nowrap; }
-    .control-group legend { width: auto; margin-right: 18px; }
+    .control-group legend { width: auto; margin-right: 20px; }
     .data-message { width: min(1296px, calc(100% - 96px)); }
     .chart-card, .method-section, .investment-section, .history-section, .category-section { width: min(1276px, calc(100% - 48px)); }
     .method-section { grid-template-columns: 320px 1fr; }
@@ -1200,11 +1210,12 @@ caption,
 /* Desktops grandes */
 @media (min-width: 1180px) {
     .main-header { padding: 0 72px; }
-    .ranking-hero { padding: 22px 72px 18px; }
-    .controls-form { padding: 11px 72px; }
+    .ranking-hero { padding: 28px 72px 24px; }
+    .controls-form { padding: 14px 72px; }
     .ranking-table th:first-child, .ranking-table td:first-child { padding-left: 72px; }
     .ranking-table th:last-child, .ranking-table td:last-child { padding-right: 72px; }
     .factor-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .source-list, .category-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .source-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .category-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .data-section { padding: 36px 72px 40px; }
 }

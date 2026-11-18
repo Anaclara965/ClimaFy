@@ -49,6 +49,19 @@ const {
 } = require("../helpers/validacoesRelatos");
 
 const { exigirAutenticacao, exigirPapel } = require("../middlewares/exigirAutenticacao");
+const { exigirCsrfConta } = require("../middlewares/csrfConta");
+const conta = require("../controllers/contaControllers");
+const {
+  validarNomePerfil,
+  validarSobrenomePerfil,
+  validarTelefone,
+  validarEmailNovo,
+  validarCodigoEmail,
+  validarSenhaAtual,
+  validarNovaSenha: validarNovaSenhaConta,
+  validarConfirmacaoNovaSenha: validarConfirmacaoNovaSenhaConta,
+} = require("../helpers/validacoesConta");
+const { receberFotoPerfil } = require("../middlewares/receberFotoPerfil");
 const { criarLimiteLogin } = require("../middlewares/limitarLogin");
 const { exigirCsrfRelatos } = require("../middlewares/csrfRelatos");
 const { consultarVotos, votar, retirarVoto } = require("../controllers/votoControllers");
@@ -129,6 +142,17 @@ router.use("/api/notificacoes", notificacoes.semCache, exigirAutenticacao, exigi
 router.get("/api/notificacoes", notificacoes.listar);
 router.patch("/api/notificacoes/lida", exigirCsrfRelatos, notificacoes.marcarLida);
 router.get("/cadastro-preferencias", exigirAutenticacao, mostrarPreferencias);
+router.get("/alterar-perfil", exigirAutenticacao, conta.mostrarPerfil);
+router.post("/alterar-perfil", exigirAutenticacao, exigirCsrfConta,
+  [validarNomePerfil, validarSobrenomePerfil, validarTelefone], conta.atualizarPerfil);
+router.post("/alterar-email", exigirAutenticacao, exigirCsrfConta, [validarEmailNovo], conta.solicitarAlteracaoEmail);
+router.post("/confirmar-email", exigirAutenticacao, exigirCsrfConta, [validarCodigoEmail], conta.confirmarAlteracaoEmail);
+router.post("/alterar-perfil/foto", exigirAutenticacao, receberFotoPerfil, exigirCsrfConta, conta.atualizarFotoPerfil);
+router.post("/alterar-perfil/foto/remover", exigirAutenticacao, exigirCsrfConta, conta.removerFotoPerfil);
+router.get("/api/conta/foto", exigirAutenticacao, conta.fotoPerfil);
+router.get("/alterar-senha", exigirAutenticacao, conta.mostrarAlteracaoSenha);
+router.post("/alterar-senha", exigirAutenticacao, exigirCsrfConta,
+  [validarSenhaAtual, validarNovaSenhaConta, validarConfirmacaoNovaSenhaConta], conta.alterarSenha);
 // Endereço antigo, com erro de nome, mantido por compatibilidade.
 router.get("/cadastro-preferenciais", (req, res) => res.redirect(301, "/cadastro-preferencias"));
 router.post(

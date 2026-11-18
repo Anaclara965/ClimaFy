@@ -228,10 +228,11 @@
 
       <section class="data-section" aria-labelledby="data-title">
         <h2 id="data-title">Fontes utilizadas</h2>
-        <p>
-          Os dados são carregados diretamente dos CSVs presentes no projeto.
+        <p id="data-sources-note">
+          Os dados são importados dos CSVs oficiais e publicados via API
+          /api/ranking.
         </p>
-        <ul class="source-list">
+        <ul class="source-list" id="source-list">
           <li>
             <i class="ph ph-map-pin" aria-hidden="true"></i>Defesa Civil /
             GeoSampa — alagamentos de 2026
@@ -246,7 +247,6 @@
 
     <%- include('../partials/footer') %>
 
-    <script src="/js/dados-publicos.js"></script>
     <script src="/js/ranking.js"></script>
   </body>
 </html>

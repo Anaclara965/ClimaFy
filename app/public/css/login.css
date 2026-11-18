@@ -177,22 +177,16 @@ fieldset { border: none; }
     margin-bottom: 3rem;
 }
 
-.feature-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-bottom: 2rem;
-    max-width: 450px;
+.recovery-hero {
+    justify-content: flex-start;
 }
 
-.feature-list li {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: var(--dark-green-list);
-    padding: 1rem 1.2rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
+.recovery-hero .hero-description {
+    margin-bottom: 1.5rem;
+}
+
+.recovery-hero .stats-section {
+    margin-top: auto;
 }
 
 .stats-section {
@@ -397,7 +391,6 @@ fieldset { border: none; }
 /* Tablets */
 @media (min-width: 768px) {
     .login-container { max-width: 420px; }
-    .feature-list { margin-bottom: 4rem; }
     .stats-section { justify-content: flex-start; gap: 2rem; }
 }
 

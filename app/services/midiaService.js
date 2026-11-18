@@ -19,8 +19,9 @@ function criarMidiaService({ sdk, ambiente = process.env, buscar = globalThis.fe
     return { api: sdk ?? require("cloudinary").v2, config };
   }
 
-  async function remover(midia) {
+  async function removerComPrefixo(midia, prefixo) {
     if (!conferirRegistro(midia)) throw erroMidia("Referência de anexo inválida.");
+    if (!midia.chave_arquivo.startsWith(prefixo)) throw erroMidia("Referência de anexo inválida.");
     const { api, config } = cliente();
     const resultado = await api.uploader.destroy(midia.chave_arquivo, {
       ...config, resource_type: TIPOS[midia.mime_type].recurso, type: "authenticated", invalidate: true, timeout: 30000,
@@ -28,10 +29,10 @@ function criarMidiaService({ sdk, ambiente = process.env, buscar = globalThis.fe
     if (!["ok", "not found"].includes(resultado?.result)) throw erroMidia("Não foi possível limpar o anexo.", 502);
   }
 
-  async function salvar(arquivo) {
+  async function salvarEm(arquivo, pasta) {
     const identificado = identificarArquivo(arquivo);
     const { api, config } = cliente();
-    const chave = "climafy/relatos/" + randomUUID();
+    const chave = `climafy/${pasta}/` + randomUUID();
     // Nunca aproveita nome, URL, public_id, pasta ou assinatura enviados pelo cliente.
     const opcoes = { ...config, public_id: chave, type: "authenticated", resource_type: identificado.recurso,
       allowed_formats: [identificado.formato], overwrite: false, use_filename: false,
@@ -59,15 +60,16 @@ function criarMidiaService({ sdk, ambiente = process.env, buscar = globalThis.fe
         (identificado.tipo === "video" && (!Number.isFinite(resultado.duration) || resultado.duration <= 0 || resultado.duration > 30))) {
       // A chave é gerada por nós. Mesmo com resposta inesperada, a limpeza nunca
       // usa um public_id retornado arbitrariamente pelo serviço.
-      try { await remover({ ...midia, tamanho_bytes: arquivo.buffer.length }); }
+      try { await removerComPrefixo({ ...midia, tamanho_bytes: arquivo.buffer.length }, `climafy/${pasta}/`); }
       catch { avisar(`[midia] Limpeza pendente do objeto privado ${chave}.`); }
       throw erroMidia("Anexo recusado após processamento. Use uma imagem válida ou um vídeo de até 30 segundos e 5 MB.");
     }
     return midia;
   }
 
-  async function ler(midia) {
+  async function lerComPrefixo(midia, prefixo) {
     if (!conferirRegistro(midia)) throw erroMidia("Anexo indisponível.", 404);
+    if (!midia.chave_arquivo.startsWith(prefixo)) throw erroMidia("Anexo indisponível.", 404);
     const { api, config } = cliente();
     const tipo = TIPOS[midia.mime_type];
     const url = api.utils.private_download_url(midia.chave_arquivo, tipo.formato, {
@@ -98,7 +100,15 @@ function criarMidiaService({ sdk, ambiente = process.env, buscar = globalThis.fe
       return Buffer.concat(partes, total);
     } catch { throw erroMidia("Não foi possível carregar o anexo agora.", 502); }
   }
-  return { disponivel, salvar, remover, ler };
+  return {
+    disponivel,
+    salvar: arquivo => salvarEm(arquivo, "relatos"),
+    remover: midia => removerComPrefixo(midia, "climafy/relatos/"),
+    ler: midia => lerComPrefixo(midia, "climafy/relatos/"),
+    salvarPerfil: arquivo => salvarEm(arquivo, "perfis"),
+    removerPerfil: midia => removerComPrefixo(midia, "climafy/perfis/"),
+    lerPerfil: midia => lerComPrefixo(midia, "climafy/perfis/"),
+  };
 }
 
 module.exports = { ...criarMidiaService(), criarMidiaService };

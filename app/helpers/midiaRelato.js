@@ -5,7 +5,7 @@ const TIPOS = Object.freeze({
   "video/mp4": { tipo: "video", formato: "mp4", recurso: "video" },
   "video/webm": { tipo: "video", formato: "webm", recurso: "video" },
 });
-const CHAVE = /^climafy\/relatos\/[a-f0-9-]{36}$/;
+const CHAVE = /^climafy\/(?:relatos|perfis)\/[a-f0-9-]{36}$/;
 function erroMidia(mensagem, status = 422) {
   return Object.assign(new Error(mensagem), { status, previsto: true });
 }

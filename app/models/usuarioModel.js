@@ -38,7 +38,12 @@ function criarUsuarioModel(pool = poolPadrao) {
 
   async function buscarPorEmail(email) {
     const [linhas] = await pool.query(
-      `SELECT ${CAMPOS_USUARIO}
+      `SELECT ${CAMPOS_USUARIO},
+              EXISTS(
+                SELECT 1 FROM usuarios foto
+                 WHERE foto.id = u.id AND foto.deleted_at IS NULL
+                   AND foto.foto_perfil_chave IS NOT NULL
+              ) AS tem_foto_perfil
          FROM usuarios u
          JOIN papeis p ON p.id = u.papel_id
         WHERE u.email = ? AND u.deleted_at IS NULL
@@ -51,6 +56,20 @@ function criarUsuarioModel(pool = poolPadrao) {
   async function buscarPorId(id) {
     const [linhas] = await pool.query(
       `SELECT ${CAMPOS_USUARIO}
+         FROM usuarios u
+         JOIN papeis p ON p.id = u.papel_id
+        WHERE u.id = ? AND u.deleted_at IS NULL
+        LIMIT 1`,
+      [id]
+    );
+    return linhas[0] ?? null;
+  }
+
+  async function buscarPerfilPorId(id) {
+    const [linhas] = await pool.query(
+      `SELECT u.id, u.nome, u.sobrenome, u.email, u.email_pendente, u.telefone,
+              u.foto_perfil_chave, u.foto_perfil_mime_type, u.foto_perfil_tamanho_bytes,
+              p.codigo AS papel
          FROM usuarios u
          JOIN papeis p ON p.id = u.papel_id
         WHERE u.id = ? AND u.deleted_at IS NULL
@@ -131,6 +150,49 @@ function criarUsuarioModel(pool = poolPadrao) {
     ]);
   }
 
+  async function atualizarPerfil(usuarioId, { nome, sobrenome, telefone }) {
+    await pool.query(
+      "UPDATE usuarios SET nome = ?, sobrenome = ?, telefone = ? WHERE id = ? AND deleted_at IS NULL",
+      [nome, sobrenome, telefone, usuarioId]
+    );
+  }
+
+  async function atualizarFotoPerfil(usuarioId, foto) {
+    const conexao = await pool.getConnection();
+    try {
+      await conexao.beginTransaction();
+      const [linhas] = await conexao.query(
+        `SELECT foto_perfil_chave, foto_perfil_mime_type, foto_perfil_tamanho_bytes
+           FROM usuarios WHERE id = ? AND deleted_at IS NULL FOR UPDATE`,
+        [usuarioId]
+      );
+      if (!linhas[0]) throw Object.assign(new Error("Conta não encontrada."), { status: 404, previsto: true });
+      await conexao.query(
+        `UPDATE usuarios SET foto_perfil_chave = ?, foto_perfil_mime_type = ?,
+                foto_perfil_tamanho_bytes = ?
+          WHERE id = ? AND deleted_at IS NULL`,
+        [foto.chave_arquivo, foto.mime_type, foto.tamanho_bytes, usuarioId]
+      );
+      await conexao.commit();
+      return linhas[0];
+    } catch (erro) {
+      await conexao.rollback();
+      throw erro;
+    } finally {
+      conexao.release();
+    }
+  }
+
+  async function limparFotoPerfil(usuarioId) {
+    const [resultado] = await pool.query(
+      `UPDATE usuarios SET foto_perfil_chave = NULL, foto_perfil_mime_type = NULL,
+              foto_perfil_tamanho_bytes = NULL
+        WHERE id = ? AND deleted_at IS NULL`,
+      [usuarioId]
+    );
+    return resultado.affectedRows === 1;
+  }
+
   // Painel administrativo: lista com busca por nome/e-mail e filtro por papel/status.
   async function listarUsuarios({ busca = "", papel = null, status = null, limite = 50 } = {}) {
     const filtros = ["u.deleted_at IS NULL"];
@@ -171,11 +233,15 @@ function criarUsuarioModel(pool = poolPadrao) {
   return {
     buscarPorEmail,
     buscarPorId,
+    buscarPerfilPorId,
     emailJaExiste,
     criarUsuario,
     marcarEmailVerificado,
     registrarAcesso,
     atualizarSenha,
+    atualizarPerfil,
+    atualizarFotoPerfil,
+    limparFotoPerfil,
     listarUsuarios,
     definirStatus,
   };

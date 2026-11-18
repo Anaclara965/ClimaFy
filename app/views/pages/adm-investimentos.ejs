@@ -29,9 +29,12 @@
                 <a href="/adm/relatorios"><span>Relatórios</span></a>
             </nav>
             <footer class="sidebar-user">
-                <strong>Administrador</strong>
-                <span>admin@climafy.br</span>
-                <a href="/login">← Sair do painel</a>
+                <a class="sidebar-user-avatar" href="/alterar-perfil" aria-label="Abrir perfil">
+                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                </a>
+                <strong><%= usuario.nome %></strong>
+                <span><%= usuario.email %></span>
+                <a href="/logout">← Sair do painel</a>
             </footer>
         </aside>
 
@@ -61,13 +64,9 @@
               </button>
             </li>
             <li>
-              <button
-                class="avatar-button"
-                type="button"
-                aria-label="Perfil administrador"
-              >
-                A
-              </button>
+              <a class="avatar-button" href="/alterar-perfil" aria-label="Abrir perfil">
+                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+              </a>
             </li>
           </menu>
         </header>

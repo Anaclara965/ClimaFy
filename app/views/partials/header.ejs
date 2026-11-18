@@ -16,17 +16,19 @@
     <% if (typeof usuario !== 'undefined' && usuario) { %>
     <li>
       <a
-        href="/cadastro-preferencias"
+        href="/alterar-perfil"
         class="login-link"
         ><i class="ph ph-shield-check"></i> <%= usuario.nome %></a
       >
     </li>
+    <% if (usuario.papel === 'cidadao') { %>
     <li>
       <a href="/new-report" class="btn-primary"
         ><i class="ph ph-plus"></i> Relatar</a
       >
     </li>
     <li><a href="/meus-relatos" class="login-link">Meus relatos</a></li>
+    <% } %>
     <% if (['moderador', 'administrador'].includes(usuario.papel)) { %>
     <li><a href="/adm/moderacao" class="login-link">Moderação</a></li>
     <% } %>
@@ -97,10 +99,12 @@
     </li>
   </menu>
   <section class="bn-panel" id="bn-panel" hidden>
+    <% if (typeof usuario === 'undefined' || !usuario || usuario.papel === 'cidadao') { %>
     <a href="/new-report"
       ><i class="ph ph-plus-circle" aria-hidden="true"></i> Registrar um
       Evento</a
     >
+    <% } %>
     <a href="/login"><i class="ph ph-sign-in" aria-hidden="true"></i> Entrar</a>
     <a href="/cadastro-dados-pessoais"
       ><i class="ph ph-user-plus" aria-hidden="true"></i> Criar conta</a

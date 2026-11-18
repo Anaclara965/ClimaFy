@@ -67,6 +67,16 @@ test("upload autenticado usa UUID próprio, limites e configuração por chamada
   assert.equal(JSON.stringify(opcoes).includes("ataque.exe"), false);
 });
 
+test("foto de perfil usa pasta privada própria, sem aceitar chaves de relatos para remoção", async () => {
+  const { service, chamadas } = preparar();
+  const resultado = await service.salvarPerfil(arquivo);
+  assert.equal(conferirRegistro(resultado), true);
+  assert.match(resultado.chave_arquivo, /^climafy\/perfis\/[a-f0-9-]{36}$/);
+  assert.equal(chamadas[0].opcoes.type, "authenticated");
+  await assert.rejects(service.removerPerfil(midia), { status: 422 });
+  await assert.rejects(service.lerPerfil(midia), { status: 404 });
+});
+
 test("vídeo usa resource_type video e não transforma imagem", async () => {
   const { service, chamadas } = preparar();
   const resultado = await service.salvar({ mimetype: "video/mp4", buffer: Buffer.from("000000186674797069736f6d00000000", "hex") });
