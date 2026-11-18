@@ -10,7 +10,7 @@ const ERRO_CODIGO = "Código inválido, expirado ou sem tentativas disponíveis.
 
 function renderizar(req, res, { etapa = "email", erros = [], aviso = null, status = 200 } = {}) {
   res.set("Cache-Control", "no-store");
-  return res.status(status).render("pages/login", {
+  return res.status(status).render("pages/esqueci-senha", {
     recuperacao: etapa, erros, aviso,
     email: typeof req.body?.email === "string" ? req.body.email : "",
     proximo: "", csrfRecuperacao: tokenRecuperacao(req),

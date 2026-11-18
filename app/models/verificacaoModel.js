@@ -142,6 +142,159 @@ function criarVerificacaoModel(pool = poolPadrao) {
     }
   }
 
+  async function solicitarAlteracaoEmail({ usuarioId, email, codigoHash, expiraEm }) {
+    const conexao = await pool.getConnection();
+    try {
+      await conexao.beginTransaction();
+      const [usuarios] = await conexao.query(
+        `SELECT id, email, status, email_verificado_em, deleted_at
+           FROM usuarios WHERE id = ? FOR UPDATE`,
+        [usuarioId]
+      );
+      const usuario = usuarios[0];
+      if (!usuario || usuario.status !== "ativo" || !usuario.email_verificado_em || usuario.deleted_at) {
+        await conexao.commit();
+        return { ok: false, motivo: "conta_indisponivel" };
+      }
+      if (usuario.email === email) {
+        await conexao.commit();
+        return { ok: false, motivo: "email_atual" };
+      }
+
+      const [conflitos] = await conexao.query(
+        `SELECT id FROM usuarios
+          WHERE email = ? AND id <> ? AND deleted_at IS NULL LIMIT 1`,
+        [email, usuarioId]
+      );
+      if (conflitos.length) {
+        await conexao.commit();
+        return { ok: false, motivo: "email_em_uso" };
+      }
+
+      const [contagens] = await conexao.query(
+        `SELECT COUNT(*) AS hora,
+                COALESCE(SUM(created_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 60 SECOND)), 0) AS minuto
+           FROM codigos_verificacao_email
+          WHERE usuario_id = ? AND finalidade = 'alteracao_email'
+            AND created_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 HOUR)`,
+        [usuarioId]
+      );
+      if (Number(contagens[0].minuto) > 0 || Number(contagens[0].hora) >= 5) {
+        await conexao.commit();
+        return { ok: false, motivo: "limite" };
+      }
+
+      await conexao.query(
+        "UPDATE usuarios SET email_pendente = ? WHERE id = ?",
+        [email, usuarioId]
+      );
+      await conexao.query(
+        `UPDATE codigos_verificacao_email SET consumido_em = UTC_TIMESTAMP()
+          WHERE usuario_id = ? AND finalidade = 'alteracao_email' AND consumido_em IS NULL`,
+        [usuarioId]
+      );
+      await conexao.query(
+        `INSERT INTO codigos_verificacao_email (usuario_id, codigo_hash, finalidade, expira_em)
+         VALUES (?, ?, 'alteracao_email', ?)`,
+        [usuarioId, codigoHash, expiraEm]
+      );
+      await conexao.commit();
+      return { ok: true, email };
+    } catch (erro) {
+      await conexao.rollback();
+      throw erro;
+    } finally {
+      conexao.release();
+    }
+  }
+
+  async function confirmarAlteracaoEmail({ usuarioId, codigo }) {
+    if (typeof codigo !== "string" || !codigoTemFormatoValido(codigo)) {
+      return { ok: false, motivo: "formato" };
+    }
+    const conexao = await pool.getConnection();
+    async function concluir(resultado) {
+      await conexao.commit();
+      return resultado;
+    }
+    async function consumir(id) {
+      const [resultado] = await conexao.query(
+        `UPDATE codigos_verificacao_email SET consumido_em = UTC_TIMESTAMP()
+          WHERE id = ? AND consumido_em IS NULL`,
+        [id]
+      );
+      if (resultado.affectedRows !== 1) throw new Error("Código de alteração não pode ser consumido.");
+    }
+
+    try {
+      await conexao.beginTransaction();
+      const [usuarios] = await conexao.query(
+        `SELECT id, email_pendente, status, deleted_at
+           FROM usuarios WHERE id = ? FOR UPDATE`,
+        [usuarioId]
+      );
+      const usuario = usuarios[0];
+      if (!usuario || usuario.status !== "ativo" || usuario.deleted_at) {
+        return await concluir({ ok: false, motivo: "conta_indisponivel" });
+      }
+      if (!usuario.email_pendente) return await concluir({ ok: false, motivo: "sem_email_pendente" });
+
+      const [conflitos] = await conexao.query(
+        `SELECT id FROM usuarios
+          WHERE email = ? AND id <> ? AND deleted_at IS NULL LIMIT 1`,
+        [usuario.email_pendente, usuarioId]
+      );
+      if (conflitos.length) return await concluir({ ok: false, motivo: "email_em_uso" });
+
+      const [codigos] = await conexao.query(
+        `SELECT id, codigo_hash, tentativas,
+                (expira_em <= UTC_TIMESTAMP()) AS expirado
+           FROM codigos_verificacao_email
+          WHERE usuario_id = ? AND finalidade = 'alteracao_email' AND consumido_em IS NULL
+          ORDER BY id DESC LIMIT 1 FOR UPDATE`,
+        [usuarioId]
+      );
+      const pendente = codigos[0];
+      if (!pendente) return await concluir({ ok: false, motivo: "sem_codigo" });
+      if (Number(pendente.expirado)) {
+        await consumir(pendente.id);
+        return await concluir({ ok: false, motivo: "expirado" });
+      }
+      if (Number(pendente.tentativas) >= MAX_TENTATIVAS) {
+        await consumir(pendente.id);
+        return await concluir({ ok: false, motivo: "tentativas" });
+      }
+      if (!compararCodigo(codigo, pendente.codigo_hash)) {
+        const restantes = MAX_TENTATIVAS - Number(pendente.tentativas) - 1;
+        await conexao.query(
+          "UPDATE codigos_verificacao_email SET tentativas = tentativas + 1 WHERE id = ?",
+          [pendente.id]
+        );
+        if (restantes === 0) await consumir(pendente.id);
+        return await concluir({
+          ok: false, motivo: restantes === 0 ? "tentativas" : "incorreto", restantes,
+        });
+      }
+
+      await consumir(pendente.id);
+      const [resultado] = await conexao.query(
+        `UPDATE usuarios
+            SET email = email_pendente, email_pendente = NULL, email_verificado_em = UTC_TIMESTAMP()
+          WHERE id = ? AND email_pendente IS NOT NULL
+            AND status = 'ativo' AND deleted_at IS NULL`,
+        [usuarioId]
+      );
+      if (resultado.affectedRows !== 1) throw new Error("Conta não pode alterar o e-mail.");
+      return await concluir({ ok: true, email: usuario.email_pendente });
+    } catch (erro) {
+      await conexao.rollback();
+      if (erro.code === "ER_DUP_ENTRY") return { ok: false, motivo: "email_em_uso" };
+      throw erro;
+    } finally {
+      conexao.release();
+    }
+  }
+
   async function incrementarTentativas(codigoId) {
     await pool.query(
       "UPDATE codigos_verificacao_email SET tentativas = tentativas + 1 WHERE id = ?",
@@ -184,6 +337,8 @@ function criarVerificacaoModel(pool = poolPadrao) {
     criarCodigo,
     buscarPendente,
     confirmarCadastro,
+    solicitarAlteracaoEmail,
+    confirmarAlteracaoEmail,
     incrementarTentativas,
     consumir,
     contarEnviosRecentes,

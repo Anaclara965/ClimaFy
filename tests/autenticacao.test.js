@@ -84,6 +84,17 @@ test("papel rebaixado no banco remove o acesso administrativo na mesma requisica
   assert.equal(req.session.usuario.senha_hash, undefined);
 });
 
+test("sessão administrativa recebe apenas indicador da foto, sem guardar a referência", async () => {
+  const req = requisicaoFalsa();
+  const res = respostaFalsa();
+  const administrador = { ...usuarioAtivo, papel: "administrador" };
+  await criarExigirAutenticacao({
+    buscarPorId: async () => ({ ...administrador, tem_foto_perfil: 1 }),
+  })(req, res, assert.ifError);
+  assert.equal(res.locals.usuario.temFotoPerfil, true);
+  assert.equal(req.session.usuario.foto_perfil_chave, undefined);
+});
+
 test("falha do banco vai ao handler de erro, nunca libera com o papel antigo", async () => {
   const falha = new Error("Banco indisponivel (simulado)");
   let encaminhado;

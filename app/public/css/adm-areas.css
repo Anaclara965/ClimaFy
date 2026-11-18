@@ -3,6 +3,9 @@
 .admin-area-content {
     display: grid;
     gap: 16px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
     padding: 16px;
 }
 
@@ -106,8 +109,9 @@
 
 .area-table {
     width: 100%;
-    min-width: 920px;
+    min-width: 0;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .area-table th {
@@ -123,7 +127,8 @@
 
 .area-table th,
 .area-table td {
-    padding: 0 18px;
+    padding: 8px 12px;
+    overflow-wrap: anywhere;
 }
 
 .area-table tbody tr {
@@ -168,6 +173,7 @@
 
 .table-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
 }
 
@@ -238,13 +244,15 @@
 .reports-grid {
     display: grid;
     grid-template-columns: 1fr;
+    align-items: start;
     gap: 16px;
 }
 
 .report-card {
     display: grid;
-    min-height: 180px;
-    align-content: space-between;
+    min-height: 0;
+    align-content: start;
+    gap: 16px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: white;
@@ -298,6 +306,36 @@
     padding: 0 12px;
 }
 
+.report-card form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.report-card form > section {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+}
+
+.report-card form label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.report-card .area-select {
+    width: 100%;
+    min-width: 0;
+}
+
+.report-card footer {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+}
+
 .activity-message {
     position: fixed;
     right: 24px;
@@ -312,11 +350,6 @@
     padding: 13px 16px;
 }
 
-
-.sidebar-user strong,
-.sidebar-user span {
-    margin-left: 0;
-}
 
 /* =========================================================
    Mobile-first — breakpoints: 600 / 768 / 900 / 1024 (min-width)
@@ -359,12 +392,28 @@
     overscroll-behavior-inline: contain;
 }
 
-.area-table th:first-child,
-.area-table td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    background: #fff;
+.area-table th,
+.area-table td {
+    padding: 8px;
+}
+
+.sidebar-user strong,
+.sidebar-user span,
+.sidebar-user a:not(.sidebar-user-avatar) {
+    margin-left: 42px;
+}
+
+@media (max-width: 767px) {
+    .area-table { min-width: 760px; }
+    .area-table th:first-child,
+    .area-table td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background: #fff;
+    }
+
+    .report-card form { grid-template-columns: 1fr; }
 }
 
 .area-footer {
@@ -435,4 +484,6 @@
     .reports-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+
+    .report-card form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

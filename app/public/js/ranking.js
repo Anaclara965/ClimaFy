@@ -1,8 +1,15 @@
+// Ranking — consome a API pública /api/ranking (contrato: docs/RANKING-API.md).
+// A posição (posicao), a ordenação (ordem) e a busca são resolvidas pelo
+// servidor: o front não renumera linhas nem recalcula índices/pesos.
+
 const estadoDoRanking = {
     dados: [],
     ordenacao: 'prioridade',
     periodo: 'ano',
+    busca: '',
 };
+
+let numeroDaConsulta = 0;
 
 const formatadorDeDinheiro = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -17,6 +24,17 @@ const formatadorCompacto = new Intl.NumberFormat('pt-BR', {
     maximumFractionDigits: 1,
 });
 
+const formatadorDeData = new Intl.DateTimeFormat('pt-BR', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+});
+
+const formatadorDeDia = new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+});
+
 function obterCor(tom) {
     return {
         critical: '#d62727',
@@ -26,23 +44,46 @@ function obterCor(tom) {
     }[tom] || '#1a9651';
 }
 
-function obterDadosVisiveis() {
-    const busca = window.ClimaFyDados.normalizarNome(
-        document.querySelector('#ranking-search').value,
-    );
-    const dados = estadoDoRanking.dados.filter((item) => (
-        window.ClimaFyDados.normalizarNome(item.nome).includes(busca)
-    ));
+function formatarDataHora(texto) {
+    if (!texto) return '—';
+    const data = new Date(texto);
+    return Number.isNaN(data.getTime()) ? texto : formatadorDeData.format(data);
+}
 
-    return dados.sort((primeiro, segundo) => {
-        if (estadoDoRanking.ordenacao === 'orcamento') {
-            return primeiro.realizado - segundo.realizado
-                || segundo.ocorrencias - primeiro.ocorrencias;
-        }
+function formatarDataSimples(texto) {
+    if (!texto) return '—';
+    const data = new Date(`${texto}T12:00:00`);
+    return Number.isNaN(data.getTime()) ? texto : formatadorDeDia.format(data);
+}
 
-        return segundo.indice - primeiro.indice
-            || segundo.ocorrencias - primeiro.ocorrencias;
+function definirMensagem(texto, classe) {
+    const mensagem = document.querySelector('#data-message');
+    mensagem.classList.remove('success', 'error');
+    if (classe) mensagem.classList.add(classe);
+    mensagem.textContent = texto;
+}
+
+function limparVisualizacao() {
+    document.querySelector('#ranking-body').replaceChildren();
+    document.querySelector('#ranking-chart').replaceChildren();
+}
+
+function construirUrl() {
+    const parametros = new URLSearchParams({
+        periodo: estadoDoRanking.periodo,
+        ordem: estadoDoRanking.ordenacao,
     });
+    const busca = estadoDoRanking.busca.trim();
+    if (busca) parametros.set('busca', busca);
+    return `/api/ranking?${parametros.toString()}`;
+}
+
+function criarSvgElemento(tag, atributos = {}) {
+    const elemento = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(atributos).forEach(([atributo, valor]) => {
+        elemento.setAttribute(atributo, valor);
+    });
+    return elemento;
 }
 
 function criarCelula(conteudo) {
@@ -57,11 +98,11 @@ function criarCelula(conteudo) {
 
 function renderizarTabela() {
     const corpo = document.querySelector('#ranking-body');
-    const dados = obterDadosVisiveis();
+    const dados = estadoDoRanking.dados;
     const maiorQuantidade = Math.max(1, ...dados.map((item) => item.ocorrencias));
     corpo.replaceChildren();
 
-    dados.forEach((item, indice) => {
+    dados.forEach((item) => {
         const linha = document.createElement('tr');
         const posicao = document.createElement('strong');
         const area = document.createElement('article');
@@ -72,8 +113,9 @@ function renderizarTabela() {
         const indiceVisual = document.createElement('strong');
         const classificacao = document.createElement('span');
 
-        posicao.className = `position ${indice < 2 ? 'top' : ''}`;
-        posicao.textContent = indice + 1;
+        // posicao é a posição global publicada pelo servidor: nunca renumerada aqui.
+        posicao.className = `position ${item.posicao <= 2 ? 'top' : ''}`;
+        posicao.textContent = item.posicao;
 
         area.append(
             Object.assign(document.createElement('strong'), {
@@ -117,47 +159,126 @@ function renderizarTabela() {
 
 function renderizarGrafico() {
     const grafico = document.querySelector('#ranking-chart');
-    const dados = obterDadosVisiveis().slice(0, 10);
+    grafico.replaceChildren();
+
+    // O gráfico compara sempre as dez maiores prioridades (por posicao),
+    // independentemente da ordenação atual da tabela.
+    const dados = [...estadoDoRanking.dados]
+        .sort((primeiro, segundo) => primeiro.posicao - segundo.posicao)
+        .slice(0, 10);
+    if (!dados.length) return;
+
     const alturaBase = 238;
     const alturaUtil = 180;
     const larguraDoGrupo = 88;
     const maiorIndice = Math.max(1, ...dados.map((item) => item.indice));
     const maiorOrcamento = Math.max(1, ...dados.map((item) => item.realizado));
 
-    const grupos = dados.map((item, indice) => {
+    dados.forEach((item, indice) => {
         const x = 42 + indice * larguraDoGrupo;
         const alturaIndice = Math.round((item.indice / maiorIndice) * alturaUtil);
         const alturaOrcamento = Math.round((item.realizado / maiorOrcamento) * alturaUtil);
         const nome = item.nome.split(' ')[0];
 
-        return `
-            <g>
-                <rect x="${x}" y="${alturaBase - alturaIndice}" width="28" height="${alturaIndice}" rx="2" fill="${obterCor(item.tom)}"></rect>
-                <rect x="${x + 34}" y="${alturaBase - alturaOrcamento}" width="28" height="${alturaOrcamento}" rx="2" fill="#1a9651"></rect>
-                <text x="${x + 14}" y="${alturaBase - alturaIndice - 7}" text-anchor="middle" fill="#48525f" font-size="9" font-weight="700">${item.indice}</text>
-                <text x="${x + 48}" y="${alturaBase - alturaOrcamento - 7}" text-anchor="middle" fill="#48525f" font-size="9" font-weight="700">${Math.round(item.realizado / 1000000)}M</text>
-                <text x="${x + 31}" y="264" text-anchor="middle" fill="#8b96a3" font-size="9">${nome}</text>
-            </g>
-        `;
-    }).join('');
+        const grupo = criarSvgElemento('g');
+        const barraIndice = criarSvgElemento('rect', {
+            x,
+            y: alturaBase - alturaIndice,
+            width: 28,
+            height: alturaIndice,
+            rx: 2,
+            fill: obterCor(item.tom),
+        });
+        const barraOrcamento = criarSvgElemento('rect', {
+            x: x + 34,
+            y: alturaBase - alturaOrcamento,
+            width: 28,
+            height: alturaOrcamento,
+            rx: 2,
+            fill: '#1a9651',
+        });
+        const rotuloIndice = criarSvgElemento('text', {
+            x: x + 14,
+            y: alturaBase - alturaIndice - 7,
+            'text-anchor': 'middle',
+            fill: '#48525f',
+            'font-size': '9',
+            'font-weight': '700',
+        });
+        rotuloIndice.textContent = item.indice;
+        const rotuloOrcamento = criarSvgElemento('text', {
+            x: x + 48,
+            y: alturaBase - alturaOrcamento - 7,
+            'text-anchor': 'middle',
+            fill: '#48525f',
+            'font-size': '9',
+            'font-weight': '700',
+        });
+        rotuloOrcamento.textContent = `${Math.round(item.realizado / 1000000)}M`;
+        const rotuloNome = criarSvgElemento('text', {
+            x: x + 31,
+            y: 264,
+            'text-anchor': 'middle',
+            fill: '#8b96a3',
+            'font-size': '9',
+        });
+        // Nomes vindos do servidor entram por textContent (nunca innerHTML interpolado).
+        rotuloNome.textContent = nome;
 
-    grafico.innerHTML = `
-        <line x1="34" y1="${alturaBase}" x2="940" y2="${alturaBase}" stroke="#e3e8ec"></line>
-        ${grupos}
-    `;
+        grupo.append(barraIndice, barraOrcamento, rotuloIndice, rotuloOrcamento, rotuloNome);
+        grafico.append(grupo);
+    });
+
+    grafico.append(criarSvgElemento('line', {
+        x1: 34,
+        y1: alturaBase,
+        x2: 940,
+        y2: alturaBase,
+        stroke: '#e3e8ec',
+    }));
 }
 
 function renderizarResumo(resumo) {
-    const valores = [
-        resumo.areasMonitoradas,
-        resumo.ocorrencias,
-        formatadorCompacto.format(resumo.orcamentoRealizado),
-        resumo.areasComOcorrencias,
-    ];
+    const valores = resumo
+        ? [
+            resumo.areasMonitoradas,
+            resumo.ocorrencias,
+            formatadorCompacto.format(resumo.orcamentoRealizado),
+            resumo.areasComOcorrencias,
+        ]
+        : ['—', '—', '—', '—'];
 
     document.querySelectorAll('#ranking-resumo dd').forEach((item, indice) => {
         item.textContent = valores[indice];
     });
+}
+
+function renderizarMetodologia(metodologia) {
+    const alvo = document.querySelector('#method-reference');
+    if (!alvo || !metodologia) return;
+    alvo.textContent = `Versão ${metodologia.versao} · Período iniciando em ${formatarDataSimples(metodologia.inicio)} com referência em ${formatarDataSimples(metodologia.referencia)} (última ocorrência do conjunto, não a data de hoje).`;
+}
+
+function renderizarFontes(fontes, atualizadoEm) {
+    const lista = document.querySelector('#source-list');
+    if (!lista || !Array.isArray(fontes)) return;
+    lista.replaceChildren();
+
+    fontes.forEach((fonte) => {
+        const item = document.createElement('li');
+        const icone = document.createElement('i');
+        icone.className = 'ph ph-file-csv';
+        icone.setAttribute('aria-hidden', 'true');
+        const rotulo = document.createElement('span');
+        rotulo.textContent = `${fonte.arquivo} — ${fonte.linhas} linhas (SHA-256 ${String(fonte.sha256 || '').slice(0, 12)}…)`;
+        item.append(icone, rotulo);
+        lista.append(item);
+    });
+
+    const nota = document.querySelector('#data-sources-note');
+    if (nota) {
+        nota.textContent = `Os dados são importados dos CSVs oficiais e publicados via API /api/ranking (publicação de ${formatarDataHora(atualizadoEm)}).`;
+    }
 }
 
 function atualizarVisualizacao() {
@@ -166,21 +287,68 @@ function atualizarVisualizacao() {
 }
 
 async function carregarDados() {
-    const mensagem = document.querySelector('#data-message');
-    mensagem.textContent = 'Carregando dados públicos...';
+    const consulta = numeroDaConsulta + 1;
+    numeroDaConsulta = consulta;
+    definirMensagem('Carregando dados oficiais...');
 
     try {
-        const resultado = await window.ClimaFyDados.carregarCruzamento({
-            periodo: estadoDoRanking.periodo,
+        const resposta = await fetch(construirUrl(), {
+            headers: { Accept: 'application/json' },
         });
-        estadoDoRanking.dados = resultado.ranking;
-        renderizarResumo(resultado.resumo);
+        const dados = await resposta.json().catch(() => null);
+
+        // Resposta de uma consulta antiga (usuário trocou filtros rapidamente): ignore.
+        if (consulta !== numeroDaConsulta) return;
+
+        if (!resposta.ok) {
+            limparVisualizacao();
+            estadoDoRanking.dados = [];
+            renderizarResumo(null);
+
+            if (resposta.status === 503) {
+                definirMensagem(
+                    `Indisponibilidade: ${dados?.erro || 'O ranking não está disponível no momento.'}`,
+                    'error',
+                );
+            } else if (resposta.status === 422) {
+                definirMensagem(
+                    'Filtros do ranking inválidos. Ajuste a busca, a ordem ou o período e tente de novo.',
+                    'error',
+                );
+            } else {
+                definirMensagem(
+                    `Não foi possível carregar o ranking${dados?.erro ? `: ${dados.erro}` : '.'}`,
+                    'error',
+                );
+            }
+            return;
+        }
+
+        estadoDoRanking.dados = dados.ranking;
+        renderizarResumo(dados.resumo);
+        renderizarMetodologia(dados.metodologia);
+        renderizarFontes(dados.fontes, dados.atualizadoEm);
         atualizarVisualizacao();
-        mensagem.textContent = 'Dados oficiais carregados: Defesa Civil/GeoSampa e orçamento das subprefeituras de 2026.';
-        mensagem.classList.add('success');
+
+        if (!dados.ranking.length) {
+            definirMensagem(
+                `Nenhuma subprefeitura corresponde à busca “${estadoDoRanking.busca.trim()}”.`,
+            );
+        } else {
+            definirMensagem(
+                `Dados oficiais via API /api/ranking (publicação de ${formatarDataHora(dados.atualizadoEm)}).`,
+                'success',
+            );
+        }
     } catch (erro) {
-        mensagem.textContent = 'Não foi possível ler os CSVs. Abra o projeto por um servidor local para permitir a leitura dos arquivos.';
-        mensagem.classList.add('error');
+        if (consulta !== numeroDaConsulta) return;
+        limparVisualizacao();
+        estadoDoRanking.dados = [];
+        renderizarResumo(null);
+        definirMensagem(
+            'Indisponibilidade: não foi possível consultar o ranking agora. Tente novamente mais tarde.',
+            'error',
+        );
         console.error(erro);
     }
 }
@@ -194,7 +362,7 @@ function configurarControles() {
                 item.classList.toggle('active', ativo);
                 item.setAttribute('aria-pressed', String(ativo));
             });
-            atualizarVisualizacao();
+            carregarDados();
         });
     });
 
@@ -210,7 +378,14 @@ function configurarControles() {
         });
     });
 
-    document.querySelector('#ranking-search').addEventListener('input', atualizarVisualizacao);
+    let identificadorDaBusca;
+    document.querySelector('#ranking-search').addEventListener('input', (evento) => {
+        clearTimeout(identificadorDaBusca);
+        identificadorDaBusca = setTimeout(() => {
+            estadoDoRanking.busca = evento.target.value;
+            carregarDados();
+        }, 300);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

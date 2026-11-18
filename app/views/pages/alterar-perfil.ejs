@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClimaFy - Alterar perfil</title>
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/header.css?v=2" />
+    <link rel="stylesheet" href="/css/footer.css?v=1" />
+    <link rel="stylesheet" href="/css/alterar-perfil.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  </head>
+  <body>
+    <%- include('../partials/header') %>
+    <main class="profile-page">
+      <section class="profile-card" aria-label="Configurações da conta">
+        <aside class="profile-sidebar">
+          <a class="profile-back" href="/" aria-label="Voltar para o início"><i class="ph ph-arrow-left"></i></a>
+          <div class="profile-identity">
+            <span class="profile-avatar-frame">
+            <% if (usuario.foto_perfil_chave) { %>
+            <img class="profile-avatar" src="/api/conta/foto" alt="Foto de perfil" />
+            <% } else { %>
+            <span class="profile-avatar" aria-hidden="true"><%= `${usuario.nome?.[0] || ''}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %></span>
+            <% } %>
+            </span>
+            <strong><%= usuario.nome %> <%= usuario.sobrenome %></strong>
+            <span><%= usuario.email %></span>
+          </div>
+          <nav class="profile-menu" aria-label="Configurações do perfil">
+            <a class="is-active" href="/alterar-perfil" aria-current="page"><i class="ph ph-user-circle"></i> Conta</a>
+            <a href="/cadastro-preferencias"><i class="ph ph-map-pin"></i> Localização e preferências</a>
+            <a href="/alterar-senha"><i class="ph ph-lock-key"></i> Alterar senha</a>
+          </nav>
+          <% if (usuario.papel === 'cidadao') { %>
+          <a class="profile-report-link" href="/meus-relatos"><i class="ph ph-clipboard-text"></i> Meus relatos</a>
+          <% } %>
+        </aside>
+        <section class="profile-content">
+          <header class="profile-heading">
+            <div><p>Minha conta</p><h1>Dados do perfil</h1></div>
+            <a href="/alterar-senha" class="password-link"><i class="ph ph-lock-key"></i> Alterar senha</a>
+          </header>
+          <% if (aviso) { %><p class="profile-alert is-success" role="status"><%= aviso %></p><% } %>
+          <% if (erros && erros.length) { %>
+          <ul class="profile-alert is-error" role="alert"><% erros.forEach((mensagem) => { %><li><%= mensagem %></li><% }); %></ul>
+          <% } %>
+          <div class="profile-photo-row">
+            <span class="profile-avatar-frame profile-avatar-frame--large">
+            <% if (usuario.foto_perfil_chave) { %>
+            <img class="profile-avatar profile-avatar-large" src="/api/conta/foto" alt="Foto de perfil atual" />
+            <% } else { %>
+            <span class="profile-avatar profile-avatar-large" aria-hidden="true"><%= `${usuario.nome?.[0] || ''}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %></span>
+            <% } %>
+            </span>
+            <div class="photo-controls">
+              <strong>Foto de perfil</strong>
+              <p>Imagem JPEG ou PNG de até 5 MB.</p>
+              <form class="photo-upload-form" action="/alterar-perfil/foto" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%= csrfConta %>" />
+                <label class="btn-secondary photo-choose" for="profile-photo">Escolher foto</label>
+                <input class="photo-input" type="file" id="profile-photo" name="foto" accept="image/jpeg,image/png" required />
+                <button class="btn-save" type="submit">Enviar foto</button>
+              </form>
+              <p id="photo-feedback" role="status" aria-live="polite"></p>
+              <% if (usuario.foto_perfil_chave) { %>
+              <form action="/alterar-perfil/foto/remover" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfConta %>" />
+                <button class="photo-remove" type="submit">Remover foto</button>
+              </form>
+              <% } %>
+            </div>
+          </div>
+          <form class="profile-form" action="/alterar-perfil" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfConta %>" />
+            <div class="profile-fields">
+              <fieldset class="input-group">
+                <label for="profile-name">Nome</label>
+                <input type="text" id="profile-name" name="nome" value="<%= usuario.nome %>" minlength="2" maxlength="120" autocomplete="given-name" required />
+              </fieldset>
+              <fieldset class="input-group">
+                <label for="profile-surname">Sobrenome</label>
+                <input type="text" id="profile-surname" name="sobrenome" value="<%= usuario.sobrenome %>" minlength="2" maxlength="80" autocomplete="family-name" required />
+              </fieldset>
+              <fieldset class="input-group">
+                <label for="profile-phone">Telefone</label>
+                <input type="tel" id="profile-phone" name="telefone" value="<%= usuario.telefone || '' %>" maxlength="25" autocomplete="tel" placeholder="+55 (11) 99999-9999" />
+                <small>Opcional. Informe o DDD e, se necessário, o código do país.</small>
+              </fieldset>
+            </div>
+            <footer class="profile-actions">
+              <a class="btn-secondary" href="/">Cancelar</a>
+              <button class="btn-save" type="submit">Salvar alterações</button>
+            </footer>
+          </form>
+          <section class="email-settings">
+            <h2>E-mail da conta</h2>
+            <p>Atual: <strong><%= usuario.email %></strong></p>
+            <% if (usuario.email_pendente) { %>
+            <p class="pending-email">Confirmação pendente para <strong><%= usuario.email_pendente %></strong>. O e-mail atual continua sendo usado até a confirmação.</p>
+            <form class="profile-form email-confirm-form" action="/confirmar-email" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfConta %>" />
+              <fieldset class="input-group">
+                <label for="email-code">Código enviado ao novo e-mail</label>
+                <input type="text" id="email-code" name="codigoEmail" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required />
+              </fieldset>
+              <button class="btn-save" type="submit">Confirmar novo e-mail</button>
+            </form>
+            <% } %>
+            <form class="profile-form email-change-form" action="/alterar-email" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfConta %>" />
+              <fieldset class="input-group">
+                <label for="new-email">Novo e-mail</label>
+                <input type="email" id="new-email" name="emailNovo" maxlength="190" autocomplete="email" required />
+              </fieldset>
+              <button class="btn-secondary" type="submit"><%= usuario.email_pendente ? 'Enviar outro código' : 'Alterar e-mail' %></button>
+              <small>Enviaremos um código para o novo endereço. O e-mail só muda depois da confirmação.</small>
+            </form>
+          </section>
+        </section>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/js/alterar-perfil.js" defer></script>
+  </body>
+</html>

@@ -13,6 +13,7 @@
     />
   </head>
   <body>
+    <% const abaAtiva = typeof paginaAtiva === 'string' ? paginaAtiva : 'moderacao'; %>
     <section class="admin-shell moderation-shell">
       <aside class="sidebar" aria-label="Menu administrativo">
         <header class="sidebar-brand">
@@ -25,10 +26,10 @@
                 <a href="/adm">
                     <span>Dashboard</span>
                 </a>
-                <a class="active" href="/adm/moderacao">
+                <a class="<%= abaAtiva === 'moderacao' ? 'active' : '' %>" href="/adm/moderacao" <% if (abaAtiva === 'moderacao') { %>aria-current="page"<% } %>>
                     <span>Moderação</span>
                 </a>
-                <a href="/adm/relatos">
+                <a class="<%= abaAtiva === 'relatos' ? 'active' : '' %>" href="/adm/relatos" <% if (abaAtiva === 'relatos') { %>aria-current="page"<% } %>>
                     <span>Todos os Relatos</span>
                 </a>
                 <a href="/adm/usuarios">
@@ -43,7 +44,9 @@
             </nav>
 
             <footer class="sidebar-user">
-                <span class="moderator-avatar" aria-hidden="true"><%= usuario.nome.charAt(0) %></span>
+                <a class="sidebar-user-avatar" href="/alterar-perfil" aria-label="Abrir perfil">
+                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                </a>
                 <strong><%= usuario.nome %></strong>
                 <span><%= usuario.papel %></span>
                 <a href="/logout">← Sair do painel</a>
@@ -76,13 +79,9 @@
               </button>
             </li>
             <li>
-              <button
-                class="avatar-button"
-                type="button"
-                aria-label="Perfil da equipe"
-              >
-                A
-              </button>
+              <a class="avatar-button" href="/alterar-perfil" aria-label="Abrir perfil">
+                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+              </a>
             </li>
           </menu>
         </header>
@@ -91,7 +90,10 @@
           class="moderation-content"
           aria-label="Gerenciamento de relatos"
         >
-          <p id="moderation-feedback" role="status"></p><button type="button" id="reload-moderation">Atualizar fila</button>
+          <section class="moderation-actions">
+            <p id="moderation-feedback" role="status"></p>
+            <button type="button" id="reload-moderation">Atualizar fila</button>
+          </section>
           <section class="filter-bar" aria-label="Filtros da fila">
             <label class="search-field">
               <span class="sr-only">Buscar relatos pendentes</span>

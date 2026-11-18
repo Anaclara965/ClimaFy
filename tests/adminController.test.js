@@ -61,6 +61,11 @@ test('admin HTTP: sessão atual, autorização, CSRF, validação, telas existen
       assert.match(r.texto, /&lt;Admin&gt;/); assert.match(r.texto, /admin@example.com/);
       assert.match(r.texto, new RegExp(script)); assert.doesNotMatch(r.texto, /adm-areas.js|Dados demonstrativos/);
     }
+    const moderacao = await pedir('/adm/moderacao');
+    assert.match(moderacao.texto, /<a class="active" href="\/adm\/moderacao" aria-current="page">/);
+    const todosRelatos = await pedir('/adm/moderacao?decisao=todos');
+    assert.match(todosRelatos.texto, /<a class="active" href="\/adm\/relatos" aria-current="page">/);
+    assert.doesNotMatch(todosRelatos.texto, /<a class="active" href="\/adm\/moderacao"/);
   });
   await t.test('filtros repetidos/estruturados e paginação inválida não chegam ao model', async () => {
     const antes = consultas.length;

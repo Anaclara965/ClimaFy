@@ -12,7 +12,7 @@ const validarCodigoRecuperacao = body("codigo")
 const validarNovaSenha = body("senha").custom(valor => {
   if (typeof valor !== "string" || !senhaValida(valor)) throw new Error(MENSAGEM_SENHA);
   // bcrypt considera somente os primeiros 72 bytes; não aceitar truncamento silencioso.
-  if (Buffer.byteLength(valor, "utf8") > 72) throw new Error("A senha deve ter no máximo 72 bytes (acentos podem ocupar mais de um byte).");
+  if (Buffer.byteLength(valor, "utf8") > 72) throw new Error("A nova senha é longa demais. Reduza o tamanho e tente novamente.");
   return true;
 });
 const validarConfirmacaoNovaSenha = body("confirma-senha").custom((valor, { req }) => {

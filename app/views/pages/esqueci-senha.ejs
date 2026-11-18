@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <% const etapaRecuperacao = typeof recuperacao !== 'undefined' ? recuperacao : 'email'; %>
+    <title>ClimaFy - Esqueci minha senha</title>
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/header.css?v=2" />
+    <link rel="stylesheet" href="/css/footer.css?v=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  </head>
+  <body>
+    <%- include('../partials/header') %>
+    <main class="content-wrapper">
+      <section class="login-section recovery-section">
+        <article class="login-container">
+          <header class="form-header">
+            <h2><%= etapaRecuperacao === 'email' ? 'Esqueceu sua senha?' : 'Nova senha' %></h2>
+            <p><%= etapaRecuperacao === 'email' ? 'Informe o e-mail da sua conta para receber um código de verificação.' : 'Informe o código recebido por e-mail e escolha uma nova senha.' %></p>
+          </header>
+          <% if (aviso) { %><p class="login-alert is-success" role="status"><%= aviso %></p><% } %>
+          <% if (erros && erros.length) { %>
+          <ul class="login-erros" role="alert"><% erros.forEach((mensagem) => { %><li><%= mensagem %></li><% }); %></ul>
+          <% } %>
+          <form action="<%= etapaRecuperacao === 'email' ? '/recuperar-senha' : '/resetar-senha' %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfRecuperacao %>" />
+            <fieldset class="input-group">
+              <label for="recovery-email">E-mail da conta</label>
+              <input type="email" id="recovery-email" name="email" value="<%= email || '' %>" autocomplete="email" maxlength="190" required <%= etapaRecuperacao === 'senha' ? 'readonly' : '' %> />
+            </fieldset>
+            <% if (etapaRecuperacao === 'senha') { %>
+            <fieldset class="input-group">
+              <label for="recovery-code">Código de 6 dígitos</label>
+              <input type="text" id="recovery-code" name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required />
+            </fieldset>
+            <fieldset class="input-group">
+              <label for="recovery-password">Nova senha</label>
+              <input type="password" id="recovery-password" name="senha" autocomplete="new-password" minlength="8" required aria-describedby="recovery-password-help" />
+              <small id="recovery-password-help">Use no mínimo 8 caracteres, com maiúscula, minúscula, número e símbolo.</small>
+            </fieldset>
+            <fieldset class="input-group">
+              <label for="recovery-confirm">Confirmar nova senha</label>
+              <input type="password" id="recovery-confirm" name="confirma-senha" autocomplete="new-password" minlength="8" required />
+            </fieldset>
+            <% } %>
+            <button type="submit" class="btn-submit"><%= etapaRecuperacao === 'email' ? 'Continuar' : 'Salvar nova senha' %></button>
+          </form>
+          <% if (etapaRecuperacao === 'senha') { %>
+          <form action="/recuperar-senha" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfRecuperacao %>" />
+            <input type="hidden" name="email" value="<%= email %>" />
+            <button type="submit" class="forgot-password">Reenviar código</button>
+          </form>
+          <a href="/recuperar-senha" class="forgot-password">Informar outro e-mail</a>
+          <% } %>
+          <p class="login-footer"><a href="/login">Voltar para o login</a></p>
+          <section class="security-badge">
+            <i class="ph-fill ph-lock-key"></i>
+            <span>Seu código é pessoal e válido por poucos minutos.</span>
+          </section>
+        </article>
+      </section>
+      <section class="hero-section recovery-hero">
+        <article class="hero-content">
+          <header class="hero-header">
+            <span class="hero-logo-icon" aria-hidden="true">+</span>
+            <h1>ClimaFy</h1>
+            <h2>Juntos pela segurança<br />da sua cidade</h2>
+          </header>
+          <p class="hero-description">O ClimaFy transforma relatos em informação e ajuda a construir bairros mais seguros e preparados para o clima.</p>
+        </article>
+        <section class="stats-section">
+          <article class="stat-item"><strong>1.247</strong><span>Relatos Ativos</span></article>
+          <span class="stat-divider"></span>
+          <article class="stat-item"><strong>48</strong><span>Bairros</span></article>
+          <span class="stat-divider"></span>
+          <article class="stat-item"><strong>12</strong><span>Cidades</span></article>
+        </section>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+  </body>
+</html>
