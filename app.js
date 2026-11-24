@@ -5,7 +5,7 @@ const { tratarErroJson } = require("./app/middlewares/tratarErroJson");
 require("dotenv").config();
 
 const app = express();
-const port = Number(process.env.PORT);
+const port = Number(process.env.PORT) || 3000;
 
 app.disable("x-powered-by");
 
