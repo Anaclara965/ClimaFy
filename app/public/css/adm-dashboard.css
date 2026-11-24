@@ -238,6 +238,86 @@ ul {
     padding: 16px;
 }
 
+.admin-header .accessibility-controls {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    backdrop-filter: blur(12px) saturate(160%);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.admin-header .accessibility-font-controls {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.admin-header .accessibility-trigger,
+.admin-header .accessibility-option-label {
+    display: none;
+}
+
+.admin-header .accessibility-panel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-header .accessibility-panel[hidden] {
+    display: flex;
+}
+
+.admin-header .accessibility-button {
+    display: inline-flex;
+    min-width: 40px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 8px;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-header .accessibility-button:hover {
+    background: var(--green-soft);
+    color: var(--green-dark);
+}
+
+.admin-header .accessibility-button[aria-pressed="true"] {
+    background: var(--green-dark);
+    color: white;
+    border-color: var(--green-dark);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--green);
+}
+
+.admin-header .accessibility-button:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+.admin-header .contrast-icon {
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+    white-space: nowrap;
+}
+
 .admin-header h1 {
     font-size: 18px;
     font-weight: 800;
@@ -712,6 +792,40 @@ ul {
         grid-template-columns: 200px minmax(0, 1fr);
     }
 
+    .admin-header .accessibility-controls {
+        padding: 4px;
+        gap: 3px;
+        border: 1px solid rgba(20, 122, 67, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.58);
+        -webkit-backdrop-filter: blur(16px) saturate(170%);
+        backdrop-filter: blur(16px) saturate(170%);
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.09),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .admin-header .accessibility-button {
+        min-width: 38px;
+        min-height: 38px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+    }
+
+    .admin-header .accessibility-button:hover:not(:disabled) {
+        border-color: rgba(20, 122, 67, 0.12);
+        background: var(--green-soft);
+        color: var(--green-dark);
+    }
+
+    .admin-header .accessibility-button[aria-pressed="true"] {
+        border-color: var(--green-dark);
+        background: var(--green-dark);
+        color: white;
+        box-shadow: 0 5px 12px rgba(17, 107, 56, 0.22);
+    }
+
     .sidebar {
         position: sticky;
         top: 0;
@@ -844,4 +958,173 @@ ul {
 
 @media (max-width: 767px) {
     .moderation-table { min-width: 650px; }
+
+    .sidebar-brand {
+        display: flex;
+        min-height: 72px;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        padding: 12px 16px;
+    }
+
+    .sidebar-brand strong {
+        margin-left: 0;
+    }
+
+    .brand-mark {
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .admin-badge {
+        margin-top: 5px;
+    }
+
+    .admin-header {
+        position: relative;
+        z-index: 1300;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .admin-header > section {
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        text-align: left;
+    }
+
+    .admin-header .header-actions {
+        width: 100%;
+        justify-content: center;
+        order: 2;
+    }
+
+    .admin-header .accessibility-controls {
+        position: relative;
+        z-index: 1100;
+        order: 1;
+        width: auto;
+        max-width: calc(100vw - 24px);
+        align-items: center;
+        flex-direction: row;
+        gap: 0;
+        margin: 0 0 0 auto;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    .admin-header .accessibility-trigger {
+        display: inline-grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--green-dark);
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18),
+            0 2px 8px rgba(15, 23, 42, 0.12);
+        -webkit-backdrop-filter: blur(16px) saturate(170%);
+        backdrop-filter: blur(16px) saturate(170%);
+        cursor: pointer;
+    }
+
+    .admin-header .accessibility-trigger i {
+        font-size: 1.45rem;
+    }
+
+    .admin-header .accessibility-trigger[aria-expanded="true"] {
+        background: var(--green-dark);
+        color: white;
+    }
+
+    .admin-header .accessibility-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(72px, 1fr));
+        gap: 8px;
+        width: min(280px, calc(100vw - 24px));
+        max-height: max(220px, calc(100vh - 260px));
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.78);
+        -webkit-backdrop-filter: blur(16px) saturate(170%);
+        backdrop-filter: blur(16px) saturate(170%);
+        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.32),
+            0 4px 12px rgba(15, 23, 42, 0.14);
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+        transform-origin: top right;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .admin-header .accessibility-panel.is-open {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    .admin-header .accessibility-controls.opens-up .accessibility-panel {
+        position: absolute;
+        top: auto;
+        bottom: calc(100% + 8px);
+    }
+
+    .admin-header .accessibility-panel[hidden] {
+        display: none;
+    }
+
+    .admin-header .accessibility-font-controls {
+        grid-column: 1 / -1;
+        justify-content: space-between;
+    }
+
+    .admin-header .accessibility-panel .accessibility-font-controls .accessibility-button {
+        flex: 1;
+    }
+
+    .admin-header .accessibility-panel .accessibility-toggle {
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+        min-height: 68px;
+    }
+
+    .admin-header .accessibility-option-label {
+        display: block;
+        font-size: 0.72rem;
+        line-height: 1.1;
+    }
+
+    .admin-header .accessibility-button {
+        min-width: 36px;
+        min-height: 44px;
+        border: 0;
+        border-radius: 22px;
+        background: transparent;
+        color: var(--muted);
+    }
+
+    .admin-header .accessibility-button[aria-pressed="true"] {
+        background: #fff;
+        color: var(--green);
+        border: 0;
+        box-shadow: 0 10px 22px rgba(11, 88, 46, 0.3),
+            0 0 0 1px rgba(26, 150, 81, 0.1);
+    }
 }

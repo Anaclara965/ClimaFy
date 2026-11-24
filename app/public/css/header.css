@@ -35,6 +35,93 @@
   border-bottom: 1px solid var(--hd-border);
 }
 
+.accessibility-controls {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1);
+}
+
+.accessibility-font-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.accessibility-trigger,
+.accessibility-option-label {
+  display: none;
+}
+
+.accessibility-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.accessibility-panel[hidden] {
+  display: flex;
+}
+
+.accessibility-button {
+  display: inline-flex;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid var(--hd-border);
+  border-radius: 0.55rem;
+  background: var(--color-bg);
+  color: var(--hd-ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.accessibility-button:hover:not(:disabled) {
+  background: var(--hd-green-light);
+  color: var(--hd-green-dark);
+  border-color: var(--hd-green);
+  transform: translateY(-1px);
+}
+
+.accessibility-button:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
+.accessibility-button[aria-pressed="true"] {
+  background: var(--hd-green-dark);
+  color: #fff;
+  border-color: var(--hd-green-dark);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 0 4px var(--hd-green);
+}
+
+.accessibility-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.contrast-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
 .main-header .main-nav,
 .main-header .auth-actions {
   display: none;
@@ -75,6 +162,177 @@
 /*rodapé sem espaço branco*/
    
 @media (max-width: 767.98px) {
+  .main-header {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    z-index: 1300;
+  }
+
+  .brand-logo {
+    grid-column: 2;
+    justify-self: center;
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .brand-logo-img {
+    height: 52px;
+  }
+
+  .main-header .accessibility-controls {
+    grid-column: 3;
+    justify-self: end;
+    position: relative;
+    z-index: 1100;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .accessibility-trigger {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(17, 24, 39, 0.12);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--hd-green-dark);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18),
+      0 2px 8px rgba(15, 23, 42, 0.12);
+    -webkit-backdrop-filter: blur(16px) saturate(170%);
+    backdrop-filter: blur(16px) saturate(170%);
+    cursor: pointer;
+  }
+
+  .accessibility-trigger i {
+    font-size: 1.45rem;
+  }
+
+  .accessibility-trigger:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 3px;
+  }
+
+  .accessibility-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
+    gap: 0.5rem;
+    width: min(280px, calc(100vw - 24px));
+    max-height: max(220px, calc(100vh - 260px));
+    overflow-y: auto;
+    padding: 0.65rem;
+    border: 1px solid rgba(17, 24, 39, 0.12);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    -webkit-backdrop-filter: blur(16px) saturate(170%);
+    backdrop-filter: blur(16px) saturate(170%);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.32),
+      0 4px 12px rgba(15, 23, 42, 0.14);
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top right;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .accessibility-panel.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .accessibility-controls.opens-up .accessibility-panel {
+    position: absolute;
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+
+  .accessibility-panel[hidden] {
+    display: none;
+  }
+
+  .accessibility-font-controls {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    gap: 0.2rem;
+  }
+
+  .accessibility-panel .accessibility-font-controls .accessibility-button {
+    flex: 1;
+  }
+
+  .accessibility-panel .accessibility-toggle {
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    min-height: 68px;
+  }
+
+  .accessibility-option-label {
+    display: block;
+    font-size: 0.72rem;
+    line-height: 1.1;
+  }
+
+  .accessibility-trigger[aria-expanded="true"] {
+    background: var(--hd-green-dark);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(11, 88, 46, 0.3),
+      0 0 0 1px rgba(26, 150, 81, 0.16);
+  }
+
+  .accessibility-button {
+    min-width: 36px;
+    min-height: 44px;
+    padding: 0.35rem;
+    border: 0;
+    border-radius: 22px;
+    background: transparent;
+    color: var(--hd-muted);
+  }
+
+  .accessibility-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--hd-green);
+    border: 0;
+  }
+
+  .accessibility-button[aria-pressed="true"] {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    color: var(--hd-green);
+    border: 0;
+    box-shadow: 0 10px 22px rgba(11, 88, 46, 0.3),
+      0 0 0 1px rgba(26, 150, 81, 0.1);
+  }
+
+  .accessibility-button:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+  }
+
+  .contrast-icon {
+    width: 18px;
+    height: 18px;
+  }
+
   .main-footer,
   .site-footer {
     padding-bottom: calc(122px + env(safe-area-inset-bottom));
@@ -290,15 +548,67 @@
     display: none;
   }
 
+  .accessibility-controls {
+    grid-column: 4;
+    justify-self: end;
+    gap: 0.2rem;
+    padding: 0.3rem;
+    border: 1px solid rgba(20, 122, 67, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    -webkit-backdrop-filter: blur(16px) saturate(170%);
+    backdrop-filter: blur(16px) saturate(170%);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.09),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .accessibility-font-controls {
+    gap: 0.12rem;
+  }
+
+  .accessibility-button {
+    min-width: 38px;
+    min-height: 38px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--hd-gray);
+  }
+
+  .accessibility-button:hover:not(:disabled) {
+    border-color: rgba(20, 122, 67, 0.12);
+    background: var(--hd-green-light);
+    color: var(--hd-green-dark);
+    box-shadow: none;
+    transform: translateY(-1px);
+  }
+
+  .accessibility-button[aria-pressed="true"] {
+    border-color: var(--hd-green-dark);
+    background: var(--hd-green-dark);
+    color: #fff;
+    box-shadow: 0 5px 12px rgba(17, 107, 56, 0.22);
+  }
+
   .main-header {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
     padding: 1rem 2rem;
+  }
+
+  .main-header .brand-logo {
+    grid-column: 1;
   }
 
   .main-header .main-nav {
     display: flex;
+    grid-column: 2;
+    justify-self: center;
+    width: auto;
+    margin: 0;
     align-items: center;
     gap: 1.75rem;
+    justify-content: center;
   }
 
   .main-header .main-nav a {
@@ -318,7 +628,7 @@
 
   .main-header .main-nav a.is-active {
     color: var(--hd-green-dark);
-    font-weight: 700;
+    font-weight: 600;
   }
 
   .main-header .main-nav a.is-active::after {
@@ -334,8 +644,35 @@
 
   .main-header .auth-actions {
     display: flex;
+    grid-column: 3;
     justify-content: flex-end;
     gap: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1050px) {
+  .main-header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .main-header .brand-logo-img {
+    height: 56px;
+  }
+
+  .main-header .main-nav {
+    gap: 0.55rem;
+  }
+
+  .main-header .auth-actions {
+    display: none;
+  }
+
+  .main-header .brand-logo,
+  .main-header .accessibility-controls {
+    flex-shrink: 0;
   }
 }
 

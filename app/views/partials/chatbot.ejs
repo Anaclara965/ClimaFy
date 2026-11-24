@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="/css/chatbot.css?v=2" />
+
+<aside class="chatbot-widget" aria-label="Assistente virtual do ClimaFy">
+  <button
+    type="button"
+    class="chatbot-trigger"
+    aria-label="Abrir assistente virtual"
+    aria-expanded="false"
+    aria-controls="chatbot-window"
+  >
+    <i class="ph ph-chat-circle-dots" aria-hidden="true"></i>
+  </button>
+
+  <section
+    class="chatbot-window"
+    id="chatbot-window"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="chatbot-title"
+    hidden
+  >
+    <header class="chatbot-header">
+      <div class="chatbot-header-identity">
+        <img
+          class="chatbot-mascot"
+          src="/images/chatbot-mascot.svg"
+          alt=""
+          aria-hidden="true"
+        />
+        <span class="chatbot-status" aria-hidden="true"></span>
+        <h2 id="chatbot-title">Assistente ClimaFy</h2>
+      </div>
+      <button type="button" class="chatbot-close" aria-label="Fechar assistente">
+        <i class="ph ph-x" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <div class="chatbot-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+    <div class="chatbot-suggestions" aria-label="Perguntas sugeridas">
+      <button type="button" data-chatbot-suggestion="Como funciona o ClimaFy?">Como funciona?</button>
+      <button type="button" data-chatbot-suggestion="Como registrar uma ocorrência?">Registrar ocorrência</button>
+      <button type="button" data-chatbot-suggestion="Como consultar o ranking?">Ranking</button>
+    </div>
+
+    <form class="chatbot-form" novalidate>
+      <label class="chatbot-visually-hidden" for="chatbot-input">Digite sua mensagem</label>
+      <input
+        id="chatbot-input"
+        name="mensagem"
+        type="text"
+        maxlength="500"
+        autocomplete="off"
+        placeholder="Digite sua pergunta..."
+      />
+      <button type="submit" class="chatbot-send" aria-label="Enviar mensagem">
+        <i class="ph ph-paper-plane-right" aria-hidden="true"></i>
+      </button>
+    </form>
+  </section>
+</aside>
+<script src="/js/chatbot.js?v=1" defer></script>

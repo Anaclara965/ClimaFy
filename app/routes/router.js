@@ -72,6 +72,7 @@ const {
   exigirCadastroPendente,
   redirecionarSeLogado,
 } = require("../middlewares/exigirCadastroPendente");
+const chatbot = require("../controllers/chatbotControllers");
 
 const router = express.Router();
 
@@ -101,6 +102,7 @@ router.get("/ranking", (req, res) => res.render("pages/ranking"));
 router.get("/api/ranking", ranking.consultar);
 router.get("/bairro-bras", (req, res) => res.render("pages/bairro-bras"));
 router.get("/bairro-pinheiros", (req, res) => res.render("pages/bairro-pinheiros"));
+router.post("/api/chatbot/mensagem", chatbot.responderMensagem);
 
 // Fonte única dos bairros (autocomplete do cadastro + preferências).
 router.get("/api/bairros", listarBairros);

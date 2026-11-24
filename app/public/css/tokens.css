@@ -92,6 +92,104 @@
   --breakpoint-lg:  900px;
   --breakpoint-xl:  1024px;
   --breakpoint-xxl: 1180px;
+
+  --accessibility-font-scale: 1;
+}
+
+html {
+  font-size: calc(100% * var(--accessibility-font-scale));
+}
+
+html.accessibility-high-contrast {
+  --color-primary: #005a2b;
+  --color-primary-hover: #003d1d;
+  --color-primary-dark: #003d1d;
+  --color-primary-soft: #d7ffe6;
+  --color-text: #000000;
+  --color-text-dark: #000000;
+  --color-text-medium: #171717;
+  --color-text-muted: #303030;
+  --color-text-light: #303030;
+  --color-bg: #ffffff;
+  --color-bg-light: #f0f0f0;
+  --color-bg-page: #ffffff;
+  --color-border: #000000;
+  --color-border-light: #000000;
+  --color-border-strong: #000000;
+  --color-border-soft: #000000;
+}
+
+html.accessibility-high-contrast body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+html.accessibility-high-contrast a,
+html.accessibility-high-contrast button,
+html.accessibility-high-contrast input,
+html.accessibility-high-contrast select,
+html.accessibility-high-contrast textarea {
+  color: #000000 !important;
+}
+
+html.accessibility-high-contrast button,
+html.accessibility-high-contrast input,
+html.accessibility-high-contrast select,
+html.accessibility-high-contrast textarea,
+html.accessibility-high-contrast [role="button"] {
+  border-color: #000000 !important;
+}
+
+html.accessibility-high-contrast .btn-primary,
+html.accessibility-high-contrast .button-primary,
+html.accessibility-high-contrast .primary-action {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.accessibility-high-contrast :disabled {
+  opacity: 0.65;
+}
+
+html.accessibility-highlight-links a {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: 0.13em !important;
+  text-decoration-style: solid !important;
+  text-underline-offset: 0.18em !important;
+  font-weight: 700 !important;
+}
+
+html.accessibility-highlight-links a:hover,
+html.accessibility-highlight-links a:focus-visible,
+html.accessibility-highlight-links a:active,
+html.accessibility-highlight-links a:visited {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: 0.14em !important;
+}
+
+html.accessibility-reduce-motion *,
+html.accessibility-reduce-motion *::before,
+html.accessibility-reduce-motion *::after {
+ scroll-behavior: auto !important;
+ transition-duration: 0.01ms !important;
+ animation-duration: 0.01ms !important;
+ animation-iteration-count: 1 !important;
+}
+
+*:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 /* Estado padrão de botões desativados */
