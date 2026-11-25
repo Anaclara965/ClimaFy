@@ -158,6 +158,12 @@ test("perfil e alteração de senha usam campos existentes e exigem autenticaç�
   const fotoSalva = await pedir("/alterar-perfil/foto", { cookie, dados: fotoForm, multipart: true });
   assert.equal(fotoSalva.status, 303);
   assert.equal(usuario.foto_perfil_chave, fotoPerfil.chave_arquivo);
+  const perfilComFoto = await pedir("/alterar-perfil", { cookie });
+  assert.match(perfilComFoto.texto, /class="header-profile-avatar" src="\/api\/conta\/foto"/);
+  assert.match(perfilComFoto.texto, /class="profile-avatar" src="\/api\/conta\/foto"/);
+  const novaSessao = await pedir("/teste-login");
+  const perfilAposLogin = await pedir("/alterar-perfil", { cookie: novaSessao.cookie });
+  assert.match(perfilAposLogin.texto, /class="header-profile-avatar" src="\/api\/conta\/foto"/);
   const foto = await pedir("/api/conta/foto", { cookie });
   assert.equal(foto.status, 200);
   assert.match(foto.texto, /IHDR/);

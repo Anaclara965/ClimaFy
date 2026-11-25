@@ -1,27 +1,3 @@
-// Demonstracao mantida SOMENTE no bloco de destaques, fora da lista principal.
-const reports = [
-    { id: 1, category: 'Alagamento', neighborhood: 'Vila Madalena', title: 'Rua das Flores completamente alagada', description: "Nivel d'agua subiu 40cm apos 30min de chuva. Drenos obstruídos ha semanas.", status: 'Aberto', time: 'Ha 2 horas', votes: 34, tone: '#2469d6', period: '24 horas' },
-    { id: 2, category: 'Queimada', neighborhood: 'Bras', title: 'Foco de queimada próximo a linha ferrea', description: 'Fumaça intensa visivel a 2km. Bombeiros acionados mas sem resposta ainda.', status: 'Em andamento', time: 'Ha 4 horas', votes: 67, tone: '#d62727', period: '24 horas' },
-    { id: 3, category: 'Calor Extremo', neighborhood: 'Consolação', title: 'Ponto de hidratação desativado na praça', description: 'Com 38 graus, o ponto de apoio montado pela prefeitura foi retirado sem aviso previo.', status: 'Aberto', time: 'Ha 6 horas', votes: 29, tone: '#f35c22', period: '24 horas' },
-    { id: 4, category: 'Lixo Irregular', neighborhood: 'Mooca', title: 'Descarte irregular de entulho na Av. Paes', description: 'Toneladas de residuos de construcao bloqueando parcialmente a calcada.', status: 'Aberto', time: 'Ha 1 dia', votes: 18, tone: '#8b6328', period: '7 dias' },
-    { id: 5, category: 'Alagamento', neighborhood: 'Butanta', title: 'Córrego transbordando para rua residencial', description: 'Moradores isolados. Água invadiu garagens. Situação critica.', status: 'Em andamento', time: 'Ha 1 dia', votes: 51, tone: '#2469d6', period: '7 dias' },
-    { id: 6, category: 'Arvore Caida', neighborhood: 'Oscar', title: 'Arvore de grande porte caida na Rua Oscar', description: 'Bloqueia 70% da via. Risco de dano ao poste de energia.', status: 'Resolvido', time: 'Ha 2 dias', votes: 12, tone: '#63a93a', period: '7 dias' },
-    { id: 7, category: 'Poluição Agua', neighborhood: 'Tatuape', title: 'Esgoto a céu aberto na Rua Tavares', description: 'Vazamento de esgoto há mais de 2 dias. Cheiro forte e risco sanitário.', status: 'Aberto', time: 'Ha 3 dias', votes: 23, tone: '#16a3a3', period: '7 dias' },
-    { id: 8, category: 'Calor Extremo', neighborhood: 'Perdizes', title: 'Escola sem ar-condicionado com 37 graus', description: 'Crianças passaram mal. Professores relatam temperatura insuportável em salas.', status: 'Aberto', time: 'Ha 4 dias', votes: 40, tone: '#f35c22', period: '30 dias' },
-    { id: 9, category: 'Queimada', neighborhood: 'Lapa', title: 'Área verde no Córrego Sapateiro queimando', description: 'Vegetação em chamas ao lado de residências. Vento espalhando faíscas.', status: 'Resolvido', time: 'Há 5 dias', votes: 76, tone: '#d62727', period: '30 dias' },
-];
-
-const neighborhoodRanking = [
-    ['Bras', 147, 'CRITICA', '#d62727'],
-    ['Vila Madalena', 118, 'CRITICA', '#d62727'],
-    ['Pinheiros', 94, 'ALTA', '#f37d22'],
-    ['Mooca', 82, 'ALTA', '#f37d22'],
-    ['Consolacao', 61, 'MEDIA', '#f4b60d'],
-    ['Butanta', 55, 'MEDIA', '#f4b60d'],
-    ['Perdizes', 28, 'BAIXA', '#1a9651'],
-    ['Lapa', 19, 'BAIXA', '#1a9651'],
-];
-
 let activeStatus = 'Todos';
 let versaoDaBusca = 0;
 let buscaEmAndamento;
@@ -235,7 +211,8 @@ async function renderCards(pagina = 1) {
         const dados = await resposta.json();
         if (!resposta.ok) throw new Error(dados.erro || 'Não foi possível carregar os relatos.');
         if (!Array.isArray(dados.relatos) || !dados.paginacao || !Array.isArray(dados.filtros?.categorias) ||
-            !Array.isArray(dados.filtros?.bairros)) throw new Error('Resposta inválida ao carregar os relatos.');
+            !Array.isArray(dados.filtros?.bairros) || !Array.isArray(dados.destaques) ||
+            !Array.isArray(dados.porBairro) || !dados.resumo) throw new Error('Resposta inválida ao carregar os relatos.');
         if (!Number.isInteger(dados.paginacao.pagina) || dados.paginacao.pagina < 1 ||
             !Number.isInteger(dados.paginacao.total) || dados.paginacao.total < 0 ||
             !Number.isInteger(dados.paginacao.paginas) || dados.paginacao.paginas < 0) {
@@ -243,6 +220,9 @@ async function renderCards(pagina = 1) {
         }
         if (chamada !== versaoDaBusca) return;
         fillSelects(dados.filtros);
+        atualizarResumo(dados.resumo);
+        renderFeatured(dados.destaques);
+        renderNeighborhoods(dados.porBairro);
         const controlesVotos = [];
         grid.replaceChildren(...dados.relatos.map(relato => criarCard(relato, controlesVotos)));
         if (!dados.relatos.length) grid.append(criarElemento('p', 'Nenhum relato publicado corresponde à busca.'));
@@ -273,37 +253,70 @@ function fillSelects(filtros) {
     }
 }
 
-function renderFeatured() {
-    const featured = [...reports].sort((a, b) => b.votes - a.votes).slice(0, 2);
-    document.querySelector('#featured-grid').innerHTML = featured.map((report) => `
-        <article class="featured-card" style="--accent:${report.tone}">
-            <header>
-                <span class="category-badge">${report.category}</span>
-                <span class="votes">▲ ${report.votes}</span>
-            </header>
-            <h3>${report.title}</h3>
-            <p>${report.description}</p>
-            <section class="tag-list">
-                <span>${report.neighborhood}</span>
-                <span>${report.status}</span>
-                <span>${report.time}</span>
-            </section>
-            <a href="#">Ver relato completo -></a>
-        </article>
-    `).join('');
+function atualizarResumo(resumo) {
+    const metricas = {
+        '#hero-total': resumo.total,
+        '#hero-resolved': resumo.resolvidos,
+        '#hero-neighborhoods': resumo.bairros,
+        '#metric-total': resumo.total,
+        '#metric-open': resumo.abertos,
+        '#metric-progress': resumo.emAndamento,
+        '#metric-resolved': resumo.resolvidos,
+        '#metric-neighborhoods': resumo.bairros,
+    };
+    for (const [seletor, valor] of Object.entries(metricas)) {
+        if (!Number.isSafeInteger(valor) || valor < 0) throw new Error('Resumo de relatos inválido.');
+        document.querySelector(seletor).textContent = valor.toLocaleString('pt-BR');
+    }
 }
 
-function renderNeighborhoods() {
-    const max = Math.max(...neighborhoodRanking.map((item) => item[1]));
-    document.querySelector('#neighborhood-ranking').innerHTML = neighborhoodRanking.map(([name, count, risk, color], index) => `
-        <li style="--accent:${color}">
-            <span class="rank-number">${String(index + 1).padStart(2, '0')}</span>
-            <strong>${name}</strong>
-            <span class="rank-bar"><span style="width:${(count / max) * 100}%"></span></span>
-            <span class="rank-count">${count} relatos</span>
-            <span class="risk-badge">${risk}</span>
-        </li>
-    `).join('');
+function renderFeatured(relatos) {
+    const grid = document.querySelector('#featured-grid');
+    const cards = relatos.slice(0, 2).map(relato => {
+        const artigo = criarElemento('article', undefined, 'featured-card');
+        artigo.style.setProperty('--accent', coresCategoria[relato.categoriaSlug] || '#147a43');
+        const cabecalho = criarElemento('header');
+        cabecalho.append(
+            criarElemento('span', relato.categoria, 'category-badge'),
+            criarElemento('span', '▲ ' + relato.votos, 'votes')
+        );
+        const tags = criarElemento('section', undefined, 'tag-list');
+        const data = new Date(relato.criadoEm);
+        const enviado = Number.isNaN(data.getTime()) ? 'Data indisponível' : data.toLocaleDateString('pt-BR');
+        tags.append(
+            criarElemento('span', relato.bairro),
+            criarElemento('span', rotulosStatus[relato.status] || relato.status),
+            criarElemento('span', enviado)
+        );
+        const link = criarElemento('a', 'Ver relato completo →');
+        link.href = '/relatos/' + encodeURIComponent(relato.publicId);
+        artigo.append(cabecalho, criarElemento('h3', relato.titulo), criarElemento('p', relato.descricao), tags, link);
+        return artigo;
+    });
+    if (!cards.length) cards.push(criarElemento('p', 'Ainda não há relatos em destaque.'));
+    grid.replaceChildren(...cards);
+}
+
+function renderNeighborhoods(bairros) {
+    const lista = document.querySelector('#neighborhood-ranking');
+    const maximo = Math.max(0, ...bairros.map(bairro => bairro.total));
+    const itens = bairros.slice(0, 8).map((bairro, indice) => {
+        if (!Number.isSafeInteger(bairro.total) || bairro.total < 0) throw new Error('Resumo de bairros inválido.');
+        const item = criarElemento('li');
+        const barra = criarElemento('span', undefined, 'rank-bar');
+        const progresso = criarElemento('span');
+        progresso.style.setProperty('width', maximo ? `${(bairro.total / maximo) * 100}%` : '0%');
+        barra.append(progresso);
+        item.append(
+            criarElemento('span', String(indice + 1).padStart(2, '0'), 'rank-number'),
+            criarElemento('strong', bairro.nome),
+            barra,
+            criarElemento('span', `${bairro.total.toLocaleString('pt-BR')} relatos`, 'rank-count')
+        );
+        return item;
+    });
+    if (!itens.length) itens.push(criarElemento('li', 'Ainda não há relatos por bairro.'));
+    lista.replaceChildren(...itens);
 }
 
 function bindEvents() {
@@ -333,5 +346,3 @@ function bindEvents() {
 
 bindEvents();
 renderCards();
-renderFeatured();
-renderNeighborhoods();

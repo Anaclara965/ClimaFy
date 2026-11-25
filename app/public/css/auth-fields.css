@@ -1,0 +1,52 @@
+@import url("./tokens.css");
+
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px var(--color-error-soft);
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 2.9rem;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: .6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .35rem;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-medium);
+  font-size: 1.15rem;
+}
+
+.password-toggle:hover {
+  color: var(--color-text-dark);
+}
+
+[data-auth-feedback] {
+  display: block;
+  margin-top: .3rem;
+  color: var(--color-error);
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+[data-auth-feedback]:empty {
+  display: none;
+}
+
+[data-auth-feedback].is-success {
+  color: var(--color-success);
+}

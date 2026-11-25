@@ -50,15 +50,29 @@ test("cadastro e retomada resistem a falha de SMTP, com modelos simulados", asyn
     return { status: resposta.status, destino: resposta.headers.get("location"), texto: await resposta.text(),
       cookie: resposta.headers.get("set-cookie")?.split(";")[0] };
   }
-  const dados = { nome: "Pessoa", sobrenome: "Teste", email: "pessoa@example.com", senha: "TesteForte123!",
+  const dados = { nome: "Pessoa", sobrenome: "Teste", email: "  PESSOA@EXAMPLE.COM  ", senha: "TesteForte123!",
     "confirma-senha": "TesteForte123!", bairro: "85", termos: "aceito" };
   let cookie, cookieRetomada;
+  await t.test("e-mail inválido e senha acima do limite bcrypt são rejeitados antes de gravar", async () => {
+    for (const email of ["nao-e-email", [], "a".repeat(191) + "@example.com"]) {
+      const resposta = await pedir("/cadastro-dados-pessoais", {
+        json: true, dados: { ...dados, email },
+      });
+      assert.equal(resposta.status, 422);
+    }
+    const senhaLonga = "Aa1!" + "é".repeat(36);
+    const resposta = await pedir("/cadastro-dados-pessoais", {
+      dados: { ...dados, email: "pessoa@example.com", senha: senhaLonga, "confirma-senha": senhaLonga },
+    });
+    assert.equal(resposta.status, 422);
+    assert.equal(criacoes, 0);
+  });
   await t.test("conta criada com SMTP falhando vai para verificacao, nao para erro 500", async () => {
     const resposta = await pedir("/cadastro-dados-pessoais", { dados }); cookie = resposta.cookie;
     assert.equal(resposta.status, 303); assert.equal(resposta.destino, "/cadastro-verificacao");
     assert.equal(criacoes, 1); assert.ok(cookie);
     const estado = JSON.parse((await pedir("/teste/estado", { cookie })).texto);
-    assert.deepEqual(estado.pendente, { usuarioId: 7, email: dados.email });
+    assert.deepEqual(estado.pendente, { usuarioId: 7, email: "pessoa@example.com" });
     assert.equal(estado.autenticado, false); assert.equal(estado.bairroSugerido, 85);
     assert.equal((await pedir("/api/preferencias", { cookie, dados: {}, json: true })).status, 401);
   });

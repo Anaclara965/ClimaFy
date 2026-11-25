@@ -31,13 +31,13 @@ async function solicitarRecuperacao(req, res, next) {
     const destinatario = await model.emitirCodigo({
       email: req.body.email, codigoHash: hashCodigo(codigo), expiraEm: calcularExpiracao(),
     });
-    // A resposta não espera o SMTP: sua demora/falha não revela se a conta existe.
+    // A resposta não espera o provedor: sua demora/falha não revela se a conta existe.
     // O código já está persistido. Falhas são registradas sem senha, código ou e-mail.
     if (destinatario) res.once("finish", () => {
       Promise.resolve().then(() => emailService.enviarCodigoVerificacao(destinatario.email, codigo, {
         finalidade: "recuperacao_senha",
       })).then(envio => {
-        if (!envio?.enviado) console.warn("[recuperacao] Envio não confirmado pelo SMTP.");
+        if (!envio?.enviado) console.warn("[recuperacao] Envio não confirmado pelo provedor.");
       }).catch(() => console.warn("[recuperacao] Falha no envio do e-mail."));
     });
     return renderizar(req, res, { etapa: "senha", aviso: AVISO_PEDIDO });

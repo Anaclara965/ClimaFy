@@ -44,7 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "PATCH", headers: { "Content-Type": "application/json", "X-CSRF-Token": principal.dataset.csrf },
         body: JSON.stringify({ status, statusAnterior: form.dataset.currentStatus, versao: principal.dataset.versao, observacao }),
       });
-      form.dataset.currentStatus = status; document.querySelector("#detail-status").textContent = rotulos[status];
+      form.dataset.currentStatus = status;
+      const badge = document.querySelector("#detail-status .detail-badge");
+      badge.textContent = rotulos[status];
+      badge.className = "detail-badge detail-status--" + ({ aberto: "open", em_andamento: "progress", resolvido: "done" }[status] || "neutral");
       feedback.textContent = dados.mensagem;
     } catch (erro) { feedback.textContent = erro.message + " Atualize a página para conferir antes de repetir."; }
     finally { enviando = false; [...form.elements].forEach(item => item.disabled = false); }

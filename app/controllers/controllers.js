@@ -98,7 +98,7 @@ async function processarCadastro(req, res, next) {
       userAgent: req.get("user-agent"),
     });
 
-    // A conta ja existe. Guardar a etapa ANTES do SMTP permite retomar/reenviar
+    // A conta ja existe. Guardar a etapa ANTES do envio permite retomar/reenviar
     // mesmo que o provedor falhe. Isso NAO autentica nem verifica o usuario.
     guardarCadastroPendente(req, { usuarioId: usuario.id, email: usuario.email });
     // Bairro escolhido no cadastro vira sugestao na tela de preferencias.
@@ -213,8 +213,9 @@ async function processarLogin(req, res, next) {
       return res.redirect(303, "/cadastro-verificacao");
     }
 
-    const jaTemPreferencias = await preferenciaModel.temPreferencias(usuario.id);
-    const destino = proximo || (jaTemPreferencias ? "/" : "/cadastro-preferencias");
+    const temAcessoAoPainel = ["moderador", "administrador"].includes(usuario.papel);
+    const jaTemPreferencias = temAcessoAoPainel ? true : await preferenciaModel.temPreferencias(usuario.id);
+    const destino = proximo || (temAcessoAoPainel ? "/adm" : jaTemPreferencias ? "/" : "/cadastro-preferencias");
     await iniciarSessaoAutenticada(req, usuario);
 
     // Ultimo acesso e "cortesia": se falhar, nao impede o login.

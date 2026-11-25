@@ -11,19 +11,4 @@ document.addEventListener("DOMContentLoaded", () => {
         if (botao) botao.textContent = "Entrando...";
     });
 
-    // Mostrar/ocultar senha, quando a página oferecer o botão.
-    document.querySelectorAll(".password-toggle").forEach((botao) => {
-        const campo = botao.parentElement?.querySelector('input[type="password"], input[type="text"]');
-        if (!campo) return;
-
-        botao.addEventListener("click", () => {
-            const visivel = campo.type === "password";
-            campo.type = visivel ? "text" : "password";
-            const icone = botao.querySelector("i");
-            if (icone) icone.className = visivel ? "ph ph-eye-slash" : "ph ph-eye";
-            botao.setAttribute("aria-label", visivel ? "Ocultar senha" : "Mostrar senha");
-            botao.setAttribute("aria-pressed", String(visivel));
-            campo.focus({ preventScroll: true });
-        });
-    });
 });

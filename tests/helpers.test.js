@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 const {
   senhaValida,
+  senhaExcedeLimiteBytes,
   requisitosFaltando,
   gerarHash,
   conferirSenha,
@@ -24,6 +25,9 @@ const { normalizar, criarSlug } = require("../app/helpers/normalizar");
 // ---------------------------------------------------------------------------
 test("aceita senha com maiuscula, minuscula, numero e simbolo", () => {
   assert.equal(senhaValida("Clima2026!"), true);
+  assert.equal(senhaValida(["Clima2026!"]), false);
+  assert.equal(senhaExcedeLimiteBytes("Aa1!" + "é".repeat(34)), false);
+  assert.equal(senhaExcedeLimiteBytes("Aa1!" + "é".repeat(35)), true);
   assert.deepEqual(requisitosFaltando("Clima2026!"), []);
 });
 

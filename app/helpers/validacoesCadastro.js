@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { senhaValida } = require("./senha");
+const { senhaValida, senhaExcedeLimiteBytes, MENSAGEM_SENHA_LONGA } = require("./senha");
 
 // ---------------------------------------------------------------------------
 // Regras de validacao do cadastro e do login.
@@ -21,6 +21,9 @@ const validarSobrenome = body("sobrenome")
   .withMessage("O sobrenome deve ter entre 2 e 80 caracteres.");
 
 const validarEmail = body("email")
+  .isString()
+  .withMessage("Informe um e-mail válido.")
+  .bail()
   .trim()
   .toLowerCase()
   .isEmail()
@@ -37,10 +40,15 @@ const validarBairro = body("bairro")
   .isInt({ min: 1 })
   .withMessage("Selecione um bairro da lista sugerida.");
 
-const validarSenha = body("senha").custom((valor) => {
-  if (!senhaValida(valor)) throw new Error(MENSAGEM_SENHA);
-  return true;
-});
+const validarSenha = body("senha")
+  .isString()
+  .withMessage("Informe uma senha válida.")
+  .bail()
+  .custom((valor) => {
+    if (!senhaValida(valor)) throw new Error(MENSAGEM_SENHA);
+    if (senhaExcedeLimiteBytes(valor)) throw new Error(MENSAGEM_SENHA_LONGA);
+    return true;
+  });
 
 const validarConfirmacaoSenha = body("confirma-senha").custom((valor, { req }) => {
   if (valor !== req.body.senha) throw new Error("As senhas não coincidem.");
@@ -53,12 +61,21 @@ const validarTermos = body("termos")
 
 // Login: mensagens curtas; a conferencia real e no controller.
 const validarEmailLogin = body("email")
+  .isString()
+  .withMessage("Informe um e-mail válido.")
+  .bail()
   .trim()
   .toLowerCase()
   .isEmail()
-  .withMessage("Informe um e-mail válido.");
+  .withMessage("Informe um e-mail válido.")
+  .bail()
+  .isLength({ max: 190 })
+  .withMessage("O e-mail deve ter no máximo 190 caracteres.");
 
 const validarSenhaLogin = body("senha")
+  .isString()
+  .withMessage("Informe a sua senha.")
+  .bail()
   .notEmpty()
   .withMessage("Informe a sua senha.");
 

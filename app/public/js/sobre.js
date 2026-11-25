@@ -24,12 +24,12 @@ const tech = [
 ];
 
 const team = [
-    ['Lu', 'Laura Uchôa', 'Frontend', 'Frontend'],
-    ['S', 'Sophia Ribeiro', 'Frontend + Design', 'Frontend'],
-    ['G', 'Guilherme Brito', 'Backend + Mapa', 'Backend'],
-    ['A', 'Ana Clara', 'Backend + Banco', 'Backend'],
-    ['B', 'Beatriz Siqueira', 'Docs + Banco', 'Negocios'],
-    ['Lu', 'Lucas Moraes', 'Docs + Design', 'Negocios'],
+    ['Lu', 'Laura Uchôa', 'Design e Front-end', 'Design'],
+    ['S', 'Sophia Ribeiro', 'Front-end', 'Front-end'],
+    ['G', 'Guilherme Brito', 'Back-end', 'Back-end'],
+    ['A', 'Ana Clara', 'Gerente e Banco de Dados', 'Gerência'],
+    ['B', 'Beatriz Siqueira', 'Documentação', 'Documentação'],
+    ['Lu', 'Lucas Moraes', 'Design', 'Design'],
 ];
 
 document.querySelector('#purpose-grid').innerHTML = purposeCards.map(([title, text, tag, color, type], index) => `

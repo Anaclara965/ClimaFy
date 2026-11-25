@@ -94,12 +94,23 @@ test("login e permissoes via HTTP com cookie real e banco simulado", async (t) =
     assert.equal(acessos, 0);
   });
 
+  await t.test("e-mail é normalizado e o papel de moderador direciona ao painel", async () => {
+    usuario.papel = "moderador";
+    const res = await requisicao("/login", {
+      dados: { ...dadosLogin, email: "  MARIANA@EXAMPLE.COM  " },
+    });
+    assert.equal(res.status, 303);
+    assert.equal(res.destino, "/adm");
+    assert.ok(res.cookie);
+    usuario.papel = "administrador";
+  });
+
   await t.test("login troca o cookie e invalida a sessao anterior", async () => {
     cookieAnterior = (await requisicao("/teste/iniciar-cadastro", { metodo: "POST" })).cookie;
     assert.ok(cookieAnterior);
     const res = await requisicao("/login", { cookie: cookieAnterior, dados: dadosLogin });
     assert.equal(res.status, 303);
-    assert.equal(res.destino, "/cadastro-preferencias");
+    assert.equal(res.destino, "/adm");
     cookieLogado = res.cookie;
     assert.ok(cookieLogado);
     assert.notEqual(cookieLogado, cookieAnterior);
@@ -131,16 +142,18 @@ test("login e permissoes via HTTP com cookie real e banco simulado", async (t) =
   });
 
   await t.test("falha nas preferencias nao deixa um login parcialmente concluido", async () => {
+    usuario.papel = "cidadao";
     falharPreferencias = true;
     const res = await requisicao("/login", { dados: dadosLogin });
     assert.equal(res.status, 500);
     assert.equal(res.cookie, undefined);
     falharPreferencias = false;
+    usuario.papel = "administrador";
   });
 
   await t.test("retorno externo e ignorado e logout apaga o cookie", async () => {
     const login = await requisicao("/login", { dados: { ...dadosLogin, proximo: "/\\example.com" } });
-    assert.equal(login.destino, "/cadastro-preferencias");
+    assert.equal(login.destino, "/adm");
     assert.ok(login.cookie);
     const logout = await requisicao("/logout", { cookie: login.cookie, metodo: "POST" });
     assert.equal(logout.status, 303);

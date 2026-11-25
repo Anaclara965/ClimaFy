@@ -256,6 +256,27 @@
   background: var(--hd-green-light);
 }
 
+.header-profile-avatar {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header-profile-initials {
+  background: var(--hd-green-light);
+  color: var(--hd-green-dark);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.bn-panel .bn-profile-link {
+  gap: 0.75rem;
+}
+
 .auth-actions .btn-primary {
   display: inline-flex;
   align-items: center;
