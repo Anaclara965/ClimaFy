@@ -11,40 +11,71 @@
 <body>
   <%- include('../partials/header') %>
   <% const rotulos = {aberto: 'Aberto', em_andamento: 'Em andamento', resolvido: 'Resolvido', pendente: 'Aguardando moderação', aprovado: 'Aprovado', rejeitado: 'Rejeitado', solicitado_ajuste: 'Ajuste solicitado'}; %>
+  <% const classeSituacao = {aberto: 'open', em_andamento: 'progress', resolvido: 'done'}[relato.status] || 'neutral'; %>
+  <% const severidadeNormalizada = String(relato.severidade || '').toLocaleLowerCase('pt-BR'); %>
+  <% const classeSeveridade = ({baixa: 'low', leve: 'low', moderada: 'medium', media: 'medium', 'média': 'medium', alta: 'high', grave: 'high', critica: 'critical', 'crítica': 'critical'})[severidadeNormalizada] || 'neutral'; %>
   <main class="report-detail" data-public-id="<%= relato.publicId %>" data-versao="<%= relato.versao %>" data-csrf="<%= csrfToken %>">
-    <article aria-labelledby="detail-title">
-      <header><p><%= relato.categoria %> · <%= relato.bairro %> — <%= relato.cidade %></p><h1 id="detail-title"><%= relato.titulo %></h1></header>
-      <p class="detail-description"><%= relato.descricao %></p>
-      <dl>
-        <section><dt>Situação</dt><dd id="detail-status"><%= rotulos[relato.status] %></dd></section>
-        <section><dt>Severidade</dt><dd><%= relato.severidade %></dd></section>
-        <section><dt>Enviado em</dt><dd><time datetime="<%= new Date(relato.criadoEm).toISOString() %>"><%= new Date(relato.criadoEm).toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'}) %></time></dd></section>
-        <section><dt>Votos</dt><dd><%= relato.votos %></dd></section>
+    <article class="detail-overview" aria-labelledby="detail-title">
+      <section class="detail-intro">
+        <p class="detail-location"><%= relato.categoria %> <span aria-hidden="true">·</span> <%= relato.bairro %> — <%= relato.cidade %></p>
+        <h1 id="detail-title"><%= relato.titulo %></h1>
+        <section aria-labelledby="description-title">
+          <h2 id="description-title">Descrição do problema</h2>
+          <p class="detail-description"><%= relato.descricao %></p>
+        </section>
+        <% if (relato.referencia) { %><p class="detail-reference"><strong>Referência:</strong> <%= relato.referencia %></p><% } %>
+      </section>
+      <dl class="detail-facts">
+        <section class="detail-fact">
+          <dt>Situação</dt>
+          <dd id="detail-status"><span class="detail-badge detail-status--<%= classeSituacao %>"><%= rotulos[relato.status] || relato.status %></span></dd>
+        </section>
+        <section class="detail-fact">
+          <dt>Severidade</dt>
+          <dd><span class="detail-badge detail-severity--<%= classeSeveridade %>"><%= relato.severidade %></span></dd>
+        </section>
+        <section class="detail-fact">
+          <dt>Enviado em</dt>
+          <dd><time datetime="<%= new Date(relato.criadoEm).toISOString() %>"><%= new Date(relato.criadoEm).toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'}) %></time></dd>
+        </section>
+        <section class="detail-fact">
+          <dt>Votos</dt>
+          <dd><span class="detail-votes"><%= relato.votos %></span></dd>
+        </section>
         <% if (relato.moderacao) { %>
-          <section><dt>Moderação</dt><dd><%= rotulos[relato.moderacao] %></dd></section>
-          <% if (relato.motivo) { %><section><dt>Motivo</dt><dd><%= relato.motivo %></dd></section><% } %>
-          <% if (relato.observacao) { %><section><dt>Observação da revisão</dt><dd><%= relato.observacao %></dd></section><% } %>
+          <section class="detail-fact"><dt>Moderação</dt><dd><%= rotulos[relato.moderacao] || relato.moderacao %></dd></section>
+          <% if (relato.motivo) { %><section class="detail-fact"><dt>Motivo</dt><dd><%= relato.motivo %></dd></section><% } %>
+          <% if (relato.observacao) { %><section class="detail-fact"><dt>Observação da revisão</dt><dd><%= relato.observacao %></dd></section><% } %>
         <% } %>
       </dl>
-      <% if (relato.referencia) { %><p>Referência: <%= relato.referencia %></p><% } %>
-      <section id="detail-media" aria-labelledby="detail-media-title" data-midias-url="<%= (modo === 'moderador' ? '/api/adm/relatos/' : modo === 'autor' ? '/api/meus-relatos/' : '/api/relatos/') + relato.publicId + '/midias' %>">
-        <h2 id="detail-media-title">Fotos e vídeos</h2>
+    </article>
+    <section class="detail-card detail-media" id="detail-media" aria-labelledby="detail-media-title" data-midias-url="<%= (modo === 'moderador' ? '/api/adm/relatos/' : modo === 'autor' ? '/api/meus-relatos/' : '/api/relatos/') + relato.publicId + '/midias' %>">
+        <header class="detail-section-heading">
+          <div><p>Anexos</p><h2 id="detail-media-title">Fotos e vídeos</h2></div>
+        </header>
         <p data-midia-feedback role="status">Carregando anexos…</p>
         <section data-midia-lista aria-label="Anexos do relato"></section>
-      </section>
-      <section id="detail-map" data-latitude="<%= relato.latitude %>" data-longitude="<%= relato.longitude %>" aria-label="Localização do relato"></section>
-      <p><a href="https://www.openstreetmap.org/?mlat=<%= relato.latitude %>&amp;mlon=<%= relato.longitude %>#map=17/<%= relato.latitude %>/<%= relato.longitude %>" target="_blank" rel="noopener noreferrer">Abrir localização no OpenStreetMap</a></p>
-    </article>
+    </section>
+    <section class="detail-card detail-map-card" aria-labelledby="detail-map-title">
+      <header class="detail-section-heading">
+        <div><p>Localização</p><h2 id="detail-map-title">Onde ocorreu</h2></div>
+        <p class="detail-coordinates">Coordenadas: <strong><%= Number(relato.latitude).toFixed(5) %>, <%= Number(relato.longitude).toFixed(5) %></strong></p>
+      </header>
+      <section id="detail-map" data-latitude="<%= relato.latitude %>" data-longitude="<%= relato.longitude %>" aria-label="Mapa com a localização do relato"></section>
+      <a class="detail-map-link" href="https://www.openstreetmap.org/?mlat=<%= relato.latitude %>&amp;mlon=<%= relato.longitude %>#map=17/<%= relato.latitude %>/<%= relato.longitude %>" target="_blank" rel="noopener noreferrer">Abrir localização no OpenStreetMap</a>
+    </section>
     <% if (modo === 'autor') { %>
-      <nav aria-label="Ações do seu relato">
-        <a href="/meus-relatos/<%= relato.publicId %>/editar">Editar relato</a>
-        <button type="button" id="delete-report">Excluir relato</button>
-      </nav>
-      <p id="author-feedback" role="status"></p>
+      <section class="detail-card detail-actions">
+        <nav aria-label="Ações do seu relato">
+          <a href="/meus-relatos/<%= relato.publicId %>/editar">Editar relato</a>
+          <button type="button" id="delete-report">Excluir relato</button>
+        </nav>
+        <p id="author-feedback" role="status"></p>
+      </section>
     <% } %>
     <% if (modo === 'moderador') { %>
-      <section aria-labelledby="situation-title">
-        <h2 id="situation-title">Atualizar situação do problema</h2>
+      <section class="detail-card detail-moderation" aria-labelledby="situation-title">
+        <header class="detail-section-heading"><div><p>Equipe ClimaFy</p><h2 id="situation-title">Atualizar situação do problema</h2></div></header>
         <p>Esta ação não aprova nem rejeita a publicação.</p>
         <form id="situation-form" data-current-status="<%= relato.status %>">
           <label for="situation">Situação</label>
@@ -60,7 +91,7 @@
         <p id="situation-feedback" role="status"></p>
       </section>
     <% } %>
-    <nav aria-label="Navegação do relato"><a href="<%= modo === 'moderador' ? '/adm/moderacao' : modo === 'autor' ? '/meus-relatos' : '/relatos' %>">← Voltar à lista</a></nav>
+    <nav class="detail-back" aria-label="Navegação do relato"><a href="<%= modo === 'moderador' ? '/adm/moderacao' : modo === 'autor' ? '/meus-relatos' : '/relatos' %>">← Voltar à lista</a></nav>
   </main>
   <%- include('../partials/footer') %>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

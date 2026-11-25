@@ -35,6 +35,7 @@ function guardarUsuarioNaSessao(req, usuario) {
     id: usuario.id,
     publicId: usuario.public_id,
     nome: usuario.nome,
+    sobrenome: usuario.sobrenome,
     email: usuario.email,
     papel: usuario.papel,
     emailVerificado: Boolean(usuario.email_verificado_em),

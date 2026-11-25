@@ -15,11 +15,14 @@
   <menu class="auth-actions">
     <% if (typeof usuario !== 'undefined' && usuario) { %>
     <li>
-      <a
-        href="/alterar-perfil"
-        class="login-link"
-        ><i class="ph ph-shield-check"></i> <%= usuario.nome %></a
-      >
+      <a href="/alterar-perfil" class="login-link">
+        <% if (usuario.temFotoPerfil || usuario.foto_perfil_chave) { %>
+        <img class="header-profile-avatar" src="/api/conta/foto" alt="" />
+        <% } else { %>
+        <span class="header-profile-avatar header-profile-initials" aria-hidden="true"><%= `${usuario.nome?.[0] || ''}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %></span>
+        <% } %>
+        <%= usuario.nome %>
+      </a>
     </li>
     <% if (usuario.papel === 'cidadao') { %>
     <li>
@@ -99,6 +102,16 @@
     </li>
   </menu>
   <section class="bn-panel" id="bn-panel" hidden>
+    <% if (typeof usuario !== 'undefined' && usuario) { %>
+    <a class="bn-profile-link" href="/alterar-perfil">
+      <% if (usuario.temFotoPerfil || usuario.foto_perfil_chave) { %>
+      <img class="header-profile-avatar" src="/api/conta/foto" alt="" />
+      <% } else { %>
+      <span class="header-profile-avatar header-profile-initials" aria-hidden="true"><%= `${usuario.nome?.[0] || ''}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %></span>
+      <% } %>
+      <span>Minha conta</span>
+    </a>
+    <% } %>
     <% if (typeof usuario === 'undefined' || !usuario || usuario.papel === 'cidadao') { %>
     <a href="/new-report"
       ><i class="ph ph-plus-circle" aria-hidden="true"></i> Registrar um
@@ -108,12 +121,6 @@
     <a href="/login"><i class="ph ph-sign-in" aria-hidden="true"></i> Entrar</a>
     <a href="/cadastro-dados-pessoais"
       ><i class="ph ph-user-plus" aria-hidden="true"></i> Criar conta</a
-    >
-    <a href="/bairro-bras"
-      ><i class="ph ph-map-pin" aria-hidden="true"></i> Bairro Bras</a
-    >
-    <a href="/bairro-pinheiros"
-      ><i class="ph ph-map-pin" aria-hidden="true"></i> Bairro Pinheiros</a
     >
   </section>
 </nav>

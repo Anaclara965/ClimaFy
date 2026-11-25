@@ -125,9 +125,9 @@ ul, ol, menu { list-style: none; }
 .stats-intro h2 { font-size: 1.45rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.35rem; }
 .stats-intro p { color: #9aa4b2; font-size: 0.95rem; line-height: 1.5; }
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; }
-.stat-item { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.15rem 1.05rem; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 14px; text-align: left; }
-.stat-item dt { font-size: 1.85rem; font-weight: 800; }
-.stat-item dd { font-size: 0.85rem; color: #c5cbd3; line-height: 1.3; }
+.stat-item { display: flex; min-width: 0; flex-direction: column; gap: 0.35rem; padding: 1.15rem 1.05rem; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 14px; text-align: left; }
+.stat-item dt { max-width: 100%; font-size: clamp(1.1rem, 4.5vw, 1.85rem); font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+.stat-item dd { min-width: 0; font-size: 0.85rem; color: #c5cbd3; line-height: 1.3; overflow-wrap: anywhere; }
 .stat-item dd strong { color: #fff; }
 .text-green-light { color: #34d399; }
 .text-yellow { color: var(--yellow); }
@@ -254,7 +254,7 @@ meter.meter-orange::-webkit-meter-optimum-value { background: var(--orange); bor
     .map-legend strong { margin-bottom: 0.8rem; }
     .map-legend dl { margin-bottom: 0.8rem; }
     .section-header h2, .ranking-intro h2, .activity-intro h2, .reports-header h2, .cta-banner h2 { font-size: 2rem; }
-    .stat-item dt { font-size: 2.2rem; }
+    .stat-item dt { font-size: clamp(1.25rem, 4vw, 2.2rem); }
     .chart-legend { flex-direction: row; gap: 1.5rem; }
 }
 

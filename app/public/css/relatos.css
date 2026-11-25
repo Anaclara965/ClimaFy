@@ -23,6 +23,14 @@
     --font-family: var(--font-family);
 }
 
+.neighborhood-ranking .rank-bar {
+    grid-column: 2;
+}
+
+.neighborhood-ranking .rank-count {
+    grid-column: 2;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -164,11 +172,11 @@ ol {
 /* === Hero (base: celular — coluna única) === */
 .reports-hero {
     display: grid;
-    min-height: 160px;
+    min-height: 0;
     grid-template-columns: 1fr;
     align-items: center;
     gap: 20px;
-    padding: 32px 20px;
+    padding: 28px 20px;
     background: var(--green-dark);
     color: #fff;
 }
@@ -211,7 +219,7 @@ ol {
 
 /* === Filtros (base: celular — empilhados) === */
 .filter-bar {
-    min-height: 64px;
+    min-height: 0;
     border: 1px solid var(--line);
     background: #fff;
 }
@@ -220,8 +228,8 @@ ol {
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: 12px;
-    padding: 15px 20px;
+    gap: 10px;
+    padding: 14px 16px;
 }
 
 .status-tabs {
@@ -234,15 +242,14 @@ ol {
 
 .status-tabs legend {
     width: 100%;
-    margin-right: 0;
-    margin-bottom: 8px;
+    margin: 0 0 2px;
     color: var(--muted);
     font-size: 13px;
     font-weight: 600;
 }
 
 .tab {
-    height: 32px;
+    min-height: 36px;
     padding: 0 12px;
     border-radius: 8px;
     background: var(--panel-alt);
@@ -259,7 +266,8 @@ ol {
 select,
 .search-field {
     width: 100%;
-    height: 32px;
+    min-width: 0;
+    height: 40px;
     border: 1px solid var(--line-dark);
     border-radius: 8px;
     background: #fff;
@@ -295,25 +303,25 @@ select {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-    width: calc(100% - 32px);
-    margin: 20px auto 16px;
+    width: min(1180px, calc(100% - 32px));
+    margin: 18px auto 14px;
     color: var(--soft);
     font-size: 14px;
 }
 
 .results-toolbar label {
-    width: 100%;
+    width: min(100%, 220px);
 }
 
 .cards-section {
-    width: calc(100% - 32px);
-    margin: 0 auto 28px;
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto 24px;
 }
 
 .reports-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 18px;
 }
 
 .report-card {
@@ -340,7 +348,7 @@ select {
     display: flex;
     min-height: 0;
     flex-direction: column;
-    padding: 19px 15px 17px;
+    padding: 18px 16px 16px;
 }
 
 .card-meta {
@@ -401,6 +409,18 @@ select {
     margin-top: auto;
     padding-top: 13px;
     border-top: 1px solid var(--panel-alt);
+}
+
+@media (max-width: 599px) {
+    .card-footer {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 8px;
+    }
+
+    .card-footer .status-badge { grid-column: 1; }
+    .card-footer .time { grid-column: 2; }
+    .card-footer .votes { grid-column: 3; }
+    .card-footer .arrow { grid-column: 3; justify-self: end; }
 }
 
 .status-badge {
@@ -542,8 +562,8 @@ select {
     display: grid;
     width: calc(100% - 32px);
     margin: 0 auto;
-    padding: 56px 0;
-    gap: 40px;
+    padding: 40px 0;
+    gap: 28px;
 }
 
 .featured-section,
@@ -688,7 +708,7 @@ select {
     margin-top: 30px;
 }
 
-blockquote {
+.community-step {
     min-height: 0;
     border: 1px solid var(--line);
     border-radius: 12px;
@@ -697,39 +717,16 @@ blockquote {
     box-shadow: var(--shadow);
 }
 
-blockquote::before {
-    content: "”";
-    display: block;
+.community-step h3 {
     color: var(--text);
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 0.8;
+    font-size: 15px;
 }
 
-blockquote p {
-    margin-top: 8px;
+.community-step p {
+    margin-top: 10px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.45;
-}
-
-blockquote footer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 18px;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-blockquote strong {
-    display: grid;
-    width: 32px;
-    height: 32px;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--green-soft);
-    color: var(--green);
 }
 
 .neighborhood-ranking {
@@ -739,7 +736,7 @@ blockquote strong {
 
 .neighborhood-ranking li {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 28px minmax(0, 1fr);
     align-items: center;
     gap: 12px;
     color: var(--text);
@@ -770,17 +767,6 @@ blockquote strong {
     justify-self: start;
     color: var(--accent);
     font-size: 11px;
-}
-
-.risk-badge {
-    justify-self: start;
-    height: 26px;
-    padding: 6px 8px;
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--accent) 14%, white);
-    color: var(--accent);
-    font-size: 10px;
-    font-weight: 800;
 }
 
 .validation-section {
@@ -934,8 +920,10 @@ blockquote strong {
     .main-header { flex-wrap: nowrap; padding: 0 24px; }
     .main-header .main-nav { order: initial; width: auto; margin-left: auto; overflow: visible; }
     .main-header .main-nav a.active::after { bottom: -23px; }
-    .hero-metrics { grid-template-columns: repeat(3, 1fr); gap: 34px; }
-    .hero-metrics article + article::before { position: absolute; left: -20px; top: 7px; width: 1px; height: 36px; background: #33734d; content: ""; }
+    .hero-metrics { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .hero-metrics article + article::before { position: absolute; left: -14px; top: 7px; width: 1px; height: 36px; background: #33734d; content: ""; }
+    .filter-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .status-tabs, .search-field { grid-column: 1 / -1; }
     .reports-grid, .voice-grid, .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .reports-cta menu { flex-direction: row; justify-content: center; }
     .cta-primary, .cta-secondary { width: 224px; }
@@ -945,31 +933,32 @@ blockquote strong {
 @media (min-width: 900px) {
     .main-header { padding: 0 48px; }
     .reports-hero { grid-template-columns: 1fr 500px; gap: 40px; padding: 12px 48px; }
-    .filter-form { grid-template-columns: auto 180px 180px 160px 167px; padding: 15px 48px; }
-    .status-tabs { flex-wrap: nowrap; }
-    .status-tabs legend { width: auto; margin-right: 18px; }
-    .results-toolbar { flex-direction: row; align-items: center; justify-content: space-between; gap: 0; width: min(1296px, calc(100% - 96px)); }
-    .results-toolbar label { width: 167px; }
-    .cards-section { width: min(1296px, calc(100% - 96px)); }
-    .dark-stats dl { grid-template-columns: repeat(5, 1fr); min-height: 150px; padding: 0; width: min(1296px, calc(100% - 96px)); }
-    .featured-section, .distribution-section, .neighborhood-section, .validation-section, .voices-section { width: min(1296px, calc(100% - 96px)); }
+    .filter-form { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 14px max(24px, calc((100% - 1180px) / 2)); }
+    .status-tabs { grid-column: 1 / -1; flex-wrap: nowrap; }
+    .status-tabs legend { width: 100%; margin-right: 0; }
+    .search-field { grid-column: auto; }
+    .results-toolbar { flex-direction: row; align-items: center; justify-content: space-between; gap: 0; }
+    .results-toolbar label { width: 190px; }
+    .dark-stats dl { grid-template-columns: repeat(5, minmax(0, 1fr)); min-height: 130px; padding: 18px 0; width: min(1180px, calc(100% - 48px)); }
+    .featured-section, .distribution-section, .neighborhood-section, .validation-section, .voices-section { width: min(1180px, calc(100% - 48px)); }
     .featured-section, .distribution-section, .neighborhood-section { grid-template-columns: 330px 1fr; }
     .reports-grid, .voice-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .report-card, .report-card-inner { min-height: 220px; }
+    .report-card, .report-card-inner { min-height: 205px; }
     .section-copy h2, .voices-section h2, .validation-section h2 { font-size: 28px; }
     .reports-cta h2 { font-size: 26px; }
     .category-row { grid-template-columns: 150px 1fr 44px; }
-    .neighborhood-ranking li { grid-template-columns: 38px 150px 1fr 78px 60px; }
-    .rank-count, .risk-badge { justify-self: end; }
+    .neighborhood-ranking li { grid-template-columns: 38px minmax(120px, 170px) minmax(80px, 1fr) 90px; }
+    .neighborhood-ranking .rank-bar, .neighborhood-ranking .rank-count { grid-column: auto; }
+    .rank-count { justify-self: end; }
     .validation-steps { grid-template-columns: repeat(4, 1fr); }
     .validation-steps li { min-height: 100px; }
     .featured-card { min-height: 220px; }
-    blockquote { min-height: 145px; }
+    .community-step { min-height: 145px; }
 }
 
 /* Desktops grandes */
 @media (min-width: 1180px) {
     .main-header { padding: 0 72px; }
     .reports-hero { padding: 12px 80px; }
-    .filter-form { padding: 15px 72px; }
+    .filter-form { padding: 14px max(72px, calc((100% - 1180px) / 2)); }
 }

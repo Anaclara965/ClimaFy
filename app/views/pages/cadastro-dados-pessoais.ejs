@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Cadastro</title>
     <link rel="stylesheet" href="/css/cadastro-dados-pessoais.css" />
+    <link rel="stylesheet" href="/css/auth-fields.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -118,6 +119,10 @@
                 name="email"
                 value="<%= valores.email %>"
                 placeholder="seu@email.com"
+                maxlength="190"
+                autocomplete="email"
+                autocapitalize="none"
+                spellcheck="false"
                 required
               />
             </section>
@@ -134,6 +139,7 @@
                   placeholder="Mínimo 8 caracteres"
                   required
                   minlength="8"
+                  data-password-policy
                 />
                 <button
                   type="button"
@@ -153,6 +159,7 @@
                 </span>
                 <small class="strength-text red-text">Fraca</small>
               </article>
+              <small class="field-feedback" data-auth-feedback data-feedback-for="senha" aria-live="polite"></small>
             </section>
 
             <section class="input-group">
@@ -167,6 +174,7 @@
                   placeholder="Repita a senha"
                   required
                   minlength="8"
+                  data-confirm-for="senha"
                 />
                 <button
                   type="button"
@@ -180,6 +188,8 @@
               <small
                 class="field-feedback"
                 id="confirma-senha-feedback"
+                data-auth-feedback
+                data-feedback-for="confirma-senha"
                 role="alert"
                 aria-live="polite"
               ></small>
@@ -274,6 +284,7 @@
 
     <!-- Rodapé -->
     <%- include('../partials/footer') %>
+    <script src="/js/auth-fields.js"></script>
     <script src="/js/bairro-autocomplete.js"></script>
     <script src="/js/cadastro-dados-pessoais.js"></script>
   </body>

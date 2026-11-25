@@ -1,0 +1,112 @@
+<aside
+  class="climafy-widgets"
+  data-climafy-widgets
+  data-admin="<%= typeof usuario !== 'undefined' && usuario && ['moderador', 'administrador'].includes(usuario.papel) ? 'true' : 'false' %>"
+>
+  <button
+    class="climafy-a11y-trigger"
+    type="button"
+    aria-label="Abrir menu de acessibilidade"
+    aria-expanded="false"
+    aria-controls="climafy-a11y-panel"
+    title="Acessibilidade"
+  >
+    <img src="/images/rodas.png" alt="" aria-hidden="true" />
+  </button>
+
+  <section
+    class="climafy-a11y-panel"
+    id="climafy-a11y-panel"
+    aria-labelledby="climafy-a11y-title"
+    hidden
+  >
+    <header class="climafy-widget-header">
+      <h2 id="climafy-a11y-title">Acessibilidade</h2>
+      <button class="climafy-widget-close" type="button" aria-label="Fechar menu de acessibilidade">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </header>
+    <section class="climafy-a11y-content">
+      <section class="climafy-font-controls" role="group" aria-label="Tamanho da letra">
+        <button type="button" data-font-step="-1" aria-label="Diminuir tamanho da letra">A−</button>
+        <span>Tamanho da letra</span>
+        <button type="button" data-font-step="1" aria-label="Aumentar tamanho da letra">A+</button>
+      </section>
+      <button class="climafy-setting" type="button" data-setting="contrast" aria-label="Alternar entre contraste padrão e alto contraste" aria-pressed="false">
+        <span class="climafy-setting-icon" aria-hidden="true">◐</span>
+        <span data-contrast-label>Contraste padrão</span>
+        <span class="climafy-switch" aria-hidden="true"></span>
+      </button>
+      <button class="climafy-setting" type="button" data-setting="underline" aria-pressed="false">
+        <span class="climafy-setting-icon climafy-underline-icon" aria-hidden="true">U</span>
+        <span>Sublinhar textos</span>
+        <span class="climafy-switch" aria-hidden="true"></span>
+      </button>
+      <button class="climafy-setting" type="button" data-setting="motion" aria-pressed="false">
+        <span class="climafy-setting-icon" aria-hidden="true">◌</span>
+        <span>Parar animações</span>
+        <span class="climafy-switch" aria-hidden="true"></span>
+      </button>
+      <button class="climafy-reset" type="button" data-reset-settings>Restaurar padrão</button>
+    </section>
+  </section>
+
+  <button
+    class="climafy-chat-trigger"
+    type="button"
+    aria-label="Abrir assistente virtual do ClimaFy"
+    aria-expanded="false"
+    aria-controls="climafy-chat-panel"
+  >
+    <img src="/images/chatbot.png" alt="" aria-hidden="true" />
+  </button>
+
+  <section
+    class="climafy-chat-panel"
+    id="climafy-chat-panel"
+    role="dialog"
+    aria-labelledby="climafy-chat-title"
+    aria-modal="false"
+    hidden
+  >
+    <header class="climafy-widget-header climafy-chat-header">
+      <span class="climafy-chat-avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3 14 8l5 2-5 2-2 5-2-5-5-2 5-2 2-5Zm6 11 1.2 2.8L22 18l-2.8 1.2L18 22l-1.2-2.8L14 18l2.8-1.2L18 14Z"></path>
+        </svg>
+      </span>
+      <section class="climafy-chat-identity">
+        <h2 id="climafy-chat-title">ClimaFy</h2>
+        <p>Assistente virtual</p>
+      </section>
+      <button class="climafy-widget-close" type="button" aria-label="Fechar conversa">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </header>
+    <section class="climafy-chat-messages" role="log" aria-live="polite" aria-relevant="additions">
+      <p class="climafy-chat-message climafy-chat-bot">
+        Olá! Eu sou o assistente virtual do ClimaFy. Estou aqui para ajudar você a entender melhor a plataforma e esclarecer suas dúvidas. Como posso ajudar?
+      </p>
+    </section>
+    <p class="climafy-chat-loading" aria-live="polite" hidden>Preparando resposta…</p>
+    <form class="climafy-chat-form">
+      <label class="climafy-sr-only" for="climafy-chat-input">Digite sua pergunta</label>
+      <input
+        id="climafy-chat-input"
+        name="pergunta"
+        type="text"
+        maxlength="300"
+        autocomplete="off"
+        placeholder="Escreva sua pergunta…"
+        required
+      />
+      <button type="submit" aria-label="Enviar pergunta">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3 11 18-8-8 18-2-8-8-2Zm8 2 4-4"></path>
+        </svg>
+      </button>
+    </form>
+  </section>
+</aside>
+<script src="/js/climafy-chatbot-respostas.js" defer></script>
+<script src="/js/climafy-widgets.js" defer></script>

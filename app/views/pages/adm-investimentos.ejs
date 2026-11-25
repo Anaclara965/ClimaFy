@@ -30,7 +30,7 @@
             </nav>
             <footer class="sidebar-user">
                 <a class="sidebar-user-avatar" href="/alterar-perfil" aria-label="Abrir perfil">
-                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= `${usuario.nome?.[0] || 'A'}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %><% } %>
                 </a>
                 <strong><%= usuario.nome %></strong>
                 <span><%= usuario.email %></span>
@@ -65,7 +65,7 @@
             </li>
             <li>
               <a class="avatar-button" href="/alterar-perfil" aria-label="Abrir perfil">
-                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= `${usuario.nome?.[0] || 'A'}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %><% } %>
               </a>
             </li>
           </menu>
@@ -92,7 +92,7 @@
           </section>
 
           <section class="area-panel" aria-labelledby="investments-table-title">
-            <header class="area-toolbar">
+            <header class="area-toolbar investments-toolbar">
               <input
                 class="area-search"
                 id="area-search"
@@ -110,13 +110,6 @@
                 <option>Em execução</option>
                 <option>Concluído</option>
               </select>
-              <button
-                class="primary-action"
-                type="button"
-                data-message="Cadastro de investimento iniciado."
-              >
-                Novo investimento
-              </button>
             </header>
             <h2 class="sr-only" id="investments-table-title">
               Lista de investimentos
@@ -148,6 +141,24 @@
         </section>
       </main>
     </section>
+    <dialog class="investment-dialog" id="investment-details" aria-labelledby="investment-details-title">
+      <header>
+        <section>
+          <span id="investment-detail-id"></span>
+          <h2 id="investment-details-title">Detalhes do investimento</h2>
+        </section>
+        <button class="investment-dialog-close" id="investment-details-close" type="button" aria-label="Fechar detalhes">&times;</button>
+      </header>
+      <dl>
+        <div><dt>Projeto</dt><dd id="investment-detail-name"></dd></div>
+        <div><dt>Descrição</dt><dd id="investment-detail-description"></dd></div>
+        <div><dt>Região</dt><dd id="investment-detail-place"></dd></div>
+        <div><dt>Investimento</dt><dd id="investment-detail-amount"></dd></div>
+        <div><dt>Execução</dt><dd id="investment-detail-progress"></dd></div>
+        <div><dt>Status</dt><dd id="investment-detail-status"></dd></div>
+      </dl>
+    </dialog>
+    <%- include('../partials/climafy-widgets') %>
     <script src="/js/adm-areas.js"></script>
   </body>
 </html>

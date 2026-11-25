@@ -6,6 +6,7 @@
     <% const etapaRecuperacao = typeof recuperacao !== 'undefined' ? recuperacao : null; %>
     <title>ClimaFy - <%= etapaRecuperacao ? 'Recuperar senha' : 'Login' %></title>
     <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/auth-fields.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -121,7 +122,7 @@
             <input type="hidden" name="_csrf" value="<%= csrfRecuperacao %>" />
             <fieldset class="input-group">
               <label for="recovery-email">E-mail da conta</label>
-              <input type="email" id="recovery-email" name="email" value="<%= email %>" autocomplete="email" maxlength="190" required <%= etapaRecuperacao === 'senha' ? 'readonly' : '' %> />
+              <input type="email" id="recovery-email" name="email" value="<%= email %>" autocomplete="email" maxlength="190" autocapitalize="none" spellcheck="false" required <%= etapaRecuperacao === 'senha' ? 'readonly' : '' %> />
             </fieldset>
             <% if (etapaRecuperacao === 'senha') { %>
             <fieldset class="input-group">
@@ -130,12 +131,20 @@
             </fieldset>
             <fieldset class="input-group">
               <label for="recovery-password">Nova senha</label>
-              <input type="password" id="recovery-password" name="senha" autocomplete="new-password" minlength="8" required aria-describedby="recovery-password-help" />
+              <section class="password-field">
+                <input type="password" id="recovery-password" name="senha" autocomplete="new-password" minlength="8" required data-password-policy aria-describedby="recovery-password-help recovery-password-feedback" />
+                <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false"><i class="ph ph-eye" aria-hidden="true"></i></button>
+              </section>
               <small id="recovery-password-help">Use no mínimo 8 caracteres, com maiúscula, minúscula, número e símbolo.</small>
+              <small id="recovery-password-feedback" data-auth-feedback data-feedback-for="recovery-password" aria-live="polite"></small>
             </fieldset>
             <fieldset class="input-group">
               <label for="recovery-confirm">Confirmar nova senha</label>
-              <input type="password" id="recovery-confirm" name="confirma-senha" autocomplete="new-password" minlength="8" required />
+              <section class="password-field">
+                <input type="password" id="recovery-confirm" name="confirma-senha" autocomplete="new-password" minlength="8" required data-confirm-for="recovery-password" aria-describedby="recovery-confirm-feedback" />
+                <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false"><i class="ph ph-eye" aria-hidden="true"></i></button>
+              </section>
+              <small id="recovery-confirm-feedback" data-auth-feedback data-feedback-for="recovery-confirm" aria-live="polite"></small>
             </fieldset>
             <% } %>
             <button type="submit" class="btn-submit"><%= etapaRecuperacao === 'email' ? 'Enviar código' : 'Salvar nova senha' %></button>
@@ -161,13 +170,19 @@
                 value="<%= email || '' %>"
                 placeholder="sergio.silva@gmail.com"
                 autocomplete="email"
+                maxlength="190"
+                autocapitalize="none"
+                spellcheck="false"
                 required
               />
             </fieldset>
 
             <fieldset class="input-group">
               <label for="password">Senha</label>
-                          <input type="password" id="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required />
+              <section class="password-field">
+                <input type="password" id="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required />
+                <button type="button" class="password-toggle" aria-label="Mostrar senha" aria-pressed="false"><i class="ph ph-eye" aria-hidden="true"></i></button>
+              </section>
             </fieldset>
 
             <a href="/recuperar-senha" class="forgot-password">Esqueceu sua senha?</a>
@@ -195,6 +210,7 @@
 
     <!-- Rodapé -->
     <%- include('../partials/footer') %>
+    <script src="/js/auth-fields.js"></script>
     <script src="/js/login.js"></script>
   </body>
 </html>

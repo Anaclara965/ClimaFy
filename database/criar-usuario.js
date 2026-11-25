@@ -11,7 +11,7 @@ require("dotenv").config();
 const readline = require("readline-sync");
 
 const usuarioModel = require("../app/models/usuarioModel");
-const { gerarHash, requisitosFaltando } = require("../app/helpers/senha");
+const { gerarHash, requisitosFaltando, senhaExcedeLimiteBytes, MENSAGEM_SENHA_LONGA } = require("../app/helpers/senha");
 
 const PAPEIS = ["cidadao", "moderador", "administrador"];
 
@@ -47,6 +47,10 @@ async function main() {
     console.error(
       `Senha fraca. Falta: ${faltando.map((requisito) => requisito.label).join("; ")}.`
     );
+    process.exit(1);
+  }
+  if (senhaExcedeLimiteBytes(senha)) {
+    console.error(MENSAGEM_SENHA_LONGA);
     process.exit(1);
   }
 

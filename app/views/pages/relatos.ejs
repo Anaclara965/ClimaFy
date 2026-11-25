@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClimaFy - Relatos da Comunidade</title>
-    <link rel="stylesheet" href="/css/relatos.css?v=3" />
+    <link rel="stylesheet" href="/css/relatos.css?v=4" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,15 +29,15 @@
         <dl class="hero-metrics" aria-label="Resumo dos relatos">
           <section>
             <dt>Total</dt>
-            <dd>1.247</dd>
+            <dd id="hero-total">—</dd>
           </section>
           <section>
             <dt>Resolvidos</dt>
-            <dd>312</dd>
+            <dd id="hero-resolved">—</dd>
           </section>
           <section>
             <dt>Bairros</dt>
-            <dd>48</dd>
+            <dd id="hero-neighborhoods">—</dd>
           </section>
         </dl>
       </section>
@@ -142,28 +142,28 @@
         <dl>
           <section>
             <dt>Relatos Ativos</dt>
-            <dd>1.247</dd>
-            <small>Em aberto agora</small>
+            <dd id="metric-total">—</dd>
+            <small>Na comunidade</small>
           </section>
           <section>
-            <dt>Resolvidos no mes</dt>
-            <dd>312</dd>
-            <small>+21% este mes</small>
+            <dt>Em aberto</dt>
+            <dd id="metric-open">—</dd>
+            <small>Aguardando solução</small>
           </section>
           <section>
             <dt>Em Andamento</dt>
-            <dd>89</dd>
-            <small>Sob verificacao</small>
+            <dd id="metric-progress">—</dd>
+            <small>Em acompanhamento</small>
           </section>
           <section>
-            <dt>Tempo medio</dt>
-            <dd>4h</dd>
-            <small>Primeira resposta</small>
+            <dt>Resolvidos</dt>
+            <dd id="metric-resolved">—</dd>
+            <small>Concluídos</small>
           </section>
           <section>
-            <dt>Taxa de aprovacao</dt>
-            <dd>98%</dd>
-            <small>Validacao comunitaria</small>
+            <dt>Bairros</dt>
+            <dd id="metric-neighborhoods">—</dd>
+            <small>Com relatos publicados</small>
           </section>
         </dl>
       </section>
@@ -177,36 +177,27 @@
             >Ver todos os relatos</a
           >
         </article>
-        <section class="featured-grid" id="featured-grid"></section>
+        <section class="featured-grid" id="featured-grid" aria-live="polite"></section>
       </section>
 
       <section class="voices-section" aria-labelledby="voices-title">
         <header>
-          <p class="section-pill">Vozes da comunidade</p>
-          <h2 id="voices-title">O que dizem quem ja relatou</h2>
+          <p class="section-pill">Participação da comunidade</p>
+          <h2 id="voices-title">Cada registro ajuda a entender a cidade</h2>
         </header>
         <section class="voice-grid">
-          <blockquote>
-            <p>
-              Recebi a ligacao da equipe no mesmo dia. Nosso alagamento
-              finalmente entrou no mapa.
-            </p>
-            <footer><strong>FM</strong> Felipe M.</footer>
-          </blockquote>
-          <blockquote>
-            <p>
-              Validaram as fotos do entulho com cuidado. A rua ganhou pressao
-              para limpeza.
-            </p>
-            <footer><strong>KG</strong> Kayque G.</footer>
-          </blockquote>
-          <blockquote>
-            <p>
-              Em 3 minutos registrei a arvore caida na minha quadra. No mesmo
-              dia virou alerta publico.
-            </p>
-            <footer><strong>AA</strong> Arthur A.</footer>
-          </blockquote>
+          <article class="community-step">
+            <h3>Registre o problema</h3>
+            <p>Inclua uma descrição clara e a localização para facilitar a análise do relato.</p>
+          </article>
+          <article class="community-step">
+            <h3>Acompanhe a situação</h3>
+            <p>Consulte as atualizações e contribua com votos nos relatos publicados.</p>
+          </article>
+          <article class="community-step">
+            <h3>Ajude a dar visibilidade</h3>
+            <p>Informações da comunidade apoiam a identificação de necessidades nos bairros.</p>
+          </article>
         </section>
       </section>
 
@@ -220,7 +211,7 @@
           <p>Veja os bairros com maior volume de relatos abertos no momento.</p>
           <a class="outline-action" href="/ranking">Ver ranking completo</a>
         </article>
-        <ol class="neighborhood-ranking" id="neighborhood-ranking"></ol>
+        <ol class="neighborhood-ranking" id="neighborhood-ranking" aria-live="polite"></ol>
       </section>
 
       <section class="validation-section" aria-labelledby="validation-title">

@@ -108,8 +108,22 @@ function investmentRow(row) {
             <td><strong class="cell-title">${escapeHtml(row.amount)}</strong></td>
             <td><span class="cell-subtitle">${row.progress}% executado</span><span class="progress-track"><span class="progress-fill" style="width:${row.progress}%;--progress-color:${progressColor}"></span></span></td>
             <td>${statusPill(row.status)}</td>
-            <td><section class="table-actions"><button class="view-action" data-message="Investimento ${escapeHtml(row.id)} aberto.">Detalhes</button><button class="toggle-action" data-message="Edição de ${escapeHtml(row.id)} iniciada.">Editar</button></section></td>
+            <td><section class="table-actions"><button class="view-action" type="button" data-details="${escapeHtml(row.id)}">Detalhes</button></section></td>
         </tr>`;
+}
+
+function showInvestmentDetails(investment) {
+    const dialog = document.querySelector('#investment-details');
+    if (!investment || !dialog) return;
+
+    document.querySelector('#investment-detail-id').textContent = investment.id;
+    document.querySelector('#investment-detail-name').textContent = investment.title;
+    document.querySelector('#investment-detail-description').textContent = investment.subtitle;
+    document.querySelector('#investment-detail-place').textContent = investment.place;
+    document.querySelector('#investment-detail-amount').textContent = investment.amount;
+    document.querySelector('#investment-detail-progress').textContent = `${investment.progress}% executado`;
+    document.querySelector('#investment-detail-status').textContent = investment.status;
+    dialog.showModal();
 }
 
 function renderTable() {
@@ -149,6 +163,12 @@ function bindTableEvents() {
         const messageButton = event.target.closest('[data-message]');
         if (messageButton) showMessage(messageButton.dataset.message);
 
+        const detailsButton = event.target.closest('[data-details]');
+        if (detailsButton) {
+            const investment = rows.find((row) => row.id === detailsButton.dataset.details);
+            showInvestmentDetails(investment);
+        }
+
         const removeButton = event.target.closest('[data-remove]');
         if (removeButton) {
             rows = rows.filter((row) => row.id !== removeButton.dataset.remove);
@@ -169,6 +189,10 @@ function bindTableEvents() {
     document.querySelectorAll('[data-message]').forEach((button) => {
         if (button.closest('#area-table-body')) return;
         button.addEventListener('click', () => showMessage(button.dataset.message));
+    });
+
+    document.querySelector('#investment-details-close')?.addEventListener('click', () => {
+        document.querySelector('#investment-details')?.close();
     });
 }
 

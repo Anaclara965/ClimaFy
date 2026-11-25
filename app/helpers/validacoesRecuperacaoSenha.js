@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { senhaValida } = require("./senha");
+const { senhaValida, senhaExcedeLimiteBytes, MENSAGEM_SENHA_LONGA } = require("./senha");
 const { MENSAGEM_SENHA } = require("./validacoesCadastro");
 
 const validarEmailRecuperacao = body("email")
@@ -11,8 +11,7 @@ const validarCodigoRecuperacao = body("codigo")
   .trim().matches(/^\d{6}$/).withMessage("Informe os 6 dígitos do código.");
 const validarNovaSenha = body("senha").custom(valor => {
   if (typeof valor !== "string" || !senhaValida(valor)) throw new Error(MENSAGEM_SENHA);
-  // bcrypt considera somente os primeiros 72 bytes; não aceitar truncamento silencioso.
-  if (Buffer.byteLength(valor, "utf8") > 72) throw new Error("A nova senha é longa demais. Reduza o tamanho e tente novamente.");
+  if (senhaExcedeLimiteBytes(valor)) throw new Error(MENSAGEM_SENHA_LONGA);
   return true;
 });
 const validarConfirmacaoNovaSenha = body("confirma-senha").custom((valor, { req }) => {

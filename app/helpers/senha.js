@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 
 // Custo do bcrypt. 12 e o valor recomendado hoje (quanto maior, mais lento).
 const CUSTO = 12;
+const LIMITE_BYTES_SENHA = 72;
+const MENSAGEM_SENHA_LONGA = "A senha é longa demais. Reduza o tamanho e tente novamente.";
 
 // Regra de complexidade UNICA do projeto (README secao 6.3).
 // O front mostra o checklist, o express-validator chama senhaInvalida() e o
@@ -22,7 +24,11 @@ function requisitosFaltando(senha = "") {
 }
 
 function senhaValida(senha = "") {
-  return requisitosFaltando(senha).length === 0;
+  return typeof senha === "string" && requisitosFaltando(senha).length === 0;
+}
+
+function senhaExcedeLimiteBytes(senha) {
+  return typeof senha !== "string" || Buffer.byteLength(senha, "utf8") > LIMITE_BYTES_SENHA;
 }
 
 function gerarHash(senha) {
@@ -36,9 +42,12 @@ function conferirSenha(senha, hash) {
 
 module.exports = {
   CUSTO,
+  LIMITE_BYTES_SENHA,
+  MENSAGEM_SENHA_LONGA,
   REQUISITOS_SENHA,
   requisitosFaltando,
   senhaValida,
+  senhaExcedeLimiteBytes,
   gerarHash,
   conferirSenha,
 };

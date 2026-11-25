@@ -41,7 +41,7 @@ Este README é a **fonte única de verdade** do projeto. Toda decisão de produt
 | `app/models/` | Consulta/gravação no banco (único lugar com SQL) | `bairroModel.js` (hoje mock) | — |
 | `app/helpers/` | Validações e utilitários puros | `validacoesCadastro.js` | Regra usada em 2+ lugares |
 | `app/middlewares/` | Login/permissões antes do controller | `exigirAutenticacao.js` (`exigirAutenticacao`, `exigirPapel`, `exigirEmailVerificado`), `exigirCadastroPendente.js` | ✅ criado (seção 5) |
-| `app/services/` | Integrações externas (e-mail, storage) | `emailService.js` (nodemailer com modo desenvolvimento) | ✅ criado (seção 4) |
+| `app/services/` | Integrações externas (e-mail, storage) | `emailService.js` (API HTTP transacional do Brevo) | ✅ |
 | `app/config/` | Configuração de infraestrutura | `db.js` | — |
 | `app/views/`, `app/public/` | EJS + CSS/JS do navegador | `pages/`, `css/`, `js/` | — |
 | `database/` | Schema, migrations e geografia | `schema.sql`, CSVs | Seção 8 |
@@ -61,7 +61,7 @@ Regra: **SQL só em `app/models/`**. Controller não escreve query; view não de
 
 ### 1.4 Configuração [DECIDIDO]
 
-`.env` (não versionado): `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`, opcional `DB_PORT`/`PORT`. Credenciais nunca em código nem em docs.
+`.env` (não versionado; modelo em `.env.example`): `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`, opcional `DB_PORT`/`PORT`, `SESSION_SECRET` e `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME`. O envio usa exclusivamente a API HTTPS transacional do Brevo. Em produção no Render, configure as variáveis no painel do serviço; não use os valores fictícios do exemplo. Credenciais nunca em código nem em docs.
 
 ---
 
@@ -300,7 +300,7 @@ Resumo do que já está no código. O plano com prazos até **25/11/2026** está
 | Perfil de acesso: `exigirPapel('moderador'|'administrador')` com herança | `app/middlewares/exigirAutenticacao.js`, `app/routes/router-adm.js` |
 | Preferências (bairros, categorias, frequência) gravadas em transação | `app/models/preferenciaModel.js`, `app/controllers/preferenciasControllers.js` |
 | Bairros reais do banco no autocomplete (513 bairros, sem mock/lista hardcoded) | `app/models/bairroModel.js`, `app/public/js/bairro-autocomplete.js` |
-| Envio de e-mail (nodemailer) com **modo desenvolvimento** que imprime o código no console | `app/services/emailService.js` |
+| Envio de e-mail pela API HTTP transacional do Brevo; falhas não imprimem códigos nos logs | `app/services/emailService.js` |
 | Moderação × situação separadas no schema + view `vw_relatos_publicos` | `database/schema.sql` (seções 3.2, 3.5, 3.7, 3.8) |
 | Erro padronizado: página re-renderiza HTML (422/401/403), API responde `{ erro }` / `{ erros: [] }` | `app.js`, `app/helpers/errosValidacao.js` |
 | CSVs oficiais servidos em `/DADOS/*` (home e ranking voltaram a ter dados) | `app.js` |

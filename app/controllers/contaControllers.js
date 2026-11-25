@@ -164,7 +164,7 @@ async function atualizarFotoPerfil(req, res, next) {
   let novaFoto;
   try {
     identificarArquivo(req.file);
-    if (!midiaService.disponivel()) throw erroMidia("O envio de foto ainda não está configurado.", 503);
+    if (!midiaService.disponivel()) throw erroMidia("O armazenamento de imagens está indisponível. Tente novamente mais tarde.", 503);
     novaFoto = await midiaService.salvarPerfil(req.file);
     const anterior = await usuarioModel.atualizarFotoPerfil(usuarioDaSessao(req).id, novaFoto);
     req.session.usuario.temFotoPerfil = true;

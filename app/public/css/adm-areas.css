@@ -241,17 +241,88 @@
     background: var(--progress-color, var(--green));
 }
 
+.investment-dialog {
+    width: min(560px, calc(100vw - 32px));
+    max-width: 100%;
+    margin: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, .24);
+    color: var(--text);
+    padding: 22px;
+}
+
+.investment-dialog::backdrop {
+    background: rgba(17, 24, 39, .55);
+}
+
+.investment-dialog > header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.investment-dialog > header span {
+    color: var(--soft);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.investment-dialog h2 {
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+.investment-dialog-close {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border-radius: 8px;
+    background: var(--line-soft);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.investment-dialog dl {
+    display: grid;
+    gap: 14px;
+}
+
+.investment-dialog dl > div {
+    min-width: 0;
+}
+
+.investment-dialog dt {
+    color: var(--soft);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.investment-dialog dd {
+    margin-top: 4px;
+    color: var(--text);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
 .reports-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    align-items: start;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
     gap: 16px;
 }
 
 .report-card {
-    display: grid;
-    min-height: 0;
-    align-content: start;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
     gap: 16px;
     border: 1px solid var(--line);
     border-radius: 12px;
@@ -260,10 +331,18 @@
     padding: 20px;
 }
 
+.report-card > section {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+}
+
 .report-card-icon {
     display: grid;
     width: 42px;
     height: 42px;
+    flex: 0 0 42px;
     place-items: center;
     border-radius: 10px;
     background: var(--icon-bg);
@@ -274,6 +353,8 @@
 .report-card h2 {
     margin-top: 14px;
     font-size: 14px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
 }
 
 .report-card p {
@@ -281,21 +362,26 @@
     color: var(--soft);
     font-size: 11px;
     line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
 .report-card footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 18px;
+    gap: 10px;
 }
 
 .report-card footer span {
+    min-width: 0;
     color: var(--soft);
     font-size: 10px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
 .report-card button {
+    flex: 0 0 auto;
     min-height: 32px;
     border-radius: 8px;
     background: var(--green-soft);
@@ -304,6 +390,7 @@
     font-size: 10px;
     font-weight: 700;
     padding: 0 12px;
+    white-space: normal;
 }
 
 .report-card form {
@@ -334,6 +421,7 @@
     flex-wrap: wrap;
     gap: 10px;
     margin-top: auto;
+    padding-top: 16px;
 }
 
 .activity-message {
@@ -445,6 +533,10 @@
     .area-toolbar {
         grid-template-columns: minmax(0, 1fr) auto auto;
         align-items: center;
+    }
+
+    .area-toolbar.investments-toolbar {
+        grid-template-columns: minmax(0, 1fr) auto;
     }
 
     .area-search,

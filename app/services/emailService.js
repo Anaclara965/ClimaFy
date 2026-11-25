@@ -1,53 +1,72 @@
-// Envio de e-mail (nodemailer). Sem SMTP_HOST configurado o sistema entra em
-// MODO DESENVOLVIMENTO: nao envia nada e imprime o codigo no console, o que
-// permite testar o fluxo de verificacao sem servidor de e-mail.
-//
-// O require do nodemailer e feito dentro da funcao de proposito: se a
-// dependencia nao estiver instalada, o servidor continua subindo.
+const { BrevoClient } = require("@getbrevo/brevo");
 const { VALIDADE_MINUTOS } = require("../helpers/codigoVerificacao");
 
-const REMETENTE_PADRAO = process.env.SMTP_FROM || "ClimaFy <guilhermebrito2110@gmail.com>";
+function obterConfiguracao() {
+  const configuracao = {
+    apiKey: process.env.BREVO_API_KEY?.trim(),
+    email: process.env.BREVO_SENDER_EMAIL?.trim(),
+    nome: process.env.BREVO_SENDER_NAME?.trim(),
+  };
+  const ausentes = Object.entries({
+    BREVO_API_KEY: configuracao.apiKey,
+    BREVO_SENDER_EMAIL: configuracao.email,
+    BREVO_SENDER_NAME: configuracao.nome,
+  }).filter(([, valor]) => !valor).map(([nome]) => nome);
 
-async function enviarEmail({ para, assunto, texto, html }) {
-  if (!process.env.SMTP_HOST) {
-    if (process.env.NODE_ENV === "production") {
-      throw Object.assign(new Error("Serviço de e-mail indisponível."), { code: "SMTP_NAO_CONFIGURADO" });
-    }
-    console.log(
-      [
-        "",
-        "================= EMAIL (modo desenvolvimento) =================",
-        `Para:    ${para}`,
-        `Assunto: ${assunto}`,
-        texto,
-        "===============================================================",
-        "",
-      ].join("\n")
-    );
-    return { enviado: false, motivo: "smtp-nao-configurado" };
+  if (ausentes.length) {
+    console.error(`[email] Configuração do Brevo incompleta. Variáveis ausentes: ${ausentes.join(", ")}.`);
+    throw Object.assign(new Error("Serviço de e-mail indisponível."), { code: "BREVO_CONFIG_INCOMPLETA" });
   }
 
-  const nodemailer = require("nodemailer");
-  const porta = Number(process.env.SMTP_PORT) || 587;
+  return configuracao;
+}
 
-  const transporte = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: porta,
-    secure: porta === 465,
-    auth: process.env.SMTP_USER
-      ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD }
-      : undefined,
+function descreverFalha(erro) {
+  const status = Number.isInteger(erro?.statusCode) ? erro.statusCode : null;
+  const detalheApi = [erro?.body?.message, erro?.body?.code]
+    .filter(valor => typeof valor === "string")
+    .join(" ")
+    .toLowerCase();
+  if (status === 401) return "chave de API inválida";
+  if (status === 403) return "remetente não autorizado ou não verificado";
+  if (status === 400 || status === 422) {
+    if (detalheApi.includes("sender")) return "remetente não autorizado ou não verificado";
+    if (detalheApi.includes("recipient") || detalheApi.includes("email")) return "destinatário inválido";
+    return "destinatário ou mensagem inválida";
+  }
+  if (status === 429) return "limite de requisições atingido";
+  if (status >= 500 || status === 408) return "falha temporária no serviço";
+  if (status) return `erro HTTP ${status}`;
+  if (erro?.name === "BrevoTimeoutError") return "tempo limite excedido";
+  return "falha de comunicação";
+}
+
+async function enviarEmail({ para, assunto, texto, html }) {
+  const configuracao = obterConfiguracao();
+  const cliente = new BrevoClient({
+    apiKey: configuracao.apiKey,
+    timeoutInSeconds: 20,
+    maxRetries: 1,
   });
-
-  await transporte.sendMail({
-    from: REMETENTE_PADRAO,
-    to: para,
+  const mensagem = {
+    sender: { email: configuracao.email, name: configuracao.nome },
+    to: [{ email: para }],
     subject: assunto,
-    text: texto,
-    html,
-  });
+    ...(typeof texto === "string" ? { textContent: texto } : {}),
+    ...(typeof html === "string" ? { htmlContent: html } : {}),
+  };
 
-  return { enviado: true };
+  try {
+    const resultado = await cliente.transactionalEmails.sendTransacEmail(mensagem);
+    return {
+      enviado: true,
+      ...(typeof resultado?.messageId === "string" ? { messageId: resultado.messageId } : {}),
+    };
+  } catch (erro) {
+    const status = Number.isInteger(erro?.statusCode) ? ` (HTTP ${erro.statusCode})` : "";
+    console.error(`[email] Falha no envio pelo Brevo${status}: ${descreverFalha(erro)}.`);
+    throw Object.assign(new Error("Não foi possível enviar o e-mail."), { code: "BREVO_ENVIO_FALHOU" });
+  }
 }
 
 function enviarCodigoVerificacao(email, codigo, { finalidade = "cadastro" } = {}) {

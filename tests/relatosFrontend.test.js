@@ -25,6 +25,9 @@ function preparar() {
     ['#neighborhood-filter', 'Todos'], ['#period-filter', 'Periodo'],
     ['#report-search', ''], ['#sort-filter', 'recent'], ['.cards-section .pagination', ''],
     ['#featured-grid', ''], ['#neighborhood-ranking', ''], ['.filter-form', ''],
+    ['#hero-total', ''], ['#hero-resolved', ''], ['#hero-neighborhoods', ''],
+    ['#metric-total', ''], ['#metric-open', ''], ['#metric-progress', ''],
+    ['#metric-resolved', ''], ['#metric-neighborhoods', ''],
   ]) elementos.set(id, new Elemento('section', valor));
   const tabs = ['Todos', 'Aberto', 'Em andamento', 'Resolvido'].map(status => {
     const button = new Elemento('button'); button.dataset.status = status; return button;
@@ -50,7 +53,10 @@ function preparar() {
 function requisicoesLista(ui) { return ui.requisicoes.filter(r => r.url.startsWith('/api/relatos?')); }
 function resposta(relatos, pagina = 1, total = relatos.length, paginas = total ? 1 : 0) {
   return { ok: true, json: async () => ({ relatos, paginacao: { pagina, total, paginas },
-    filtros: { categorias: [{ slug: 'alagamento', nome: 'Alagamento' }], bairros: [{ id: 85, nome: 'Consolação' }] } }) };
+    filtros: { categorias: [{ slug: 'alagamento', nome: 'Alagamento' }], bairros: [{ id: 85, nome: 'Consolação' }] },
+    resumo: { total: 42, abertos: 12, emAndamento: 3, resolvidos: 27, bairros: 8 },
+    destaques: relatos.slice(0, 2),
+    porBairro: [{ id: 85, nome: 'Consolação', total: 12 }] }) };
 }
 const relato = { publicId: '2773767c-ac48-4ffd-9a39-7866fff3f860',
   titulo: 'TEste <img src=x onerror=alert(1)>', descricao: '<script>alert(1)</script>',
@@ -58,10 +64,8 @@ const relato = { publicId: '2773767c-ac48-4ffd-9a39-7866fff3f860',
   criadoEm: '2026-10-02T18:36:05.000Z', votos: 0 };
 const proximoTick = () => new Promise(resolve => setImmediate(resolve));
 
-test('lista principal usa API com o card original sem alterar blocos de demonstracao', async () => {
+test('lista, resumo, destaques e ranking usam dados reais da API', async () => {
   const ui = preparar(); await proximoTick();
-  const destaques = ui.elementos.get('#featured-grid').innerHTML;
-  const bairros = ui.elementos.get('#neighborhood-ranking').innerHTML;
   ui.responder(async () => resposta([relato])); await ui.contexto.renderCards();
   const grid = ui.elementos.get('#reports-grid'); const artigo = grid.children[0];
   assert.equal(artigo.className, 'report-card'); assert.equal(artigo.style['--accent'], '#2469d6');
@@ -71,8 +75,12 @@ test('lista principal usa API com o card original sem alterar blocos de demonstr
   assert.equal(conteudo.children[1].innerHTML, '');
   assert.equal(conteudo.children[3].children[3].href, '/relatos/' + relato.publicId);
   assert.equal(ui.elementos.get('#results-count').textContent, '1 relato encontrado');
-  assert.equal(ui.elementos.get('#featured-grid').innerHTML, destaques);
-  assert.equal(ui.elementos.get('#neighborhood-ranking').innerHTML, bairros);
+  assert.equal(ui.elementos.get('#hero-total').textContent, '42');
+  assert.equal(ui.elementos.get('#metric-open').textContent, '12');
+  assert.equal(ui.elementos.get('#featured-grid').children[0].children[1].textContent, relato.titulo);
+  assert.equal(ui.elementos.get('#featured-grid').children[0].children[4].href, '/relatos/' + relato.publicId);
+  assert.equal(ui.elementos.get('#neighborhood-ranking').children[0].children[1].textContent, 'Consolação');
+  assert.equal(ui.elementos.get('#neighborhood-ranking').children[0].children[3].textContent, '12 relatos');
   assert.equal(new URL(requisicoesLista(ui).at(-1).url, 'http://teste').pathname, '/api/relatos');
 });
 test('filtros enviam slugs e IDs no contrato do backend', async () => {
@@ -209,7 +217,8 @@ test('falha ou estado malformado da API de votos não apaga os cards nem inventa
 test('paginacao malformada e recusada sem inventar cards', async () => {
   const ui = preparar(); await proximoTick();
   ui.responder(async () => ({ ok: true, json: async () => ({ relatos: [relato], paginacao: { total: -1 },
-    filtros: { categorias: [], bairros: [] } }) }));
+    filtros: { categorias: [], bairros: [] }, resumo: { total: 0, abertos: 0, emAndamento: 0, resolvidos: 0, bairros: 0 },
+    destaques: [], porBairro: [] }) }));
   await ui.contexto.renderCards();
   assert.equal(ui.elementos.get('#reports-grid').children[0].textContent, 'Paginação inválida ao carregar os relatos.');
 });

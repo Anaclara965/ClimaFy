@@ -44,7 +44,7 @@
 
             <footer class="sidebar-user">
                 <a class="sidebar-user-avatar" href="/alterar-perfil" aria-label="Abrir perfil">
-                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                  <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= `${usuario.nome?.[0] || 'A'}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %><% } %>
                 </a>
                 <strong><%= usuario.nome %></strong>
                 <span><%= usuario.email %></span>
@@ -80,7 +80,7 @@
             </li>
             <li>
               <a class="avatar-button" href="/alterar-perfil" aria-label="Abrir perfil">
-                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= (usuario.nome || 'A').charAt(0).toUpperCase() %><% } %>
+                <% if (usuario.temFotoPerfil) { %><img src="/api/conta/foto" alt="" /><% } else { %><%= `${usuario.nome?.[0] || 'A'}${usuario.sobrenome?.[0] || ''}`.toUpperCase() %><% } %>
               </a>
             </li>
           </menu>
@@ -154,6 +154,7 @@
       </main>
     </section>
 
+    <%- include('../partials/climafy-widgets') %>
     <script src="/js/adm-dashboard.js"></script>
   </body>
 </html>
