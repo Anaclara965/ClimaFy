@@ -25,3 +25,25 @@ test("dados pessoais privados são consultados somente pelo método de perfil", 
   assert.doesNotMatch(pool.chamadas[0].sql, /foto_perfil/);
   assert.match(pool.chamadas[1].sql, /foto_perfil_chave/);
 });
+
+test("criarUsuario consulta o usuário na mesma conexão antes de confirmar", async () => {
+  const pool = criarPoolFalso({ resultados: [
+    [{ id: 2 }],
+    [{ insertId: 17 }],
+    [],
+    [{ id: 17, nome: "Ana", email: "ana@example.com" }],
+  ] });
+  const model = criarUsuarioModel(pool);
+
+  const usuario = await model.criarUsuario({
+    nome: "Ana",
+    sobrenome: "Silva",
+    email: "ana@example.com",
+    senhaHash: "hash",
+  });
+
+  assert.equal(usuario.id, 17);
+  assert.equal(pool.chamadas.some(chamada => chamada.rotulo === "pool"), false);
+  assert.equal(pool.chamadas.at(-2).sql, "COMMIT");
+  assert.equal(pool.chamadas.at(-1).sql, "RELEASE");
+});
