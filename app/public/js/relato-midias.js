@@ -87,11 +87,11 @@
         const dados = await res.json();
         if (!res.ok || !/^[a-f0-9]{64}$/.test(dados.csrfToken) || dados.anexos?.disponivel !== true) throw new Error("Indisponível");
         csrf = dados.csrfToken; disponivel = true;
-        if (titulo) titulo.textContent = "Selecione ou arraste uma foto ou vídeo";
+        if (titulo) titulo.textContent = "Escolha uma foto ou vídeo ou arraste até aqui";
         feedback.textContent = "Anexo opcional. JPEG/PNG ou MP4/WebM, até 5 MB; vídeo até 30 segundos.";
       } catch {
         if (titulo) titulo.textContent = "Anexos indisponíveis no momento";
-        feedback.textContent = "Você pode enviar sem arquivo. Para tentar anexar novamente, recarregue a página.";
+        feedback.textContent = "Você ainda pode enviar o relato sem arquivo. O envio de imagens e vídeos está temporariamente indisponível.";
       } finally { atualizar(); }
     })();
 
