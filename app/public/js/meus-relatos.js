@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const dados = await json("/api/meus-relatos?pagina=" + pagina);
       if (chamada !== versao) return;
       grid.replaceChildren(...dados.relatos.map(r => card(r, "/meus-relatos/")));
-      feedback.textContent = dados.relatos.length ? dados.paginacao.total + " relatos enviados." : "Você ainda não enviou relatos.";
+      const total = Number(dados.paginacao.total);
+      if (!total) feedback.textContent = "Você ainda não enviou relatos.";
+      else if (total === 1) feedback.textContent = "1 relato enviado.";
+      else feedback.textContent = `${total} relatos enviados.`;
       paginas(document.querySelector("#my-pagination"), dados.paginacao, nova => { pagina = nova; carregar(); });
     } catch (erro) { if (chamada === versao) { grid.replaceChildren(); feedback.textContent = erro.message; } }
   }

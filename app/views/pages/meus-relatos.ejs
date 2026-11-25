@@ -3,17 +3,29 @@
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClimaFy - Meus relatos</title>
-  <link rel="stylesheet" href="/css/relatos.css" />
+  <link rel="stylesheet" href="/css/relatos.css?v=5" />
   <link rel="stylesheet" href="/css/header.css?v=2" /><link rel="stylesheet" href="/css/footer.css?v=1" />
 </head>
 <body>
   <%- include('../partials/header') %>
-  <main>
-    <header class="reports-hero"><h1>Meus relatos</h1><p>Acompanhe a revisão dos relatos que você enviou.</p></header>
-    <section class="cards-section" aria-label="Seus relatos">
-      <p id="my-feedback" role="status"></p><button type="button" id="reload-my-reports">Atualizar</button>
-      <p><a href="/new-report">Registrar novo relato</a></p>
-      <section class="reports-grid" id="my-reports"></section>
+  <main class="my-reports-page">
+    <header class="reports-hero my-reports-hero">
+      <section class="my-reports-intro">
+        <p class="my-reports-eyebrow">Sua participação na comunidade</p>
+        <h1>Meus relatos</h1>
+        <p>Acompanhe o andamento dos relatos que você enviou.</p>
+      </section>
+      <a class="my-reports-create" href="/new-report">Registrar novo relato</a>
+    </header>
+    <section class="cards-section my-reports-content" aria-labelledby="my-reports-title">
+      <header class="my-reports-toolbar">
+        <section>
+          <h2 id="my-reports-title">Relatos enviados</h2>
+          <p id="my-feedback" role="status" aria-live="polite" aria-atomic="true">Carregando seus relatos…</p>
+        </section>
+        <button type="button" id="reload-my-reports">Atualizar lista</button>
+      </header>
+      <section class="reports-grid" id="my-reports" aria-label="Lista dos seus relatos"></section>
       <nav class="pagination" id="my-pagination" aria-label="Páginas dos seus relatos"></nav>
     </section>
   </main>
