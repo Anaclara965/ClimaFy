@@ -53,8 +53,8 @@ function criarUsuarioModel(pool = poolPadrao) {
     return linhas[0] ?? null;
   }
 
-  async function buscarPorId(id) {
-    const [linhas] = await pool.query(
+  async function buscarPorId(id, conexao = pool) {
+    const [linhas] = await conexao.query(
       `SELECT ${CAMPOS_USUARIO}
          FROM usuarios u
          JOIN papeis p ON p.id = u.papel_id
@@ -115,8 +115,9 @@ function criarUsuarioModel(pool = poolPadrao) {
         [resultado.insertId, ipHash, userAgent ? String(userAgent).slice(0, 255) : null]
       );
 
+      const usuario = await buscarPorId(resultado.insertId, conexao);
       await conexao.commit();
-      return buscarPorId(resultado.insertId);
+      return usuario;
     } catch (erro) {
       await conexao.rollback();
       throw erro;
